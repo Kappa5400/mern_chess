@@ -5,9 +5,9 @@ import {
 } from "../service/s_puzzle.js";
 
 export function routes(app) {
-  app.get("/api/v1/get_dailypuzzle", async (req, res) => {
+  app.post("/api/v1/get_dailypuzzle", async (req, res) => {
     const daily = await retrieveDailyPuzzle();
-    return daily.jsonify();
+    return res.json(daily);
   });
 
   app.get("/api/v1/get_all_puzzles", async (req, res) => {

@@ -20,7 +20,7 @@ export async function retrieveDailyPuzzle() {
 }
 
 export async function get_all_puzzles(
-  query = [],
+  query = {},
   { sortBy = "createdAt", sortOrder = "descending" } = {}
 ) {
   return await puzzle.find(query).sort({ [sortBy]: sortOrder });
