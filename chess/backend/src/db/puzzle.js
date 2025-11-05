@@ -1,5 +1,5 @@
 
-import mongoose from 'mongoose'
+import mongoose, { Schema } from 'mongoose'
 
 const puzzleSchema = new Schema({
     pgn: String,
