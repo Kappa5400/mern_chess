@@ -1,0 +1,24 @@
+
+.sidebar {
+  width: 200px;
+  border-right: 1px solid #ccc;
+  padding: 1rem;
+  background-color: #f8f8f8;
+  height: 100vh;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.item {
+  margin-bottom: 0.5rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.item:hover {
+  color: #0070f3;
+}

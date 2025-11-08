@@ -1,19 +1,24 @@
 import { puzzle } from "../db/puzzle.js";
+import axios from "axios";
 
 export async function retrieveDailyPuzzle() {
   let link = "https://lichess.org/api/puzzle/daily";
 
   try {
-    const daily_puzzle = await curl.get(link);
+    console.log("Attempting to get daily puzzle...");
 
-    const puzzle = new puzzle({
-      pgn: daily_puzzle.game.pgn,
-      answer: daily_puzzle.game.solution,
-      date: daily_puzzle.game.createdAt,
-      rating: daily_puzzle.game.rating,
+    const { data } = await axios.get(link);
+
+    const retrieved_puzzle = new puzzle({
+      pgn: data.game.pgn,
+      answer: data.game.solution,
+      date: data.game.createdAt,
+      rating: data.game.rating,
     });
 
-    return await puzzle.save();
+    console.log("Saving fetched puzzle");
+
+    return await retrieved_puzzle.save();
   } catch (Error) {
     console.log(`Error retrieving daily puzzle: ${Error}`);
   }
