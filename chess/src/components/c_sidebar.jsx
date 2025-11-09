@@ -2,12 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import styles from "./c_sidebar.module.css";
 
-export function SideBar({ items = [] }) {
+export function SideBar() {
+  const menuItems = ["Home", "Today's Puzzle", "Puzzle List"];
+
   return (
     <aside className={styles.sidebar}>
-      <ul className={styles.list}>
-        {items.map((item, index) => (
-          <li key={index} className={styles.item}>
+      <ul className={styles.menuList}>
+        {menuItems.map((item, i) => (
+          <li key={i} className={styles.menuItem}>
             {item}
           </li>
         ))}

@@ -1,0 +1,16 @@
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.main {
+  flex: 1;
+  padding: 1rem;
+  position: relative;
+}
+
+.profileContainer {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
