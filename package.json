@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@tanstack/react-query": "^5.12.2",
     "mongodb": "^6.3.0"
   }
 }

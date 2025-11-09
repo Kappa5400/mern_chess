@@ -15,7 +15,7 @@ export function routes(app) {
 
   app.get("/api/v1/get_all_puzzles", async (req, res) => {
     const all_puzzles = await get_all_puzzles();
-    return res.json(all_puzzles);
+    return res.json([all_puzzles]);
   });
 
   app.get("/api/v1/puzzle/:id", async (req, res) => {
