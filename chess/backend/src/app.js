@@ -1,11 +1,13 @@
 import express from "express";
 import { routes } from "./routes/r_puzzle.js";
-import cors from 'cors'
+import cors from "cors";
 
 const app = express();
-const PORT = 3000;
 
-app.use(cors());
+const PORT = process.env.PORT;
+
+app.use(cors({ origin: "*" , credentials: true, allowedHeaders:["Content-Type", "Authorization"]}));
+
 app.use(express.json());
 
 routes(app);

@@ -22,9 +22,11 @@ function PuzzleContainer() {
 
   console.log("Puzzle data:", puzzleQuery.data);
 
-  const All_puzzles = puzzleQuery.data ?? [];
+  const retrieved_puzzle = puzzleQuery.data?.flat() ?? [];
 
-  return <ShowPuzzle puzzles={All_puzzles} />;
+  console.log("Retrieved puzzle:", retrieved_puzzle);
+
+  return <ShowPuzzle puzzles={retrieved_puzzle} />;
 }
 
 export function App() {

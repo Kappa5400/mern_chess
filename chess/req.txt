@@ -1,0 +1,25 @@
+mern chess project
+
+idea
+
+japanese ui
+website for chess puzzles.
+website shows daily lichess puzzle and last 9 days puzzle. each puzzle saved into db.
+
+
+users login (jwt auth) and  can attempt the puzzle. a single successful attempt gets them 3 points, else 1  point for completing puzzle.
+
+A leaderboard shows top 5 users and their points.
+
+frontend is react, responsive, interactive with chess libraries.
+
+
+deployment
+project deployed via aws and docker
+
+Have a good readme, documentation of code in japanese
+
+optional
+
+testing
+ci/cd pipeline

@@ -1,19 +1,27 @@
 import PropTypes from "prop-types";
 
-export function ShowPuzzle({ pgn, answer, date, rating }) {
+export function ShowPuzzle({ puzzles }) {
   return (
     <div>
-      <p>Puzzle information:</p>
-      <h3>
-        {pgn} {answer} {date} {rating}
-      </h3>
+      {puzzles.map((p, i) => (
+        <div key={i}>
+          <p>Puzzle information:</p>
+          <h3>
+            {p.pgn} {p.answer} {p.date} {p.rating}
+          </h3>
+        </div>
+      ))}
     </div>
   );
 }
 
 ShowPuzzle.propTypes = {
-  pgn: PropTypes.string.isRequired,
-  answer: PropTypes.string.isRequired,
-  date: PropTypes.string.isRequired,
-  rating: PropTypes.number.isRequired,
+  puzzles: PropTypes.arrayOf(
+    PropTypes.shape({
+      pgn: PropTypes.string.isRequired,
+      answer: PropTypes.string.isRequired,
+      date: PropTypes.string.isRequired,
+      rating: PropTypes.number.isRequired,
+    })
+  ).isRequired,
 };
