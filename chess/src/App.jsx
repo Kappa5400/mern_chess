@@ -4,6 +4,7 @@ import { SideBar } from "./components/c_sidebar.jsx";
 import { PuzzleContainer } from "./components/c_puzzle_container_all.jsx";
 import { UserProfile } from "./components/c_userprofile.jsx";
 import styles from "./App.module.css";
+import { ChessboardComponent } from "./components/c_chessboard.jsx";
 
 const queryClient = new QueryClient();
 
@@ -16,7 +17,8 @@ export function App() {
           <div className={styles.profileContainer}>
             <UserProfile />
           </div>
-          <h1>Welcome to Chess Puzzle App</h1>
+          <h1>Chess Puzzle App</h1>
+          <ChessboardComponent />
           <PuzzleContainer />
         </main>
       </div>
