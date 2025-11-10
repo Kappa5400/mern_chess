@@ -4,11 +4,16 @@ import cors from "cors";
 
 const app = express();
 
-const PORT = process.env.PORT;
-
-app.use(cors({ origin: "*" , credentials: true, allowedHeaders:["Content-Type", "Authorization"]}));
+const PORT = process.env.PORT
 
 app.use(express.json());
+
+app.use(
+  cors({
+    origin: "https://supernatural-crypt-pjpq5pvp6qgq399q7-5173.app.github.dev",
+    credentials: true,
+  })
+);
 
 routes(app);
 

@@ -9,11 +9,15 @@ export function PuzzleContainer() {
     queryFn: get_all_Puzzle,
   });
 
+  console.log("Attempting to fetch puzzles from db...")
+
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading puzzles</p>;
 
   // Flatten in case data is nested arrays
   const puzzles = data?.flat() ?? [];
+
+  console.log(`Fetched puzzle: ${puzzles}`);
 
   return <ShowPuzzle puzzles={puzzles} />;
 }
