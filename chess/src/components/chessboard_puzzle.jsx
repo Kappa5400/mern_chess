@@ -11,5 +11,9 @@ export default function ChessboardWithPGN({ pgn }) {
     setGame(g);
   }, [pgn]);
 
-  return <Chessboard position={game.fen()} />;
+  return (
+    <div style={{ maxWidth: "500px", margin: "0 auto" }}>
+      <Chessboard position={game.fen()} />;
+    </div>
+  );
 }

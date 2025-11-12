@@ -2,6 +2,11 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import ChessboardWithPGN from "../components/chessboard_puzzle.jsx";
 import { get_puzzle_by_id } from "../api/api_puzzle.js";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { SideBar } from "../components/sidebar.jsx";
+import { UserProfile } from "../components/userprofile_test.jsx";
+import styles from "./Index.module.css";
+
 
 export function PuzzlePage() {
   const { game_id } = useParams();
@@ -21,9 +26,17 @@ export function PuzzlePage() {
   }, [game_id]);
 
   return (
-    <div className="flex flex-col items-center">
-      <h2 className="text-xl font-bold mb-2">Puzzle #{game_id}</h2>
-      <ChessboardWithPGN pgn={pgn} />
+    <div className={styles.container}>
+      <SideBar />
+      <main className={styles.main}>
+        <div className={styles.profileContainer}>
+          <UserProfile />
+        </div>
+        <h2 className="text-xl font-bold mb-2">Puzzle #{game_id}</h2>
+        <div styles={{ maxWidth: "500px", margin: "0 auto" }}>
+          <ChessboardWithPGN pgn={pgn} />
+        </div>
+      </main>
     </div>
   );
 }
