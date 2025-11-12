@@ -3,7 +3,15 @@ import PropTypes from "prop-types";
 import styles from "./c_sidebar.module.css";
 
 export function SideBar() {
-  const menuItems = ["Home", "Today's Puzzle", "Puzzle List"];
+  const menuItems = [
+    "Home",
+    "Login",
+    "Sign up",
+    "Today's Puzzle",
+    "Puzzle List",
+    "Scoreboard",
+    "About",
+  ];
 
   return (
     <aside className={styles.sidebar}>

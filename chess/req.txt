@@ -23,3 +23,8 @@ optional
 
 testing
 ci/cd pipeline
+
+make puzzle feature
+create up to 5 puzzles per user, save into db
+(show crud abilities)
+make puzzle page were you can upload puzzle for other user to see and solve

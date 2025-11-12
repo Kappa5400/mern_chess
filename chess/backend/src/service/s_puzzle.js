@@ -1,4 +1,4 @@
-import { puzzle } from "../db/puzzle.js";
+import { puzzle } from "../db/model/puzzle.js";
 import axios from "axios";
 
 export async function retrieveDailyPuzzle() {

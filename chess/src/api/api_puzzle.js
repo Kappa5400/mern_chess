@@ -8,3 +8,14 @@ export const get_all_Puzzle = async () => {
   if (!res.ok) throw new Error("Failed to get puzzles");
   return await res.json();
 };
+
+export const get_puzzle_by_id = async (_id) => {
+  const res = await fetch(
+    `https://supernatural-crypt-pjpq5pvp6qgq399q7-3000.app.github.dev/api/v1/puzzle/${_id}`,
+    {
+      credentials: "include",
+    }
+  );
+  if (!res.ok) throw new Error("Failed to retreive single puzzle by id");
+  return await res.json();
+};
