@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import ChessboardWithPGN from "./ChessboardWithPGN.jsx";
+import ChessboardWithPGN from "../components/chessboard_puzzle.jsx";
 import { get_puzzle_by_id } from "../api/api_puzzle.js";
 
 export function PuzzlePage() {

@@ -1,6 +1,6 @@
 import { Fragment } from "react";
 import PropTypes from "prop-types";
-import { ShowPuzzle } from "./c_puzzle.jsx";
+import { ShowPuzzle } from "./puzzle.jsx";
 
 export function PuzzleList({ puzzle = [] }) {
   return (

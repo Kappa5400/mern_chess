@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { get_all_Puzzle } from "../api/api_puzzle.js";
-import { ShowPuzzle } from "./c_puzzle.jsx";
+import { ShowPuzzle } from "./puzzle_list.jsx";
 
 export function PuzzleContainer() {
   const { data, isLoading, isError } = useQuery({
@@ -9,7 +9,7 @@ export function PuzzleContainer() {
     queryFn: get_all_Puzzle,
   });
 
-  console.log("Attempting to fetch puzzles from db...")
+  console.log("Attempting to fetch puzzles from db...");
 
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading puzzles</p>;

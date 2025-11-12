@@ -1,5 +1,5 @@
 import React from "react";
-import { Profile } from "./c_profile.jsx";
+import { Profile } from "./profile.jsx";
 
 export function UserProfile() {
   const user = {

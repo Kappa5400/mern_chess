@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import styles from "./c_sidebar.module.css";
+import styles from "./sidebar.module.css";
 
 export function SideBar() {
   const menuItems = [
