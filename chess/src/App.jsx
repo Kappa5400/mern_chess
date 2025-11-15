@@ -30,6 +30,7 @@ export function App() {
             <Route path="/list" element={<PuzzleListPage />} />
             <Route path="/score" element={<Index />} />
             <Route path="/about" element={<Index />} />
+            <Route path="/profile/:id" element={<Index />} />
           </Routes>
         </BrowserRouter>
       </AuthContextProvider>

@@ -4,28 +4,10 @@ import { ShowPuzzleText } from "../components/puzzle_list_text.jsx";
 import { UserProfile } from "../components/userprofile_test.jsx";
 import styles from "./Index.module.css";
 import { ChessboardComponent } from "../components/chessboard_starting_pos.jsx";
-import { get_all_Puzzle } from "../api/api_puzzle.js";
-import { useQuery } from "@tanstack/react-query";
+import { useFetchAllPuzzles } from "../hooks/usePuzzleFetch Hook.js";
 
 export function Index() {
-  const puzzlesQuery = useQuery({
-    queryKey: ["puzzles"],
-    queryFn: get_all_Puzzle,
-  });
-
-  const puzzles = puzzlesQuery.data?.[0] ?? [];
-
-  if (puzzlesQuery.isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen text-indigo-600">
-        Loading puzzle data...
-      </div>
-    );
-  }
-
-  const jsonPuzzles = JSON.stringify(puzzles);
-
-  console.log(`Puzzle data: ${jsonPuzzles}`);
+  const puzzles = useFetchAllPuzzles();
 
   return (
     <div className={styles.container}>
@@ -36,7 +18,9 @@ export function Index() {
         </div>
         <h1>Chess Puzzle App</h1>
         <ChessboardComponent />
-        <ShowPuzzleText puzzles={puzzles} />
+        <ShowPuzzleText puzzles={puzzles.puzzles} 
+          isLoading={puzzles.isLoading}
+          />
       </main>
     </div>
   );

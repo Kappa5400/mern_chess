@@ -1,6 +1,8 @@
 import PropTypes from "prop-types";
 
-export function ShowPuzzleText({ puzzles }) {
+export function ShowPuzzleText({ puzzles, isLoading }) {
+  if (isLoading) return <p className="p-4 text-gray-500">読み込み中…</p>;
+
   const puzzleList = puzzles || [];
 
   return (
@@ -8,7 +10,9 @@ export function ShowPuzzleText({ puzzles }) {
       {puzzleList.map((p, i) => (
         <div key={p.date || i} className="p-4 border-b border-gray-200">
           <p className="text-xs text-gray-500 mb-1">
-            <span className="font-bold">Date:</span> {p.date} |
+            <span className="font-bold">Date:</span> {p.date}{" "}
+          </p>
+          <p>
             <span className="font-bold ml-4">Rating:</span> {p.rating}
           </p>
           <div className="bg-gray-100 p-2 rounded text-sm font-mono break-all">
