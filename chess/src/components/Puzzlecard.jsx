@@ -1,20 +1,22 @@
+import { useEffect, useState } from "react";
 import { Chessboard } from "react-chessboard";
-import React from "react";
 import PropTypes from "prop-types";
+import { Chess } from "chess.js";
 import styles from "./Puzzlecard.module.css";
 
-export function PuzzleCard({ date, pgn }) {
+export default function PuzzleCard({ pgn }) {
+  const [pos, setPos] = useState("start");
+
+  useEffect(() => {
+    if (!pgn) return;
+    const game = new Chess();
+    game.loadPgn(pgn);
+    setPos(game.fen());
+  }, [pgn]);
+
   return (
-    <div className={styles.card}>
-      <h3 className={styles.cardTitle}>{date}</h3>
-      <div className={styles.boardContainer}>
-        <Chessboard
-          id={date}
-          position={pgn}
-          boardWidth={240}
-          arePiecesDraggable={false}
-        />
-      </div>
+    <div className={styles.puzzlecard}>
+      <Chessboard position={pos} boardWidth={220} arePiecesDraggable={false} />
     </div>
   );
 }
@@ -22,4 +24,6 @@ export function PuzzleCard({ date, pgn }) {
 PuzzleCard.propTypes = {
   date: PropTypes.string.isRequired,
   pgn: PropTypes.string.isRequired,
+  rating: PropTypes.number,
+  answer: PropTypes.string,
 };

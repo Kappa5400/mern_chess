@@ -2,18 +2,15 @@ import React from "react";
 import { SideBar } from "../components/sidebar.jsx";
 import { UserProfile } from "../components/userprofile_test.jsx";
 import { ChessboardComponent } from "../components/chessboard_starting_pos.jsx";
-import { PuzzleCard } from "../components/Puzzlecard.jsx";
+import PuzzleCard from "../components/Puzzlecard.jsx";
 import styles from "./PuzzleListPage.module.css";
 import { useFetchAllPuzzles } from "../hooks/usePuzzleFetch Hook.js";
-import { puzzle } from "../../backend/src/db/model/puzzle.js";
 
 export function PuzzleListPage() {
-  const { puzzles, isLoading } = useFetchAllPuzzles();
+  const { puzzles, isLoading, isError } = useFetchAllPuzzles();
 
   if (isLoading) return <p>Loading</p>;
-
-  const dateList = puzzles.map((p) => <li key={p.date}>{p.date}</li>);
-  const pgnList = puzzles.map((p) => <li key={p.date}>{p.pgn}</li>);
+  if (isError) return <p>Error</p>;
 
   return (
     <div className={styles.container}>
@@ -22,8 +19,19 @@ export function PuzzleListPage() {
         <div className={styles.profileContainer}>
           <UserProfile />
         </div>
-        <hi>Puzzle List</hi>
-        <PuzzleCard date={dateList} pfn={pgnList} />
+        <h1>Puzzle List</h1>
+
+        <div className={styles.puzzleGrid}>
+          {puzzles.map((p) => (
+            <PuzzleCard
+              key={p._id}
+              date={p.date}
+              pgn={p.pgn}
+              rating={p.rating}
+              answer={p.answer}
+            />
+          ))}
+        </div>
       </main>
     </div>
   );

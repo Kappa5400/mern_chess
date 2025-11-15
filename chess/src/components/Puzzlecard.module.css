@@ -1,0 +1,17 @@
+.puzzlecard {
+  width: 240px;
+  max-width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin: 12px 0;
+  background: #fafafa;
+}
+
+.puzzleGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  padding: 16px;
+}
+
