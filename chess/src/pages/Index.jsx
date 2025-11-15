@@ -1,27 +1,43 @@
 import React from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SideBar } from "../components/sidebar.jsx";
-import { PuzzleContainer } from "../components/puzzle_container_all.jsx";
+import { ShowPuzzleText } from "../components/puzzle_list_text.jsx";
 import { UserProfile } from "../components/userprofile_test.jsx";
 import styles from "./Index.module.css";
 import { ChessboardComponent } from "../components/chessboard_starting_pos.jsx";
-
-const queryClient = new QueryClient();
+import { get_all_Puzzle } from "../api/api_puzzle.js";
+import { useQuery } from "@tanstack/react-query";
 
 export function Index() {
-  return (
-    <QueryClientProvider client={queryClient}>
-      <div className={styles.container}>
-        <SideBar />
-        <main className={styles.main}>
-          <div className={styles.profileContainer}>
-            <UserProfile />
-          </div>
-          <h1>Chess Puzzle App</h1>
-          <ChessboardComponent />
-          <PuzzleContainer />
-        </main>
+  const puzzlesQuery = useQuery({
+    queryKey: ["puzzles"],
+    queryFn: get_all_Puzzle,
+  });
+
+  const puzzles = puzzlesQuery.data?.[0] ?? [];
+
+  if (puzzlesQuery.isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen text-indigo-600">
+        Loading puzzle data...
       </div>
-    </QueryClientProvider>
+    );
+  }
+
+  const jsonPuzzles = JSON.stringify(puzzles);
+
+  console.log(`Puzzle data: ${jsonPuzzles}`);
+
+  return (
+    <div className={styles.container}>
+      <SideBar />
+      <main className={styles.main}>
+        <div className={styles.profileContainer}>
+          <UserProfile />
+        </div>
+        <h1>Chess Puzzle App</h1>
+        <ChessboardComponent />
+        <ShowPuzzleText puzzles={puzzles} />
+      </main>
+    </div>
   );
 }

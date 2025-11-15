@@ -1,24 +1,25 @@
 import React from "react";
 import PropTypes from "prop-types";
 import styles from "./sidebar.module.css";
+import { Link } from "react-router-dom";
 
 export function SideBar() {
   const menuItems = [
-    "Home",
-    "Login",
-    "Sign up",
-    "Today's Puzzle",
-    "Puzzle List",
-    "Scoreboard",
-    "About",
+    { name: "Home", url: "/" },
+    { name: "Login", url: "/login" },
+    { name: "Sign up", url: "/signup" },
+    { name: "Today's Puzzle", url: "/today" },
+    { name: "Puzzle List", url: "/list" },
+    { name: "Scoreboard", url: "/score" },
+    { name: "About", url: "/about" },
   ];
 
   return (
     <aside className={styles.sidebar}>
       <ul className={styles.menuList}>
-        {menuItems.map((item, i) => (
-          <li key={i} className={styles.menuItem}>
-            {item}
+        {menuItems.map((item) => (
+          <li key={item.name} className={styles.menuItem}>
+            <Link to={item.url}>{item.name}</Link>
           </li>
         ))}
       </ul>

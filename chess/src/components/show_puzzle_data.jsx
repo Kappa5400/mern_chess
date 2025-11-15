@@ -1,7 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { get_all_Puzzle } from "../api/api_puzzle.js";
-import { ShowPuzzle } from "./puzzle_list.jsx";
+import { ShowPuzzle } from "./puzzle_list_text.jsx";
 
 export function PuzzleContainer() {
   const { data, isLoading, isError } = useQuery({

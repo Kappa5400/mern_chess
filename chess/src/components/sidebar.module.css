@@ -12,11 +12,13 @@
 }
 
 .menuItem {
+  text-decoration: none;
+  color: inherit;
+  display: block;
   padding: 0.5rem 0;
   cursor: pointer;
-  transition: background 0.2s;
 }
 
 .menuItem:hover {
-  background: #ddd;
+  background: #f4f4f4;
 }
