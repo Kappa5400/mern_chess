@@ -10,9 +10,12 @@ export default function PuzzleCard({ pgn }) {
   useEffect(() => {
     if (!pgn) return;
     const game = new Chess();
-    game.loadPgn(pgn);
-    setPos(game.fen());
+    const loaded = game.loadPgn(pgn);
+    if (loaded) setPos(game.fen());
+    else console.warn("Failed to read PGN:", pgn);
   }, [pgn]);
+
+  if (!pos) return <div className={styles.puzzlecard}>Loading</div>;
 
   return (
     <div className={styles.puzzlecard}>
@@ -22,7 +25,7 @@ export default function PuzzleCard({ pgn }) {
 }
 
 PuzzleCard.propTypes = {
-  date: PropTypes.string.isRequired,
+  date: PropTypes.string,
   pgn: PropTypes.string.isRequired,
   rating: PropTypes.number,
   answer: PropTypes.string,
