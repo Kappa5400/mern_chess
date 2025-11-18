@@ -1,0 +1,27 @@
+
+
+front end
+
+chess board, editable
+user creates position with board, then submits the next x moves
+
+the initial position and each move is saved, sent to backend, and is created as user puzzle
+
+user can do 3
+chooses one to put into user puzzle page, where puzzles are shown from most recently made
+max 10 shown
+
+
+front
+initial board is fen, sent to backend
+each move is also fen update, sent to backend
+date and rating input tab
+
+also, updating and deleting puzzle possible
+
+backend
+assign user puzzle, max 3
+new userpuzzle db for each user, in user object add puzzle object that maxes at 3 to track made puzzles
+
+
+
