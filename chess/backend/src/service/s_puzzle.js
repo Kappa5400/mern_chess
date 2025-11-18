@@ -43,3 +43,7 @@ export async function getPuzzleByID(puzzleId) {
 export async function getMostRecent() {
   return await puzzle.findOne().sort({ createdAt: -1 });
 }
+
+export async function deleteOldest() {
+  return await puzzle.findOneAndDelete().sort({ createdAt: 1 });
+}

@@ -26,6 +26,14 @@ export async function raise_user_score(userID) {
   }
 }
 
+export async function getTopUsers() {
+  try {
+    const topUsers = await User.find({}).sort({score : -1}).limit(10);
+  } catch (err) {
+    console.log("Error getting top users : ", err);
+  }
+}
+
 export async function createUser({ username, password }) {
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = new User({ username, password: hashedPassword });
