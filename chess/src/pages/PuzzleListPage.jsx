@@ -12,6 +12,10 @@ export function PuzzleListPage() {
   if (isLoading) return <p>Loading</p>;
   if (isError) return <p>Error</p>;
 
+  for (let i = 0; i < 3; i++) {
+    console.log("Loop debug: ", puzzles[i].pgn);
+  }
+
   return (
     <div className={styles.container}>
       <SideBar />
@@ -23,13 +27,7 @@ export function PuzzleListPage() {
 
         <div className={styles.puzzleGrid}>
           {puzzles.map((p) => (
-            <PuzzleCard
-              key={p._id}
-              date={p.date}
-              pgn={p.pgn}
-              rating={p.rating}
-              answer={p.answer}
-            />
+            <PuzzleCard key={p._id} pgn={p.pgn} />
           ))}
         </div>
       </main>

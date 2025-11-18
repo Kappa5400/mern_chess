@@ -16,7 +16,7 @@ export function useLoadPGNtoBoard(p_id) {
   let game = null;
   if (res?.pgn) {
     const g = new Chess();
-    g.loadPgn(res.pgn);
+    g.loadPgn(res.pgn, {sloppy: true});
     game = g;
   }
 

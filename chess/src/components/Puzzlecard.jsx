@@ -3,34 +3,26 @@ import { Chessboard } from "react-chessboard";
 import PropTypes from "prop-types";
 import { Chess } from "chess.js";
 import styles from "./Puzzlecard.module.css";
-import { parse } from "@mliebelt/pgn-parser";
 
 export default function PuzzleCard({ pgn }) {
-  const [pos, setPos] = useState("start");
+  const [pos, setPos] = useState(null);
+
+  console.log("PGN in component: ", pgn);
 
   useEffect(() => {
-    if (!pgn) return;
+    if (!pgn) return console.log("No pgn");
 
     const game = new Chess();
+    game.loadPgn(pgn);
+    const fen = game.fen();
 
-    // PGNを構文解析（オプション、デバッグ用）
-    try {
-      const parsed = parse(pgn);
-      console.log("Parsed PGN:", parsed);
-    } catch (err) {
-      console.warn("Failed to parse PGN with parser:", err);
-    }
+    console.log("PGN->FEN: ", fen);
 
-    // chess.js に PGN をロード
-    const ok = game.loadPgn(pgn);
-
-    console.log("Load PGN RESULT:", ok);
-
-    if (ok) setPos(game.fen());
-    else console.warn("FAILED to load PGN:", pgn);
+    if (fen) setPos(fen);
+    else console.warn("Error loading PGN");
   }, [pgn]);
 
-  if (!pos) return <div className={styles.puzzlecard}>Loading</div>;
+  if (pos === null) return <div>Loading</div>;
 
   return (
     <div className={styles.puzzlecard}>
@@ -40,8 +32,5 @@ export default function PuzzleCard({ pgn }) {
 }
 
 PuzzleCard.propTypes = {
-  date: PropTypes.string,
   pgn: PropTypes.string.isRequired,
-  rating: PropTypes.number,
-  answer: PropTypes.string,
 };
