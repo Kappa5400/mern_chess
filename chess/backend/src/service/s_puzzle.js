@@ -1,7 +1,7 @@
 import { puzzle } from "../db/model/puzzle.js";
 import axios from "axios";
 
-export async function retrieveDailyPuzzle() {
+export async function getDailyPuzzle() {
   let link = "https://lichess.org/api/puzzle/daily";
 
   try {
@@ -18,9 +18,10 @@ export async function retrieveDailyPuzzle() {
 
     console.log("Saving fetched puzzle");
 
-    return await retrieved_puzzle.save();
+    await retrieved_puzzle.save();
+    return null;
   } catch (Error) {
-    console.log(`Error retrieving daily puzzle: ${Error}`);
+    console.log(`Error saving puzzle to db: ${Error}`);
   }
 }
 
@@ -37,4 +38,8 @@ export async function list_all_puzzles(options) {
 
 export async function getPuzzleByID(puzzleId) {
   return await puzzle.findById(puzzleId);
+}
+
+export async function getMostRecent() {
+  return await puzzle.findOne().sort({ createdAt: -1 });
 }
