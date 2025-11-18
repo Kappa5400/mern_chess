@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, Link } from "react-router-dom";
 import { signup } from "../api/api_user.js";
+import { SideBar } from "../components/sidebar.jsx";
+import styles from "./Index.module.css";
 
 export function Signup() {
   const [username, setUsername] = useState("");
@@ -16,36 +18,40 @@ export function Signup() {
     e.preventDefault();
     signupMutation.mutate();
   };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <Link to="/">Back to main page</Link>
-      <div>
-        <label htmlFor="create-username">Username: </label>
+    <div className={styles.container}>
+      <SideBar />
+      <form onSubmit={handleSubmit}>
+        <div className={styles.input}>
+          <label htmlFor="create-username">Username: </label>
+          <input
+            type="text"
+            name="create-username"
+            id="create-username"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </div>
+        <br />
+        <div className={styles.input}>
+          <label htmlFor="create-password">Password: </label>
+          <input
+            type="password"
+            name="create-password"
+            id="create-password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+        <br />
         <input
-          type="text"
-          name="create-username"
-          id="create-username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          className={styles.button}
+          type="submit"
+          value={signupMutation.isPending ? "Signing up..." : "Sign Up"}
+          disabled={!username || !password || signupMutation.isPending}
         />
-      </div>
-      <br />
-      <div>
-        <label htmlFor="create-password">Password: </label>
-        <input
-          type="password"
-          name="create-password"
-          id="create-password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </div>
-      <br />
-      <input
-        type="submit"
-        value={signupMutation.isPending ? "Signing up..." : "Sign Up"}
-        disabled={!username || !password || signupMutation.isPending}
-      />
-    </form>
+      </form>
+    </div>
   );
 }
