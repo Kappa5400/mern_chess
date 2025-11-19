@@ -4,7 +4,7 @@ import cors from "cors";
 
 const app = express();
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT;
 
 app.use(express.json());
 
@@ -19,6 +19,13 @@ routes(app);
 
 app.get("/", (req, res) => {
   res.send("Hi sekai");
+});
+
+app.use((err, req, res, next) => {
+  if (err.name === "UnathorizedError") {
+    return res.status(401).json({ Error: "Invalid token" });
+  }
+  next(err);
 });
 
 app.listen(PORT, () => {

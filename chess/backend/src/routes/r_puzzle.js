@@ -1,12 +1,9 @@
-import { puzzle } from "../db/model/puzzle.js";
 import {
   getDailyPuzzle,
   getPuzzleByID,
   get_all_puzzles,
   getMostRecent,
 } from "../service/s_puzzle.js";
-
-import mongoose from "mongoose";
 
 export function routes(app) {
   app.post("/api/v1/get_dailypuzzle", async (req, res) => {
@@ -21,9 +18,8 @@ export function routes(app) {
 
   app.get("/api/v1/puzzle/:id", async (req, res) => {
     const { id } = req.params;
-    const hit_puzzle = await puzzle.findById(id);
-    if (!hit_puzzle) return res.status(404).json({ error: "Puzzle not found" });
-    return res.json(hit_puzzle);
+    const reqP = await getPuzzleByID(id);
+    return res.json(reqP);
   });
 
   app.get("/api/v1/recent", async (req, res) => {
