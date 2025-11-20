@@ -13,20 +13,18 @@ async function getterpuzzlejobber() {
 
 const nightshift = new CronJob(
   "0 3 * * *",
-  getterpuzzlejobber(),
-  false,
+  () => getterpuzzlejobber(),
   null,
   true,
-  "America/Chicago"
+  "UTC"
 );
 
 const dayshift = new CronJob(
   "0 13 * * *",
-  getterpuzzlejobber(),
-  false,
+  () => getterpuzzlejobber(),
   null,
   true,
-  "America/Chicago"
+  "UTC"
 );
 
 export const initJobs = () => {
