@@ -13,6 +13,14 @@ Done (remember auto delete add after 10  puzzle in db)`
 7.5 Rate limiting, look into express-rate-limit. Setup right  before doing aws deployment setup
 8. Deployment to aws
 
+middleware to add:
+Helmet
+Compression
+express-mongo-sanitize
+
+
+
+
 Optional
 Mongod db playground, auto report making
 swagger api documentation
