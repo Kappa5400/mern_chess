@@ -6,7 +6,7 @@ import {
   createUserPuzzle,
 } from "../service/s_userPuzzle.js";
 
-import { requireAuth } from "../db/middleware/jwt.js";
+import { requireAuth } from "../middleware/jwt.js";
 
 export function routes(app) {
   app.get("/api/v1/userpuzzle/byuserid", requireAuth, async (req, res) => {
