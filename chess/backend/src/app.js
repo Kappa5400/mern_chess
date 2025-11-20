@@ -1,6 +1,7 @@
 import express from "express";
 import { routes } from "./routes/r_puzzle.js";
 import cors from "cors";
+import { initJobs } from "./service/jobs/dailypuzzleget.js";
 
 const app = express();
 
@@ -31,5 +32,7 @@ app.use((err, req, res, next) => {
 app.listen(PORT, () => {
   console.log(`Backend running on port ${PORT}`);
 });
+
+initJobs();
 
 export { app };
