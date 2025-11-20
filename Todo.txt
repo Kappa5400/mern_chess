@@ -1,0 +1,18 @@
+
+To do
+1. Automate puzzle fetching to add daily puzzle from lichess api endpoint (look at node-cron)  
+Done (remember auto delete add after 10  puzzle in db)` 
+
+*I am here*
+2. Input validation (look into joi or express-validator)
+3. Logging (look into winston or morgon, or just morgan)
+4. Testing with jest
+5. API documentation making (look into swagger later, do readme on github first) 
+6. frontend  build
+7. Docker 
+7.5 Rate limiting, look into express-rate-limit. Setup right  before doing aws deployment setup
+8. Deployment to aws
+
+Optional
+Mongod db playground, auto report making
+swagger api documentation
