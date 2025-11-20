@@ -2,6 +2,13 @@ import { MongoBatchReExecutionError } from "mongodb";
 import { puzzle } from "../db/model/puzzle.js";
 import axios from "axios";
 
+export async function duplicatecheck(p) {
+  const checkPGN = p.pgn;
+  const test = await puzzle.findOne({ pgn: checkPGN });
+  if (!test) return 0;
+  return 1;
+}
+
 export async function getDailyPuzzle() {
   let link = "https://lichess.org/api/puzzle/daily";
 
@@ -20,6 +27,13 @@ export async function getDailyPuzzle() {
       rating: data.puzzle.rating,
     });
 
+    console.log("Checking if duplicate...");
+
+    const result = await duplicatecheck(retrieved_puzzle);
+    if (result === 1) {
+      console.log("Duplicate detected");
+      return null;
+    }
     console.log("Saving fetched puzzle");
 
     await retrieved_puzzle.save();
