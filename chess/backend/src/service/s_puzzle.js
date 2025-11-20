@@ -1,6 +1,6 @@
-import { MongoBatchReExecutionError } from "mongodb";
 import { puzzle } from "../db/model/puzzle.js";
 import axios from "axios";
+import { logger } from "./utils/logger.js";
 
 export async function duplicatecheck(p) {
   const checkPGN = p.pgn;
@@ -13,7 +13,7 @@ export async function getDailyPuzzle() {
   let link = "https://lichess.org/api/puzzle/daily";
 
   try {
-    console.log("Attempting to get daily puzzle...");
+    logger.log("Attempting to get daily puzzle...");
 
     const { data } = await axios.get(link);
 
@@ -27,19 +27,19 @@ export async function getDailyPuzzle() {
       rating: data.puzzle.rating,
     });
 
-    console.log("Checking if duplicate...");
+    logger.log("Checking if duplicate...");
 
     const result = await duplicatecheck(retrieved_puzzle);
     if (result === 1) {
-      console.log("Duplicate detected");
+      logger.log("Duplicate detected");
       return null;
     }
-    console.log("Saving fetched puzzle");
+    logger.log("Saving fetched puzzle");
 
     await retrieved_puzzle.save();
     return null;
   } catch (Error) {
-    console.log(`Error saving puzzle to db: ${Error}`);
+    logger.log(`Error saving puzzle to db: ${Error}`);
   }
 }
 

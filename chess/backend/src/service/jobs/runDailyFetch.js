@@ -1,27 +1,28 @@
 import mongoose from "mongoose";
 import { getDailyPuzzle } from "../s_puzzle.js";
 import "dotenv/config";
+import { logger } from "./utils/logger.js";
 
 const run = async () => {
-  console.log("Starting dailypuzzle fetch script");
-  console.log("Connecting to DB...");
+  logger.log("Starting dailypuzzle fetch script");
+  logger.log("Connecting to DB...");
   try {
-    console.log("Loaded DB_URL:", process.env.DB_URL);
+    logger.log("Loaded DB_URL:", process.env.DB_URL);
     await mongoose.connect(process.env.DB_URL);
-    console.log("Success");
+    logger.log("Success");
   } catch (err) {
-    console.log("Error connecting to db: ", err);
+    logger.log("Error connecting to db: ", err);
     process.exit(1);
   }
-  console.log("Attempting to get daily puzzle from manual script");
+  logger.log("Attempting to get daily puzzle from manual script");
   try {
     await getDailyPuzzle();
   } catch (err) {
-    console.log("Error getting daily puzzle: ", err);
+    logger.log("Error getting daily puzzle: ", err);
     process.exit(2);
   }
   await mongoose.connection.close();
-  console.log("Closed db connection.");
+  logger.log("Closed db connection.");
   process.exit(0);
 };
 run();

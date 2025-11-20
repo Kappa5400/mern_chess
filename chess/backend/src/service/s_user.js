@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../db/model/user.js";
+import { logger } from "./utils/logger.js";
 
 export async function getUserInfoByID(userID) {
   try {
@@ -21,7 +22,7 @@ export async function raise_user_score(userID) {
     );
     return updatedUser;
   } catch (err) {
-    console.log(`Error updating score: ${err.message}`);
+    logger.log(`Error updating score: ${err.message}`);
     return null;
   }
 }
@@ -30,7 +31,7 @@ export async function getTopUsers() {
   try {
     const topUsers = await User.find({}).sort({ score: -1 }).limit(5);
   } catch (err) {
-    console.log("Error getting top users : ", err);
+    logger.log("Error getting top users : ", err);
   }
 }
 

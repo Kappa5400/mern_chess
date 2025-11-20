@@ -1,38 +1,37 @@
 import express from "express";
 import { routes } from "./routes/r_puzzle.js";
 import cors from "cors";
-import { initJobs } from "./service/jobs/dailypuzzleget.js";
+import morgan from "morgan";
+import helmet from "helmet";
 
 const app = express();
-
-const PORT = process.env.PORT;
 
 app.use(express.json());
 
 app.use(
   cors({
-    origin: "https://supernatural-crypt-pjpq5pvp6qgq399q7-5173.app.github.dev",
+    origin: process.env.CLIENT_URL,
     credentials: true,
   })
 );
 
-routes(app);
+if (process.env.NODE_ENV === "development") {
+  app.use(morgan("Dev"));
+} else {
+  app.use(morgan("combined"));
+}
 
 app.get("/", (req, res) => {
   res.send("Hi sekai");
 });
 
+routes(app);
+
 app.use((err, req, res, next) => {
-  if (err.name === "UnathorizedError") {
+  if (err.name === "UnauthorizedError") {
     return res.status(401).json({ Error: "Invalid token" });
   }
   next(err);
 });
-
-app.listen(PORT, () => {
-  console.log(`Backend running on port ${PORT}`);
-});
-
-initJobs();
 
 export { app };

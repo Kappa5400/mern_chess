@@ -1,13 +1,14 @@
 import { getDailyPuzzle } from "../s_puzzle.js";
 import { CronJob } from "cron";
+import { logger } from "./utils/logger.js";
 
 async function getterpuzzlejobber() {
-  console.log("Cron job to get daily puzzle");
+  logger.log("Cron job to get daily puzzle");
   try {
     getDailyPuzzle();
-    console.log("Success");
+    logger.log("Success");
   } catch (err) {
-    console.log("Error fetching daily puzzle: ", err);
+    logger.log("Error fetching daily puzzle: ", err);
   }
 }
 
@@ -30,5 +31,5 @@ const dayshift = new CronJob(
 export const initJobs = () => {
   nightshift.start();
   dayshift.start();
-  console.log("Nightshift and dayshift jobs started");
+  logger.log("Nightshift and dayshift jobs started");
 };

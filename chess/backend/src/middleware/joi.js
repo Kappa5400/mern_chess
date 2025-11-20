@@ -13,6 +13,11 @@ export const updatePuzzleSchema = Joi.object({
   rating: Joi.number().integer().min(0).max(2900),
 });
 
+export const createUserSchema = Joi.object({
+  username: Joi.string().alphanum().min(3).max(30).required(),
+  password: Joi.string().min(6).required(),
+});
+
 export const validate = (schema) => {
   return (req, res, next) => {
     const { error } = schema.validate(req.body);

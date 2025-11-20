@@ -7,7 +7,7 @@ export async function getUserPuzzles(userID) {
     const userP = await UserPuzzle.find({ user: userID });
     return userP;
   } catch (err) {
-    console.log("Error fetching user puzzles: ", err);
+    logger.log("Error fetching user puzzles: ", err);
     return null;
   }
 }
@@ -17,7 +17,7 @@ export async function getPuzzleByPuzzleID(userid, puzzleId) {
     const reqP = await UserPuzzle.findOne({ _id: puzzleId, user: userid });
     return reqP;
   } catch (err) {
-    console.log("Error getting puzzle from puzzleId: ", err);
+    logger.log("Error getting puzzle from puzzleId: ", err);
   }
 }
 
@@ -39,7 +39,7 @@ export async function updateUserPuzzle(userid, userPuzzleID, newPuzzle) {
     );
     return update;
   } catch (err) {
-    console.log("Error updating puzzle: ", err);
+    logger.log("Error updating puzzle: ", err);
     return null;
   }
 }
@@ -52,7 +52,7 @@ export async function deleteUserPuzzle(userid, userPuzzleID) {
     });
     return del;
   } catch (err) {
-    console.log("Error deleting puzzle: ", err);
+    logger.log("Error deleting puzzle: ", err);
     return null;
   }
 }
@@ -68,7 +68,7 @@ export async function createUserPuzzle(userID, pgn, answer, date, rating) {
     });
     return await createdPuzzle.save();
   } catch (err) {
-    console.log("Error creating puzzle: ", err);
+    logger.log("Error creating puzzle: ", err);
     return null;
   }
 }

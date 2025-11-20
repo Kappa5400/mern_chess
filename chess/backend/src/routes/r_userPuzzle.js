@@ -7,6 +7,11 @@ import {
 } from "../service/s_userPuzzle.js";
 
 import { requireAuth } from "../middleware/jwt.js";
+import {
+  updatePuzzleSchema,
+  createPuzzleSchema,
+  validate,
+} from "../middleware/joi.js";
 
 export function routes(app) {
   app.get("/api/v1/userpuzzle/byuserid", requireAuth, async (req, res) => {
@@ -29,24 +34,34 @@ export function routes(app) {
     }
   );
 
-  app.post("/api/v1/createuserpuzzle", requireAuth, async (req, res) => {
-    const id = req.auth.sub;
-    const { pgn, answer, date, rating } = req.body;
-    const result = await createUserPuzzle(id, pgn, answer, date, rating);
-    if (!result)
-      return res.status(500).json({ Error: "Failed to create puzzle." });
-    return res.status(200).json({ message: "OK" });
-  });
+  app.post(
+    "/api/v1/createuserpuzzle",
+    requireAuth,
+    validate(createPuzzleSchema),
+    async (req, res) => {
+      const id = req.auth.sub;
+      const { pgn, answer, date, rating } = req.body;
+      const result = await createUserPuzzle(id, pgn, answer, date, rating);
+      if (!result)
+        return res.status(500).json({ Error: "Failed to create puzzle." });
+      return res.status(200).json({ message: "OK" });
+    }
+  );
 
-  app.patch("/api/v1/updatepuzzle/:puzzleid", requireAuth, async (req, res) => {
-    const userid = req.auth.sub;
-    const { puzzleid } = req.params;
-    const { updated } = req.body;
-    const result = await updateUserPuzzle(userid, puzzleid, updated);
-    if (!result)
-      return res.status(500).json({ Error: "Failed to update puzzle." });
-    return res.status(200).json({ message: "OK" });
-  });
+  app.patch(
+    "/api/v1/updatepuzzle/:puzzleid",
+    requireAuth,
+    validate(updatePuzzleSchema),
+    async (req, res) => {
+      const userid = req.auth.sub;
+      const { puzzleid } = req.params;
+      const { updated } = req.body;
+      const result = await updateUserPuzzle(userid, puzzleid, updated);
+      if (!result)
+        return res.status(500).json({ Error: "Failed to update puzzle." });
+      return res.status(200).json({ message: "OK" });
+    }
+  );
 
   app.delete(
     "/api/v1/deleteuserpuzzle/:puzzleid",
