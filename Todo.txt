@@ -11,7 +11,9 @@ joi implimented
 3. Logging (look into winston or morgon, or just morgan)
 
 
-4. Testing with jest
+4. Testing with jest and supertest
+MongoMemoryServer for testing
+
 
 5. API documentation making (look into swagger later, do readme on github first) 
 6. frontend  build

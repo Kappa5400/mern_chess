@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { getDailyPuzzle } from "../s_puzzle.js";
 import "dotenv/config";
-import { logger } from "./utils/logger.js";
+import { logger } from "../../utils/logger.js";
 
 const run = async () => {
   logger.log("Starting dailypuzzle fetch script");

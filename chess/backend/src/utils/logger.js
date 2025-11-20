@@ -24,4 +24,5 @@ if (process.env.NODE_ENV !== "production") {
   );
 }
 
+// ここが重要： export default ではなく、名前付き export にしておくと使いやすいです
 export { logger };
