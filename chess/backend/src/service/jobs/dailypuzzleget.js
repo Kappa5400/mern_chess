@@ -1,6 +1,6 @@
 import { getDailyPuzzle } from "../s_puzzle.js";
 import { CronJob } from "cron";
-import { logger } from "./utils/logger.js";
+import { logger } from "../../utils/logger.js";
 
 async function getterpuzzlejobber() {
   logger.info("Cron job to get daily puzzle");
