@@ -36,6 +36,7 @@ export async function getDailyPuzzle() {
     return null;
   } catch (Error) {
     logger.info(`Error saving puzzle to db: ${Error}`);
+    return null;
   }
 }
 
@@ -51,7 +52,7 @@ export async function getPuzzleByID(puzzleId) {
 }
 
 export async function getMostRecent() {
-  return await puzzle.findOne().sort({ _id: -1 });
+  return await puzzle.findOne().sort({ createdAt: -1 });
 }
 
 export async function deleteOldest() {

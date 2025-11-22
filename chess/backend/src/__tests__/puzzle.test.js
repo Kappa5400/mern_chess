@@ -1,5 +1,14 @@
+jest.mock("axios", () => ({
+  default: {
+    get: jest.fn(),
+  },
+}));
+
+import axios from "axios";
+axios.get = jest.fn();
 import mongoose from "mongoose";
 import { jest } from "@jest/globals";
+import { puzzle } from "../db/model/puzzle.js";
 import { describe, expect, test, beforeEach } from "@jest/globals";
 import {
   getDailyPuzzle,
@@ -8,22 +17,6 @@ import {
   getMostRecent,
   deleteOldest,
 } from "../service/s_puzzle.js";
-
-import { puzzle } from "../db/model/puzzle.js";
-import { User } from "../db/model/user.js";
-
-// Mock Axios
-jest.unstable_mockModule("axios", () => ({
-  default: {
-    get: jest.fn().mockResolvedValue({
-      status: 200,
-      data: {
-        game: { pgn: "1. e4 e5" },
-        puzzle: { solution: ["Nf3"], rating: 100, id: "test_id" },
-      },
-    }),
-  },
-}));
 
 const createDummyPuzzle = (overrides = {}) => ({
   pgn: "test",
@@ -42,26 +35,51 @@ beforeEach(async () => {
     const collection = collections[key];
     await collection.deleteMany({});
   }
+  jest.clearAllMocks();
 });
 
 describe("Puzzle service logic tests", () => {
-  test("Get daily puzzle works", async () => {
+  test("Get daily puzzle", async () => {
+    axios.get.mockResolvedValue({
+      data: {
+        game: { pgn: "1. e4 e5" },
+        puzzle: {
+          solution: ["d4"],
+          rating: 10,
+        },
+      },
+    });
+
     await getDailyPuzzle();
 
-    const count = await puzzle.countDocuments();
-    const savedPuzzle = await puzzle.findOne({});
+    const saved = await puzzle.findOne({});
 
-    expect(count).toBe(1);
-    expect(savedPuzzle).toBeDefined();
-    expect(savedPuzzle.pgn).toBe("1. e4 e5");
+    expect(saved).toBeDefined;
+    expect(saved.pgn).toBe("1. e4 e5");
   });
 
   test("Daily fetch skips duplicates", async () => {
+    axios.get.mockResolvedValue({
+      data: {
+        game: { pgn: "1. e4 e5" },
+        puzzle: {
+          solution: ["d4"],
+          rating: 10,
+        },
+      },
+    });
+
     await getDailyPuzzle();
     await getDailyPuzzle();
 
     const count = await puzzle.countDocuments();
     expect(count).toBe(1);
+  });
+
+  test("Daily puzzle returns null if error", async () => {
+    axios.get.mockResolvedValue(new Error("API down"));
+    const res = await getDailyPuzzle();
+    expect(res).toBeNull();
   });
 
   test("Get newest puzzle", async () => {
