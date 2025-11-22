@@ -20,10 +20,6 @@ export async function getDailyPuzzle() {
     const retrieved_puzzle = new puzzle({
       pgn: data.game.pgn,
       answer: data.puzzle.solution.join(" "),
-      date: new Date().toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-      }),
       rating: data.puzzle.rating,
     });
 
@@ -50,18 +46,14 @@ export async function get_all_puzzles(
   return await puzzle.find(query).sort({ [sortBy]: sortOrder });
 }
 
-export async function list_all_puzzles(options) {
-  return get_all_puzzles({}, options);
-}
-
 export async function getPuzzleByID(puzzleId) {
   return await puzzle.findById(puzzleId);
 }
 
 export async function getMostRecent() {
-  return await puzzle.findOne().sort({ createdAt: -1 });
+  return await puzzle.findOne().sort({ _id: -1 });
 }
 
 export async function deleteOldest() {
-  return await puzzle.findOneAndDelete().sort({ createdAt: 1 });
+  return await puzzle.findOneAndDelete().sort({ _id: 1 });
 }

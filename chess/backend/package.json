@@ -44,6 +44,11 @@
   },
   "jest": {
     "testEnvironment": "node",
-    "transform": {}
+    "transform": {},
+    "globalSetup": "./tests/globalSetup.js",
+    "globalTeardown": "./tests/globalTeardown.js",
+    "setupFilesAfterEnv": [
+      "./tests/setupfileafterenv.js"
+    ]
   }
 }
