@@ -22,7 +22,7 @@ export async function raise_user_score(userID) {
     );
     return updatedUser;
   } catch (err) {
-    logger.log(`Error updating score: ${err.message}`);
+    logger.info(`Error updating score: ${err.message}`);
     return null;
   }
 }
@@ -31,7 +31,7 @@ export async function getTopUsers() {
   try {
     const topUsers = await User.find({}).sort({ score: -1 }).limit(5);
   } catch (err) {
-    logger.log("Error getting top users : ", err);
+    logger.info("Error getting top users : ", err);
   }
 }
 

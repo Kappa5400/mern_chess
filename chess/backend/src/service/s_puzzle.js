@@ -1,6 +1,6 @@
 import { puzzle } from "../db/model/puzzle.js";
 import axios from "axios";
-import { logger } from "./utils/logger.js";
+import { logger } from "../utils/logger.js";
 
 export async function duplicatecheck(p) {
   const checkPGN = p.pgn;
@@ -13,7 +13,7 @@ export async function getDailyPuzzle() {
   let link = "https://lichess.org/api/puzzle/daily";
 
   try {
-    logger.log("Attempting to get daily puzzle...");
+    logger.info("Attempting to get daily puzzle...");
 
     const { data } = await axios.get(link);
 
@@ -27,19 +27,19 @@ export async function getDailyPuzzle() {
       rating: data.puzzle.rating,
     });
 
-    logger.log("Checking if duplicate...");
+    logger.info("Checking if duplicate...");
 
     const result = await duplicatecheck(retrieved_puzzle);
     if (result === 1) {
-      logger.log("Duplicate detected");
+      logger.info("Duplicate detected");
       return null;
     }
-    logger.log("Saving fetched puzzle");
+    logger.info("Saving fetched puzzle");
 
     await retrieved_puzzle.save();
     return null;
   } catch (Error) {
-    logger.log(`Error saving puzzle to db: ${Error}`);
+    logger.info(`Error saving puzzle to db: ${Error}`);
   }
 }
 
