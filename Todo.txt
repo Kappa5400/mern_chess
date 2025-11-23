@@ -13,7 +13,6 @@ joi implimented
 4. Testing with jest and supertest
 MongoMemoryServer for testing
 
-
 5. API documentation making (look into swagger later, do readme on github first) 
 6. frontend  build
 7. Docker 
@@ -29,6 +28,10 @@ express-mongo-sanitize
 Optional
 Mongod db playground, auto report making
 swagger api documentation
+
+backend:
+add sameuser creation detection and err handling
+user password validation
 
 
 front end

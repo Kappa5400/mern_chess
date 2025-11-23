@@ -1,15 +1,17 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../db/model/user.js";
-import { logger } from "./utils/logger.js";
+import { logger } from "../utils/logger.js";
+import { bcrypt } from "bcrypt";
 
 export async function getUserInfoByID(userID) {
   try {
     const user = await User.findById(userID);
     if (!user) return { username: userID };
-    return { username: user.username };
+    return { _id: userID, username: user.username };
   } catch (err) {
-    return { username: userID };
+    logger.error("Error geting user info by ID:", err);
+    return null;
   }
 }
 
