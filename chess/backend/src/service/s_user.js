@@ -37,20 +37,29 @@ export async function getTopUsers() {
   }
 }
 
+//consider adding more return stuff for duplicate
+//consider adding minimum login conditions (password stuff)
+//evenutally  try  adding google login?
 export async function createUser({ username, password }) {
+  const checkDuplicate = await User.findOne({ username });
+  if (checkDuplicate) {
+    logger.error("Username already exists.");
+    return null;
+  }
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = new User({ username, password: hashedPassword });
+
   return await user.save();
 }
 
 export async function loginUser({ username, password }) {
   const user = await User.findOne({ username });
   if (!user) {
-    throw new Error("invalid username!");
+    throw new Error("Username doesn't exist");
   }
   const isPasswordCorrect = await bcrypt.compare(password, user.password);
   if (!isPasswordCorrect) {
-    throw new Error("invalid password!");
+    throw new Error("Invalid Password");
   }
   const token = jwt.sign({ sub: user._id }, process.env.JWT_SECRET, {
     expiresIn: "24h",

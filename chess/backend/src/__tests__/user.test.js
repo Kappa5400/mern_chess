@@ -37,13 +37,33 @@ describe("User service logic tests", () => {
     const newUser = await createUser({ username: "test", password: "pass" });
     expect(newUser).toBeDefined();
     expect(newUser.username).toBe("test");
-    expect(newUser.password).toBe("hashed_password"); // matches mock
+    expect(newUser.password).toBe("hashed_password");
+  });
+
+  test("Duplicate username on create user returns null", async () => {
+    const newUser = await createUser({ username: "test", password: "pass" });
+    const res = await createUser({ username: "test", password: "word" });
+    expect(res).toBeNull();
   });
 
   test("Can login", async () => {
     await createUser({ username: "test", password: "pass" });
     const token = await loginUser({ username: "test", password: "pass" });
     expect(token).toBeDefined();
+  });
+
+  test("Incorrect username returns Username doesn't exist error", async () => {
+    await createUser({ username: "test", password: "pass" });
+    await expect(
+      loginUser({ username: "wrong", passwrod: "pass" })
+    ).rejects.toThrow("Username doesn't exist");
+  });
+
+  test("Incorrect password returns invalid password error", async () => {
+    await createUser({ username: "test", password: "pass" });
+    await expect(
+      loginUser({ username: "test", passwrod: "wrong" })
+    ).rejects.toThrow("Invalid Password");
   });
 
   test("Can get user by ID", async () => {
