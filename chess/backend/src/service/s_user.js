@@ -14,7 +14,7 @@ export async function getUserInfoByID(userID) {
   }
 }
 
-export async function raise_user_score(userID) {
+export async function raiseUserScore(userID) {
   try {
     const updatedUser = await User.findOneAndUpdate(
       { _id: userID },
@@ -31,6 +31,7 @@ export async function raise_user_score(userID) {
 export async function getTopUsers() {
   try {
     const topUsers = await User.find({}).sort({ score: -1 }).limit(5);
+    return topUsers;
   } catch (err) {
     logger.info("Error getting top users : ", err);
   }

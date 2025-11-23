@@ -52,4 +52,36 @@ describe("User service logic tests", () => {
     expect(res._id.toString()).toBe(newUser._id.toString());
     expect(res.username).toBe("test");
   });
+
+  test("Incorrect ID returns null", async () => {
+    const newUser = await createUser({ username: "test", password: "pass" });
+    const res = await getUserInfoByID(newUser.username);
+    expect(res).toBeNull;
+  });
+
+  test("Can raise user score", async () => {
+    const newUser = await createUser({ username: "test", password: "pass" });
+    const res = await raiseUserScore(newUser._id);
+    expect(res.score).toBe(1);
+  });
+
+  test("Raise user score returns null if error", async () => {
+    const newUser = await createUser({ username: "test", password: "pass" });
+    const res = await raiseUserScore(newUser.username);
+    expect(res).toBeNull;
+  });
+
+  test("Get top user returns top 5 users", async () => {
+    for (let i = 0; i < 6; i++) {
+      await saveDummy({
+        username: `test ${i}`,
+        password: `pass ${i}`,
+        score: i,
+      });
+    }
+    const res = await getTopUsers();
+    expect(res.length).toBe(5);
+    expect(res[0].score).toBe(5);
+    expect(res[4].score).toBe(1);
+  });
 });
