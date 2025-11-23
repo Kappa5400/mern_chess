@@ -25,18 +25,18 @@ export async function getDailyPuzzle() {
 
     logger.info("Checking if duplicate...");
 
-    const result = await duplicatecheck(retrieved_puzzle);
-    if (result === 1) {
+    const isDuplicate = await duplicatecheck(retrieved_puzzle);
+    if (isDuplicate) {
       logger.info("Duplicate detected");
-      return null;
+      throw new Error("Puzzle exists in DB");
     }
-    logger.info("Saving fetched puzzle");
 
+    logger.info("Saving fetched puzzle");
     await retrieved_puzzle.save();
     return null;
-  } catch (Error) {
-    logger.info(`Error saving puzzle to db: ${Error}`);
-    return null;
+  } catch (err) {
+    logger.info(`Error saving puzzle to db: ${err.message}`);
+    throw err;
   }
 }
 

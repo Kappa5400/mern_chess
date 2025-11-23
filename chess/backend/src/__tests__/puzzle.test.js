@@ -54,11 +54,11 @@ describe("Puzzle service logic tests", () => {
 
     const saved = await puzzle.findOne({});
 
-    expect(saved).toBeDefined;
+    expect(saved).toBeDefined();
     expect(saved.pgn).toBe("1. e4 e5");
   });
 
-  test("Daily fetch skips duplicates", async () => {
+  test("Daily fetch if duplicate throw error don't save to DB", async () => {
     axios.get.mockResolvedValue({
       data: {
         game: { pgn: "1. e4 e5" },
@@ -70,16 +70,25 @@ describe("Puzzle service logic tests", () => {
     });
 
     await getDailyPuzzle();
-    await getDailyPuzzle();
 
+    axios.get.mockResolvedValue({
+      data: {
+        game: { pgn: "1. e4 e5" },
+        puzzle: {
+          solution: ["d4"],
+          rating: 10,
+        },
+      },
+    });
+
+    await expect(getDailyPuzzle()).rejects.toThrow("Puzzle exists in DB");
     const count = await puzzle.countDocuments();
     expect(count).toBe(1);
   });
 
-  test("Daily puzzle returns null if error", async () => {
-    axios.get.mockResolvedValue(new Error("API down"));
-    const res = await getDailyPuzzle();
-    expect(res).toBeNull();
+  test("Daily puzzle returns API error if error fetching", async () => {
+    axios.get.mockRejectedValue(new Error("API error"));
+    await expect(getDailyPuzzle()).rejects.toThrow("API error");
   });
 
   test("Get newest puzzle", async () => {

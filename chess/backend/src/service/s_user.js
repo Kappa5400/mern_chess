@@ -6,11 +6,11 @@ import { logger } from "../utils/logger.js";
 export async function getUserInfoByID(userID) {
   try {
     const user = await User.findById(userID);
-    if (!user) return { username: userID };
+    if (!user) throw new Error("User not found");
     return { _id: userID, username: user.username };
   } catch (err) {
     logger.error("Error geting user info by ID:", err);
-    return null;
+    throw err;
   }
 }
 
@@ -24,7 +24,7 @@ export async function raiseUserScore(userID) {
     return updatedUser;
   } catch (err) {
     logger.info(`Error updating score: ${err.message}`);
-    return null;
+    throw err;
   }
 }
 
@@ -44,7 +44,7 @@ export async function createUser({ username, password }) {
   const checkDuplicate = await User.findOne({ username });
   if (checkDuplicate) {
     logger.error("Username already exists.");
-    return null;
+    throw new Error("Username already exists");
   }
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = new User({ username, password: hashedPassword });

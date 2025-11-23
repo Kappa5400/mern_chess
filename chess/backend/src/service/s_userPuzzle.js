@@ -1,4 +1,5 @@
-import { UserPuzzle } from "../db/models/userPuzzle.js";
+import { UserPuzzle } from "../db/model/userPuzzle.js";
+import { logger } from "../utils/logger.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
@@ -8,7 +9,7 @@ export async function getUserPuzzles(userID) {
     return userP;
   } catch (err) {
     logger.info("Error fetching user puzzles: ", err);
-    return null;
+    throw new Error(err);
   }
 }
 
@@ -40,7 +41,7 @@ export async function updateUserPuzzle(userid, userPuzzleID, newPuzzle) {
     return update;
   } catch (err) {
     logger.info("Error updating puzzle: ", err);
-    return null;
+    throw new Error(err);
   }
 }
 
@@ -53,7 +54,7 @@ export async function deleteUserPuzzle(userid, userPuzzleID) {
     return del;
   } catch (err) {
     logger.info("Error deleting puzzle: ", err);
-    return null;
+    throw new Error(err);
   }
 }
 
@@ -69,6 +70,6 @@ export async function createUserPuzzle(userID, pgn, answer, date, rating) {
     return await createdPuzzle.save();
   } catch (err) {
     logger.info("Error creating puzzle: ", err);
-    return null;
+    throw new Error(err);
   }
 }

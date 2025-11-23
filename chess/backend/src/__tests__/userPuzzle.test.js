@@ -12,8 +12,15 @@ import mongoose from "mongoose";
 import { describe, expect, test, beforeEach } from "@jest/globals";
 import { User } from "../db/model/user.js";
 
-const { createUser, loginUser, getUserInfoByID, raiseUserScore, getTopUsers } =
-  await import("../service/s_user.js");
+const {
+  getUserPuzzles,
+  getPuzzleByPuzzleID,
+  updateUserPuzzle,
+  deleteUserPuzzle,
+  createUserPuzzle,
+} = await import("../service/s_userPuzzle.js");
+
+const { createUser } = await import("../service/s_user.js");
 
 const createDummyUser = (overrides = {}) => ({
   username: "name",
@@ -23,7 +30,18 @@ const createDummyUser = (overrides = {}) => ({
   ...overrides,
 });
 
-const saveDummy = async (overrides) => User.create(createDummyUser(overrides));
+const saveDummyUser = async (overrides) =>
+  User.create(createDummyUser(overrides));
+
+const createDummyPuzzle = (overrides = {}) => ({
+  pgn: "a3",
+  answer: "a6",
+  rating: 1,
+  ...overrides,
+});
+
+const saveDummyPuzzle = async (overrides) =>
+  User.create(createDummyPuzzle(overrides));
 
 beforeEach(async () => {
   for (const col of Object.values(mongoose.connection.collections)) {
@@ -32,19 +50,38 @@ beforeEach(async () => {
   jest.clearAllMocks();
 });
 
-describe("User service logic tests", () => {
-  test("Can create user", async () => {
+describe("User puzzle service tests", () => {
+  test("Can create user puzzle", async () => {
     const newUser = await createUser({ username: "test", password: "pass" });
-    expect(newUser).toBeDefined();
-    expect(newUser.username).toBe("test");
-    expect(newUser.password).toBe("hashed_password");
+
+    const newPuzzle = await createUserPuzzle({
+      user: newUser._id,
+      pgn: "1. e4",
+      answer: "e5",
+      rating: 100,
+    });
+
+    expect(newPuzzle).toBeDefined();
   });
 
-  test("Duplicate username on create user throws error", async () => {
-    await createUser({ username: "test", password: "pass" });
-    await expect(
-      createUser({ username: "test", password: "word" })
-    ).rejects.toThrow("Username already exists");
+  test("Incorrect puzzle creation throws error", async () => {
+    const newUser = await createUser({ username: "test", password: "pass" });
+
+    const newPuzzle = await createUserPuzzle({
+      user: newUser._id,
+      pgn: 1,
+      answer: "e5",
+      rating: 100,
+    });
+
+    expect(newPuzzle).rejects.toThrow("");
+  });
+
+  /*
+  test("Duplicate username on create user returns null", async () => {
+    const newUser = await createUser({ username: "test", password: "pass" });
+    const res = await createUser({ username: "test", password: "word" });
+    expect(res).toBeNull();
   });
 
   test("Can login", async () => {
@@ -74,10 +111,10 @@ describe("User service logic tests", () => {
     expect(res.username).toBe("test");
   });
 
-  test("Incorrect ID throws error", async () => {
-    await expect(getUserInfoByID("invalidID")).rejects.toThrow(
-      "Cast to ObjectId failed"
-    );
+  test("Incorrect ID returns null", async () => {
+    const newUser = await createUser({ username: "test", password: "pass" });
+    const res = await getUserInfoByID(newUser.username);
+    expect(res).toBeNull;
   });
 
   test("Can raise user score", async () => {
@@ -88,8 +125,8 @@ describe("User service logic tests", () => {
 
   test("Raise user score returns null if error", async () => {
     const newUser = await createUser({ username: "test", password: "pass" });
-    const invalidId = new mongoose.Types.ObjectId();
-    await expect(raiseUserScore(invalidId)).resolves.toBeNull();
+    const res = await raiseUserScore(newUser.username);
+    expect(res).toBeNull;
   });
 
   test("Get top user returns top 5 users", async () => {
@@ -105,4 +142,7 @@ describe("User service logic tests", () => {
     expect(res[0].score).toBe(5);
     expect(res[4].score).toBe(1);
   });
+});
+
+*/
 });
