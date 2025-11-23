@@ -2,7 +2,6 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { User } from "../db/model/user.js";
 import { logger } from "../utils/logger.js";
-import { bcrypt } from "bcrypt";
 
 export async function getUserInfoByID(userID) {
   try {
