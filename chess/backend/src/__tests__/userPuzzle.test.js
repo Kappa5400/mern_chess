@@ -106,6 +106,31 @@ describe("User puzzle service tests", () => {
     expect(res.length).toBe(2);
   });
 
+  test("Getpuzzlebypuzzleid finds puzzle by puzzle id", async () => {
+    const newUser = await createUser({
+      username: "test3",
+      password: "pass",
+    });
+    const puz1 = createDummyPuzzle({
+      user: newUser._id,
+      pgn: "e4",
+      answer: "e5",
+      rating: 100,
+    });
+    const puz2 = createDummyPuzzle({
+      user: newUser._id,
+      pgn: "d4",
+      answer: "e5",
+      rating: 120,
+    });
+
+    const saved_p = await createUserPuzzle(puz1);
+    await createUserPuzzle(puz2);
+
+    const res = await getPuzzleByPuzzleID(newUser._id, saved_p._id);
+    expect(res.pgn).toBe("e4");
+  });
+
   test("updateUserPuzzle Updates puzzle", async () => {
     const newUser = await createUser({
       username: "test5",
@@ -132,72 +157,22 @@ describe("User puzzle service tests", () => {
     expect(res.pgn).toBe("a4");
   });
 
-  /*
-  test("Duplicate username on create user returns null", async () => {
-    const newUser = await createUser({ username: "test", password: "pass" });
-    const res = await createUser({ username: "test", password: "word" });
-    expect(res).toBeNull();
-  });
+  test("Delete user puzzle deleats puzzle", async () => {
+    const newUser = await createUser({
+      username: "test6",
+      password: "pass",
+    });
 
-  test("Can login", async () => {
-    await createUser({ username: "test", password: "pass" });
-    const token = await loginUser({ username: "test", password: "pass" });
-    expect(token).toBeDefined();
-  });
+    const puz = createDummyPuzzle({
+      user: newUser._id,
+      pgn: "e4",
+      answer: "e5",
+      rating: 100,
+    });
 
-  test("Incorrect username returns Username doesn't exist error", async () => {
-    await createUser({ username: "test", password: "pass" });
-    await expect(
-      loginUser({ username: "wrong", passwrod: "pass" })
-    ).rejects.toThrow("Username doesn't exist");
+    const saved_p = await createUserPuzzle(puz);
+    const res = await deleteUserPuzzle(newUser._id, saved_p._id);
+    expect(res._id.toString()).toBe(saved_p._id.toString());
+    expect(await getPuzzleByPuzzleID(newUser._id, saved_p._id)).toBeNull();
   });
-
-  test("Incorrect password returns invalid password error", async () => {
-    await createUser({ username: "test", password: "pass" });
-    await expect(
-      loginUser({ username: "test", passwrod: "wrong" })
-    ).rejects.toThrow("Invalid Password");
-  });
-
-  test("Can get user by ID", async () => {
-    const newUser = await createUser({ username: "test", password: "pass" });
-    const res = await getUserInfoByID(newUser._id);
-    expect(res._id.toString()).toBe(newUser._id.toString());
-    expect(res.username).toBe("test");
-  });
-
-  test("Incorrect ID returns null", async () => {
-    const newUser = await createUser({ username: "test", password: "pass" });
-    const res = await getUserInfoByID(newUser.username);
-    expect(res).toBeNull;
-  });
-
-  test("Can raise user score", async () => {
-    const newUser = await createUser({ username: "test", password: "pass" });
-    const res = await raiseUserScore(newUser._id);
-    expect(res.score).toBe(1);
-  });
-
-  test("Raise user score returns null if error", async () => {
-    const newUser = await createUser({ username: "test", password: "pass" });
-    const res = await raiseUserScore(newUser.username);
-    expect(res).toBeNull;
-  });
-
-  test("Get top user returns top 5 users", async () => {
-    for (let i = 0; i < 6; i++) {
-      await saveDummy({
-        username: `test ${i}`,
-        password: `pass ${i}`,
-        score: i,
-      });
-    }
-    const res = await getTopUsers();
-    expect(res.length).toBe(5);
-    expect(res[0].score).toBe(5);
-    expect(res[4].score).toBe(1);
-  });
-});
-
-*/
 });
