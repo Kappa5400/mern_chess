@@ -34,6 +34,7 @@ const saveDummyUser = async (overrides) =>
   User.create(createDummyUser(overrides));
 
 const createDummyPuzzle = (overrides = {}) => ({
+  user: 0,
   pgn: "a3",
   answer: "a6",
   rating: 1,
@@ -41,7 +42,7 @@ const createDummyPuzzle = (overrides = {}) => ({
 });
 
 const saveDummyPuzzle = async (overrides) =>
-  User.create(createDummyPuzzle(overrides));
+  UserPuzzle.create(createDummyPuzzle(overrides));
 
 beforeEach(async () => {
   for (const col of Object.values(mongoose.connection.collections)) {
@@ -52,29 +53,31 @@ beforeEach(async () => {
 
 describe("User puzzle service tests", () => {
   test("Can create user puzzle", async () => {
-    const newUser = await createUser({ username: "test", password: "pass" });
-
-    const newPuzzle = await createUserPuzzle({
+    const newUser = await createUser({
+      username: "test",
+      password: "pass",
+    });
+    const puz = createDummyPuzzle({
       user: newUser._id,
       pgn: "1. e4",
       answer: "e5",
       rating: 100,
     });
-
-    expect(newPuzzle).toBeDefined();
+    expect(await createUserPuzzle(puz)).toBeDefined();
   });
 
   test("Incorrect puzzle creation throws error", async () => {
-    const newUser = await createUser({ username: "test", password: "pass" });
-
-    const newPuzzle = await createUserPuzzle({
+    const newUser = await createUser({
+      username: "test2",
+      password: "pass",
+    });
+    const puz = createDummyPuzzle({
       user: newUser._id,
-      pgn: 1,
+      pgn: null,
       answer: "e5",
       rating: 100,
     });
-
-    expect(newPuzzle).rejects.toThrow("");
+    await expect(createUserPuzzle(puz)).rejects.toThrow();
   });
 
   /*

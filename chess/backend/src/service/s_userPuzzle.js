@@ -58,18 +58,17 @@ export async function deleteUserPuzzle(userid, userPuzzleID) {
   }
 }
 
-export async function createUserPuzzle(userID, pgn, answer, date, rating) {
+export async function createUserPuzzle(data) {
   try {
     const createdPuzzle = new UserPuzzle({
-      user: userID,
-      pgn,
-      answer,
-      date,
-      rating,
+      user: data.user,
+      pgn: data.pgn,
+      answer: data.answer,
+      rating: data.rating,
     });
     return await createdPuzzle.save();
   } catch (err) {
     logger.info("Error creating puzzle: ", err);
-    throw new Error(err);
+    throw err;
   }
 }

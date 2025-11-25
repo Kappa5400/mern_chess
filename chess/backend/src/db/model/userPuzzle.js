@@ -7,9 +7,9 @@ const userPuzzleSchema = new Schema(
       ref: "user",
       required: true,
     },
-    pgn: String,
-    answer: String,
-    rating: Number,
+    pgn: { type: String, required: true },
+    answer: { type: String, required: true },
+    rating: { type: Number, required: true },
   },
   {
     timestamps: true,
