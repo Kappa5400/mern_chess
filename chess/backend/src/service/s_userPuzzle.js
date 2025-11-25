@@ -30,6 +30,7 @@ export async function updateUserPuzzle(userid, userPuzzleID, newPuzzle) {
         user: userid,
       },
       {
+        user: newPuzzle.user,
         pgn: newPuzzle.pgn,
         answer: newPuzzle.answer,
         rating: newPuzzle.rating,

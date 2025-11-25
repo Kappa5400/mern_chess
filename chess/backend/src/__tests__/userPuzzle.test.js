@@ -11,6 +11,7 @@ jest.mock("jsonwebtoken", () => ({
 import mongoose from "mongoose";
 import { describe, expect, test, beforeEach } from "@jest/globals";
 import { User } from "../db/model/user.js";
+import { UserPuzzle } from "../db/model/userPuzzle.js";
 
 const {
   getUserPuzzles,
@@ -78,6 +79,57 @@ describe("User puzzle service tests", () => {
       rating: 100,
     });
     await expect(createUserPuzzle(puz)).rejects.toThrow();
+  });
+
+  test("getUserPuzzles Fetches user puzzles", async () => {
+    const newUser = await createUser({
+      username: "test3",
+      password: "pass",
+    });
+    const puz1 = createDummyPuzzle({
+      user: newUser._id,
+      pgn: "e4",
+      answer: "e5",
+      rating: 100,
+    });
+    const puz2 = createDummyPuzzle({
+      user: newUser._id,
+      pgn: "d4",
+      answer: "e5",
+      rating: 120,
+    });
+
+    await createUserPuzzle(puz1);
+    await createUserPuzzle(puz2);
+
+    const res = await getUserPuzzles(newUser._id);
+    expect(res.length).toBe(2);
+  });
+
+  test("updateUserPuzzle Updates puzzle", async () => {
+    const newUser = await createUser({
+      username: "test5",
+      password: "pass",
+    });
+
+    const puz = createDummyPuzzle({
+      user: newUser._id,
+      pgn: "e4",
+      answer: "e5",
+      rating: 100,
+    });
+
+    const update_p = createDummyPuzzle({
+      user: newUser._id,
+      pgn: "a4",
+      answer: "a5",
+      rating: 200,
+    });
+
+    const saved_p = await createUserPuzzle(puz);
+    const res = await updateUserPuzzle(newUser._id, saved_p._id, update_p);
+    expect(res._id.toString()).toBe(saved_p._id.toString());
+    expect(res.pgn).toBe("a4");
   });
 
   /*
