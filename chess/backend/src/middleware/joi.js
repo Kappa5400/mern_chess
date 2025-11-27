@@ -13,9 +13,28 @@ export const updatePuzzleSchema = Joi.object({
   rating: Joi.number().integer().min(0).max(2900),
 });
 
+export const createUserPuzzleSchema = Joi.object({
+  pgn: Joi.string().min(5).required(),
+  answer: Joi.string().required(),
+  rating: Joi.number().integer().min(0).max(2900).required(),
+  date: Joi.date(),
+});
+
+export const objectIdSchema = Joi.object({
+  id: Joi.string().hex().length(24).required().messages({
+    "string.hex": "Invalid ID format",
+    "string.length": "Invalid ID length",
+  }),
+});
+
 export const createUserSchema = Joi.object({
   username: Joi.string().alphanum().min(3).max(30).required(),
   password: Joi.string().min(6).required(),
+});
+
+export const loginSchema = Joi.object({
+  username: Joi.string().required(),
+  password: Joi.string().string().required(),
 });
 
 export const validate = (schema) => {

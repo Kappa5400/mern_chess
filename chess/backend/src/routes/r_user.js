@@ -1,21 +1,47 @@
-import { createUser, loginUser, getUserInfoByID } from "../services/s_user.js";
-import { createUserSchema, validate } from "../middleware/joi.js";
+import {
+  createUser,
+  loginUser,
+  getUserInfoByID,
+  getTopUsers,
+  raiseUserScore,
+} from "../service/s_user.js";
+import {
+  createUserSchema,
+  loginSchema,
+  objectIdSchema,
+  validate,
+} from "../middleware/joi.js";
+import { requireAuth } from "../middleware/jwt.js";
 
 export function userRoutes(app) {
-  app.get("/api/v1/users/:id", async (req, res) => {
-    const userInfo = await getUserInfoByID(req.params.id);
-    return res.status(200).send(userInfo);
+  app.get(
+    "/api/v1/user/byuserid/:id",
+    validate(objectIdSchema, "params"),
+    async (req, res) => {
+      const userInfo = await getUserInfoByID(req.params.id);
+      return res.status(200).send(userInfo);
+    }
+  );
+
+  app.get("/api/v1/user/topusers", async (req, res) => {
+    const topScoringUsers = await getTopUsers();
+    return res.status(200).send(topScoringUsers);
   });
 
-  app.patch("/api/v1/user/score_up/:id", async (req, res) => {
-    try {
-      const score = await raise_user_score(req.params.id, req.auth?.sub);
-      return res.json(score);
-    } catch (err) {
-      console.log(`Error updating score: ${err}`);
-      return res.status(500).json({ error: "Error updating score" });
+  app.patch(
+    "/api/v1/user/score_up/:id",
+    requireAuth,
+    validate(objectIdSchema, "params"),
+    async (req, res) => {
+      try {
+        const score = await raiseUserScore(req.params.id);
+        return res.json(score);
+      } catch (err) {
+        console.log(`Error updating score: ${err}`);
+        return res.status(500).json({ error: "Error updating score" });
+      }
     }
-  });
+  );
 
   app.post(
     "/api/v1/user/signup",
@@ -32,7 +58,7 @@ export function userRoutes(app) {
     }
   );
 
-  app.post("/api/v1/user/login", async (req, res) => {
+  app.post("/api/v1/user/login", validate(loginSchema), async (req, res) => {
     try {
       const token = await loginUser(req.body);
       return res.status(200).send({ token });

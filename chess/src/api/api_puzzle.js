@@ -1,21 +1,31 @@
-export const get_all_Puzzle = async () => {
-  const res = await fetch(
-    `https://supernatural-crypt-pjpq5pvp6qgq399q7-3000.app.github.dev/api/v1/get_all_puzzles`,
-    {
-      credentials: "include",
-    }
-  );
-  if (!res.ok) throw new Error("Failed to get puzzles");
+const BASE_URL = import.meta.env.VITE_API_URL;
+
+const getHeaders = () => {
+  return {
+    "Content-Type": "application/json",
+  };
+};
+
+export const getAllPuzzle = async () => {
+  const res = await fetch(`${BASE_URL}/puzzle/get_all_puzzles`, {
+    headers: getHeaders(),
+  });
+  if (!res.ok) throw new Error("Failed to get all puzzles");
   return await res.json();
 };
 
-export const get_puzzle_by_id = async (_id) => {
-  const res = await fetch(
-    `https://supernatural-crypt-pjpq5pvp6qgq399q7-3000.app.github.dev/api/v1/puzzle/${_id}`,
-    {
-      credentials: "include",
-    }
-  );
+export const getPuzzleById = async (_id) => {
+  const res = await fetch(`${BASE_URL}/puzzle/${_id}`, {
+    headers: getHeaders(),
+  });
   if (!res.ok) throw new Error("Failed to retreive single puzzle by id");
+  return await res.json();
+};
+
+export const GetMostRecent = async () => {
+  const res = await fetch(`${BASE_URL}/puzzle/recent`, {
+    headers: getHeaders(),
+  });
+  if (!res.ok) throw new Error("Failed to retreive most recent puzzle");
   return await res.json();
 };

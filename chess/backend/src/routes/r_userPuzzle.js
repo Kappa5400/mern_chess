@@ -9,22 +9,24 @@ import {
 import { requireAuth } from "../middleware/jwt.js";
 import {
   updatePuzzleSchema,
-  createPuzzleSchema,
+  createUserPuzzleSchema,
   validate,
+  objectIdSchema,
 } from "../middleware/joi.js";
 
 export function routes(app) {
-  app.get("/api/v1/userpuzzle/byuserid", requireAuth, async (req, res) => {
+  app.get("/api/v1/userpuzzle/byuser/self", requireAuth, async (req, res) => {
     const id = req.auth.sub;
     const allUserP = await getUserPuzzles(id);
     if (!allUserP)
-      return res.status(500).json({ Error: "Failed to fetch puzzles" });
+      return res.status(404).json({ Error: "Failed to fetch puzzles" });
     return res.json(allUserP);
   });
 
   app.get(
     "/api/v1/userpuzzle/Bypuzzleid/:id",
     requireAuth,
+    validate(objectIdSchema, "params"),
     async (req, res) => {
       const userid = req.auth.sub;
       const { id } = req.params;
@@ -35,43 +37,51 @@ export function routes(app) {
   );
 
   app.post(
-    "/api/v1/createuserpuzzle",
+    "/api/v1/userpuzzle/createuserpuzzle",
     requireAuth,
-    validate(createPuzzleSchema),
+    validate(createUserPuzzleSchema),
     async (req, res) => {
       const id = req.auth.sub;
       const { pgn, answer, date, rating } = req.body;
-      const result = await createUserPuzzle(id, pgn, answer, date, rating);
+      const data = {
+        user: id,
+        pgn: pgn,
+        answer: answer,
+        rating: rating,
+      };
+      const result = await createUserPuzzle(data);
       if (!result)
-        return res.status(500).json({ Error: "Failed to create puzzle." });
+        return res.status(404).json({ Error: "Failed to create puzzle." });
       return res.status(200).json({ message: "OK" });
     }
   );
 
   app.patch(
-    "/api/v1/updatepuzzle/:puzzleid",
+    "/api/v1/updatepuzzle/:id",
     requireAuth,
-    validate(updatePuzzleSchema),
+    validate(objectIdSchema, "params"),
+    validate(updatePuzzleSchema, "body"),
     async (req, res) => {
       const userid = req.auth.sub;
-      const { puzzleid } = req.params;
-      const { updated } = req.body;
-      const result = await updateUserPuzzle(userid, puzzleid, updated);
+      const { id } = req.params;
+      const updated = req.body;
+      const result = await updateUserPuzzle(userid, id, updated);
       if (!result)
-        return res.status(500).json({ Error: "Failed to update puzzle." });
+        return res.status(404).json({ Error: "Failed to update puzzle." });
       return res.status(200).json({ message: "OK" });
     }
   );
 
   app.delete(
-    "/api/v1/deleteuserpuzzle/:puzzleid",
+    "/api/v1/userpuzzle/delete/:id",
     requireAuth,
+    validate(objectIdSchema, "params"),
     async (req, res) => {
       const userid = req.auth.sub;
-      const { puzzleid } = req.params;
-      const result = await deleteUserPuzzle(userid, puzzleid);
+      const { id } = req.params;
+      const result = await deleteUserPuzzle(userid, id);
       if (!result)
-        return res.status(500).json({ Error: "Failed to delete puzzle." });
+        return res.status(404).json({ Error: "Failed to delete puzzle." });
       return res.status(200).json({ message: "OK" });
     }
   );
