@@ -8,9 +8,9 @@ import {
 import { validate, objectIdSchema } from "../middleware/joi.js";
 
 export function puzzleRoutes(app) {
-  app.post("/api/v1/puzzle/getAllPuzzle", async (req, res) => {
+  app.post("/api/v1/puzzle/fetch", async (req, res) => {
     const daily = await getDailyPuzzle();
-    return jsonify({ message: "Daily puzzle was saved to db." }), 200;
+    return res.status(200).json({ message: "Daily puzzle was saved to db" });
   });
 
   app.get("/api/v1/puzzle/GetAllPuzzles", async (req, res) => {
