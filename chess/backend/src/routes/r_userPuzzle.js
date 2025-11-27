@@ -14,7 +14,7 @@ import {
   objectIdSchema,
 } from "../middleware/joi.js";
 
-export function routes(app) {
+export function userPuzzleRoutes(app) {
   app.get("/api/v1/userpuzzle/byuser/self", requireAuth, async (req, res) => {
     const id = req.auth.sub;
     const allUserP = await getUserPuzzles(id);

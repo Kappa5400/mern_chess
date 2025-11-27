@@ -1,8 +1,10 @@
 import express from "express";
-import { routes } from "./routes/r_puzzle.js";
 import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
+import { puzzleRoutes } from "./routes/r_puzzle.js";
+import { userPuzzleRoutes } from "./routes/r_userPuzzle.js";
+import { userRoutes } from "./routes/r_user.js";
 
 const app = express();
 
@@ -25,7 +27,9 @@ app.get("/", (req, res) => {
   res.send("Hi sekai");
 });
 
-routes(app);
+userRoutes(app);
+userPuzzleRoutes(app);
+puzzleRoutes(app);
 
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
@@ -34,4 +38,4 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
-export { app };
+export default app;

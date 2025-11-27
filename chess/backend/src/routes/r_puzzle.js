@@ -5,7 +5,9 @@ import {
   getMostRecent,
 } from "../service/s_puzzle.js";
 
-export function routes(app) {
+import { validate, objectIdSchema } from "../middleware/joi.js";
+
+export function puzzleRoutes(app) {
   app.post("/api/v1/puzzle/getAllPuzzle", async (req, res) => {
     const daily = await getDailyPuzzle();
     return jsonify({ message: "Daily puzzle was saved to db." }), 200;

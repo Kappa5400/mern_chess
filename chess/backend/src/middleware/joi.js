@@ -28,13 +28,15 @@ export const objectIdSchema = Joi.object({
 });
 
 export const createUserSchema = Joi.object({
-  username: Joi.string().alphanum().min(3).max(30).required(),
-  password: Joi.string().min(6).required(),
+  //change username min later
+  username: Joi.string().alphanum().min(1).max(30).required(),
+  //add password min char later
+  password: Joi.string().min(1).required(),
 });
 
 export const loginSchema = Joi.object({
   username: Joi.string().required(),
-  password: Joi.string().string().required(),
+  password: Joi.string().required(),
 });
 
 export const validate = (schema) => {

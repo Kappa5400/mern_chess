@@ -34,7 +34,7 @@ swagger api documentation
 backend:
 add sameuser creation detection and err handling
 user password validation
-
+change joi password and username min, make test for min
 
 front end
 tailwind chess
