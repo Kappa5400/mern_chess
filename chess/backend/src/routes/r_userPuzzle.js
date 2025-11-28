@@ -52,7 +52,7 @@ export function userPuzzleRoutes(app) {
       const result = await createUserPuzzle(data);
       if (!result)
         return res.status(404).json({ Error: "Failed to create puzzle." });
-      return res.status(200).json({ message: "OK" });
+      return res.status(200).json({ message: "Created user puzzle" });
     }
   );
 

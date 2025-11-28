@@ -6,11 +6,12 @@ jest.mock("axios", () => ({
 
 import axios from "axios";
 axios.get = jest.fn();
-import { jest } from "@jest/globals";
+import { afterEach, expect, jest } from "@jest/globals";
 import request from "supertest";
-import mongoose, { mongo } from "mongoose";
+import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import app from "../../app.js";
+import { puzzle } from "../../db/model/puzzle.js";
 
 let mongoServer;
 
@@ -18,16 +19,47 @@ beforeAll(async () => {
   if (mongoose.connection.readyState !== 0) {
     await mongoose.disconnect();
   }
-
   mongoServer = await MongoMemoryServer.create();
   const uri = mongoServer.getUri();
   await mongoose.connect(uri);
 });
 
+afterEach(async () => {
+  const collections = mongoose.connection.collections;
+  for (const key in collections) {
+    const collection = collections[key];
+    await collection.deleteMany({});
+  }
+  jest.clearAllMocks();
+});
+
 afterAll(async () => {
   await mongoose.disconnect();
-  await mongoServer.stop();
+  if (mongoServer) {
+    await mongoServer.stop();
+  }
 });
+
+const createDummyPuzzle = (overrides = {}) => ({
+  pgn: "test",
+  answer: "test",
+  rating: 0,
+  ...overrides,
+});
+
+const saveDummy = async (overrides) => {
+  return await puzzle.create(createDummyPuzzle(overrides));
+};
+
+const FAKE_PUZZLE_ID = new mongoose.Types.ObjectId("60c23a7e5f396e0004c867a1");
+
+const dummyFixedId = {
+  _id: FAKE_PUZZLE_ID,
+  pgn: "e4",
+  answer: "e5",
+  rating: 0,
+  createdAt: new Date("2025-01-01"),
+};
 
 describe("Puzzle routes", () => {
   it("POST /api/v1/puzzle/fetch - fetch daily", async () => {
@@ -49,5 +81,47 @@ describe("Puzzle routes", () => {
     const res = await request(app).post("/api/v1/puzzle/fetch").send();
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("message", "Daily puzzle was saved to db");
+  });
+
+  it("GET /api/v1/puzzle/GetAllPuzzles - Get puzzles", async () => {
+    const dummy1 = await saveDummy({
+      pgn: "e4",
+      createdAt: new Date("2025-01-01"),
+    });
+    const dummy2 = await saveDummy({
+      pgn: "e3",
+      createdAt: new Date("1900-01-01"),
+    });
+    const res = await request(app).get("/api/v1/puzzle/GetAllPuzzles");
+    expect(res.statusCode).toBe(200);
+    expect(res.body[0].length).toBe(2);
+  });
+
+  it("GET /api/v1/puzzle/recent - get most recent", async () => {
+    const dummy1 = await saveDummy({
+      pgn: "e4",
+      createdAt: new Date("2025-01-01"),
+    });
+    const dummy2 = await saveDummy({
+      pgn: "e3",
+      createdAt: new Date("1900-01-01"),
+    });
+    const res = await request(app).get("/api/v1/puzzle/recent");
+    expect(res.statusCode).toBe(200);
+    expect(res.body.createdAt).toBe("2025-01-01T00:00:00.000Z");
+  });
+
+  it("GET /api/v1/puzzle/byuserid/:id", async () => {
+    const dummy1 = await saveDummy(dummyFixedId);
+    const dummy2 = await saveDummy({
+      pgn: "e3",
+      createdAt: new Date("1900-01-01"),
+    });
+    const res = await request(app).get(
+      `/api/v1/puzzle/byuserid/${FAKE_PUZZLE_ID}`
+    );
+
+    expect(res.statusCode).toBe(200);
+    expect(res.body.pgn).toBe("e4");
   });
 });
