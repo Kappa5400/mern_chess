@@ -1,33 +1,20 @@
+import { jest } from "@jest/globals";
 import request from "supertest";
-import { requireAuth } from "../../middleware/jwt.js";
 import mongoose from "mongoose";
 import { MongoMemoryServer } from "mongodb-memory-server";
 import { createUser } from "../../service/s_user.js";
-import { createUserPuzzle } from "../../service/s_userPuzzle.js";
+import {
+  createUserPuzzle,
+  getUserPuzzles,
+} from "../../service/s_userPuzzle.js";
 import { expect } from "@jest/globals";
 import { User } from "../../db/model/user.js";
 import { UserPuzzle } from "../../db/model/userPuzzle.js";
-import { jest } from "@jest/globals";
-
-jest.mock("../../middleware/jwt.js", () => ({
-  // Assume 'requireAuth' is the named export we need to mock
-  requireAuth: (req, res, next) => {
-    // 💡 This is the core logic: We check for a dummy header set by supertest
-    //    and use that value to simulate successful authentication.
-    const mockUserId = req.headers["x-mock-user-id"];
-    if (mockUserId) {
-      req.auth = { sub: mockUserId };
-      next();
-    } else {
-      // If the header is missing, fail authentication (or return a 401, but here we just call next to keep the test simple)
-      next();
-    }
-  },
-}));
-
 import app from "../../app.js";
+import jwt from "jsonwebtoken";
 
 let mongoServer;
+process.env.JWT_SECRET = "test";
 
 beforeAll(async () => {
   if (mongoose.connection.readyState !== 0) {
@@ -91,22 +78,140 @@ describe(" User puzzle routes ", () => {
 
     const newUser = await createUser(dummyUser);
 
+    const token = jwt.sign(
+      { sub: newUser._id.toString() },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
     expect(newUser).toBeDefined();
     const USER_ID_STRING = newUser._id.toString();
 
     const sendData = {
-      pgn: dummyPuz.pgn,
-      answer: dummyPuz.answer,
-      rating: dummyPuz.rating,
+      pgn: "e4",
+      answer: "e5",
+      rating: 0,
     };
 
     const res = await request(app)
       .post("/api/v1/userpuzzle/createuserpuzzle")
-      .set("x-mock-user-id", USER_ID_STRING)
+      .set("Authorization", `Bearer ${token}`)
       .send(sendData);
 
-    console.log(res);
     expect(res.statusCode).toBe(200);
-    expect(res.body).toHaveProperty("message", "OK");
+    expect(res.body).toHaveProperty("message", "Created user puzzle");
+  });
+
+  it("GET /api/v1/userpuzzle/byuser/self get user puzzles", async () => {
+    const dummyUser = {
+      username: "test",
+      password: "password",
+    };
+    const dummyPuz = {
+      pgn: "e4",
+      answer: "e5",
+      rating: 0,
+    };
+
+    const newUser = await createUser(dummyUser);
+
+    const token = jwt.sign(
+      { sub: newUser._id.toString() },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    const sendData = {
+      user: newUser._id,
+      pgn: "e4",
+      answer: "e5",
+      rating: 0,
+    };
+    await createUserPuzzle(sendData);
+
+    const res = await request(app)
+      .get("/api/v1/userpuzzle/byuser/self")
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.body[0].pgn).toBe("e4");
+  });
+  it("GET /api/v1/userpuzzle/Bypuzzleid/:id get puzzle from id", async () => {
+    const dummyUser = {
+      username: "test",
+      password: "password",
+    };
+    const dummyPuz = {
+      pgn: "e4",
+      answer: "e5",
+      rating: 0,
+    };
+
+    const newUser = await createUser(dummyUser);
+
+    const token = jwt.sign(
+      { sub: newUser._id.toString() },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    const sendData = {
+      user: newUser._id,
+      pgn: "e4",
+      answer: "e5",
+      rating: 0,
+    };
+    const savedP = await createUserPuzzle(sendData);
+
+    const res = await request(app)
+      .get(`/api/v1/userpuzzle/Bypuzzleid/${savedP._id}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    expect(res.body.pgn).toBe("e4");
+  });
+  it("PATCH /api/v1/updatepuzzle/:id update puzzle", async () => {
+    const dummyUser = {
+      username: "test",
+      password: "password",
+    };
+    const dummyPuz = {
+      pgn: "e4",
+      answer: "e5",
+      rating: 0,
+    };
+
+    const newpgn = "a4";
+    const newans = "a5";
+    const newrating = 2;
+
+    const newUser = await createUser(dummyUser);
+
+    const token = jwt.sign(
+      { sub: newUser._id.toString() },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    const sendData = {
+      user: newUser._id,
+      pgn: "e4",
+      answer: "e5",
+      rating: 0,
+    };
+
+    const savedP = await createUserPuzzle(sendData);
+
+    const newPuz = {
+      pgn: "a4",
+      answer: "a5",
+      rating: 2,
+    };
+
+    const res = await request(app)
+      .patch(`/api/v1/userpuzzle/updatepuzzle/${savedP._id}`)
+      .set("Authorization", `Bearer ${token}`)
+      .send(newPuz);
+
+    console.log(res);
+    expect(res.body.pgn).toBe("a4");
   });
 });

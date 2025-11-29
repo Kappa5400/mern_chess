@@ -57,7 +57,7 @@ export function userPuzzleRoutes(app) {
   );
 
   app.patch(
-    "/api/v1/updatepuzzle/:id",
+    "/api/v1/userpuzzle/updatepuzzle/:id",
     requireAuth,
     validate(objectIdSchema, "params"),
     validate(updatePuzzleSchema, "body"),
@@ -68,7 +68,7 @@ export function userPuzzleRoutes(app) {
       const result = await updateUserPuzzle(userid, id, updated);
       if (!result)
         return res.status(404).json({ Error: "Failed to update puzzle." });
-      return res.status(200).json({ message: "OK" });
+      return res.status(200).json(result);
     }
   );
 
