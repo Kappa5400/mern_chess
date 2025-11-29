@@ -9,12 +9,13 @@ joi implimented
 
 3. Logging (look into winston or morgon, or just morgan)
 
-*Bookmark*
+
 4. Testing with jest and supertest
 MongoMemoryServer for testing
 
 Need to add JOI schemas for user puzzle creation and impliment in routes
 
+*Bookmark*
 5. API documentation making (look into swagger later, do readme on github first) 
 6. frontend  build
 7. Docker 
