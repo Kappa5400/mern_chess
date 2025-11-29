@@ -12,6 +12,7 @@ import { User } from "../../db/model/user.js";
 import { UserPuzzle } from "../../db/model/userPuzzle.js";
 import app from "../../app.js";
 import jwt from "jsonwebtoken";
+import { getPuzzleByID } from "../../service/s_puzzle.js";
 
 let mongoServer;
 process.env.JWT_SECRET = "test";
@@ -213,5 +214,37 @@ describe(" User puzzle routes ", () => {
 
     console.log(res);
     expect(res.body.pgn).toBe("a4");
+  });
+
+  it("DELETE /api/v1/userpuzzle/delete/:id Delete", async () => {
+    const dummyUser = {
+      username: "test",
+      password: "password",
+    };
+
+    const newUser = await createUser(dummyUser);
+
+    const token = jwt.sign(
+      { sub: newUser._id.toString() },
+      process.env.JWT_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    const dummyPuz = {
+      user: newUser._id,
+      pgn: "e4",
+      answer: "e5",
+      rating: 0,
+    };
+
+    const savedP = await createUserPuzzle(dummyPuz);
+
+    const res = await request(app)
+      .delete(`/api/v1/userpuzzle/delete/${savedP._id}`)
+      .set("Authorization", `Bearer ${token}`);
+
+    console.log(res);
+
+    expect(getPuzzleByID(savedP._id)).toBeNull;
   });
 });
