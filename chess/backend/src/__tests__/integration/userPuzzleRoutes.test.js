@@ -212,7 +212,6 @@ describe(" User puzzle routes ", () => {
       .set("Authorization", `Bearer ${token}`)
       .send(newPuz);
 
-    console.log(res);
     expect(res.body.pgn).toBe("a4");
   });
 
@@ -242,8 +241,6 @@ describe(" User puzzle routes ", () => {
     const res = await request(app)
       .delete(`/api/v1/userpuzzle/delete/${savedP._id}`)
       .set("Authorization", `Bearer ${token}`);
-
-    console.log(res);
 
     expect(getPuzzleByID(savedP._id)).toBeNull;
   });
