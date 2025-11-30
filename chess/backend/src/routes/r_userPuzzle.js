@@ -14,6 +14,40 @@ import {
   objectIdSchema,
 } from "../middleware/joi.js";
 
+/**
+ * @swagger
+ * /userpuzzle/createuserpuzzle:
+ *   post:
+ *     summary: Create user puzzle
+ *     description: Creates a user made puzzle, saves to personal database.
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               user:
+ *                 type: string
+ *                 description: User ID
+ *               pgn:
+ *                 type: string
+ *               answer:
+ *                 type: string
+ *               rating:
+ *                 type: number
+ *             required:
+ *               - user
+ *               - pgn
+ *               - answer
+ *               - rating
+ *     tags:
+ *       - User Puzzles
+ *     responses:
+ *       200:
+ *         description: Success
+ */
+
 export function userPuzzleRoutes(app) {
   app.get("/api/v1/userpuzzle/byuser/self", requireAuth, async (req, res) => {
     const id = req.auth.sub;

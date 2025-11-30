@@ -11,13 +11,13 @@ const swaggerDefinition = {
   info: {
     title: "MERN Chess User Puzzle API",
     version: "1.0.0",
-    description: "ユーザーが作成・管理するチェスパズルAPIのドキュメント。",
+    description: "Hi.",
   },
 
   servers: [
     {
       url: "/api/v1",
-      description: "開発サーバー",
+      description: "dev server",
     },
   ],
 
@@ -48,8 +48,10 @@ const options = {
   // 👈 JSDocコメントを読み取るファイルパスを指定
   // ここでは、プロジェクトルートからの相対パスで、routesとmodelsを読み込んでいます。
   apis: [
-    path.join(__dirname, "../src/routes/*.js"),
-    path.join(__dirname, "../src/models/*.js"),
+    path.join(__dirname, "../routes/r_puzzle.js"),
+    path.join(__dirname, "../routes/r_user.js"),
+    path.join(__dirname, "../routes/r_userPuzzle.js"),
+    // path.join(__dirname, "./db/models/*.js"),
     // 他に必要なファイル（例：validation.jsで定義されたスキーマ）があれば追加
   ],
 };

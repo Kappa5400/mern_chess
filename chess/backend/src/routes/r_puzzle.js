@@ -7,6 +7,56 @@ import {
 
 import { validate, objectIdSchema } from "../middleware/joi.js";
 
+/**
+ * @swagger
+ * /puzzle/fetch:
+ *   post:
+ *     summary: Daily puzzle retrieval operation
+ *     description: This endpoint fetches and initiates the daily puzzle process.
+ *     tags:
+ *       - Puzzles
+ *     responses:
+ *       200:
+ *         description: Success
+ *
+ * /puzzle/GetAllPuzzles:
+ *  get:
+ *    summary: Get all puzzles.
+ *    description: Get all puzzles in database from daily puzzle list.
+ *    tags:
+ *      - Puzzles
+ *    responses:
+ *      200:
+ *        description: Success
+ *
+ * /puzzle/byuserid/{id}:
+ *  get:
+ *    summary: Get puzzle by user id.
+ *    description: Get all puzzle in database from user by searching for user ID.
+ *    parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: find puzzles from user by searching user ID.
+ *    tags:
+ *      - Puzzles
+ *    responses:
+ *      200:
+ *        description: Success
+ *
+ * /puzzle/recent:
+ *  get:
+ *    summary: Get recent puzzle.
+ *    description: Get most recent puzzle in database.
+ *    tags:
+ *      - Puzzles
+ *    responses:
+ *      200:
+ *        description: Success
+ */
+
 export function puzzleRoutes(app) {
   app.post("/api/v1/puzzle/fetch", async (req, res) => {
     const daily = await getDailyPuzzle();
