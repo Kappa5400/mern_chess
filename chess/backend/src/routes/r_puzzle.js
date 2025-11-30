@@ -29,19 +29,21 @@ import { validate, objectIdSchema } from "../middleware/joi.js";
  *      200:
  *        description: Success
  *
- * /puzzle/byuserid/{id}:
+ * /puzzle/bypuzzleid/{id}:
  *  get:
- *    summary: Get puzzle by user id.
- *    description: Get all puzzle in database from user by searching for user ID.
+ *    summary: Get puzzle by puzzle id.
+ *    description: Get all puzzle in database from user by searching for puzzle ID.
  *    parameters:
  *      - in: path
  *        name: id
  *        schema:
  *          type: string
  *        required: true
- *        description: find puzzles from user by searching user ID.
+ *        description: find puzzle by searching puzzle ID.
  *    tags:
  *      - Puzzles
+ *    security:
+ *       - bearerAuth: []
  *    responses:
  *      200:
  *        description: Success
@@ -69,7 +71,7 @@ export function puzzleRoutes(app) {
   });
 
   app.get(
-    "/api/v1/puzzle/byuserid/:id",
+    "/api/v1/puzzle/bypuzzleid/:id",
     validate(objectIdSchema),
     async (req, res) => {
       const { id } = req.params;

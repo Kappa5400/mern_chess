@@ -16,11 +16,13 @@ export async function getUserInfoByID(userID) {
 
 export async function raiseUserScore(userID) {
   try {
-    const updatedUser = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       { _id: userID },
       { $inc: { score: 1 } },
       { new: true }
     );
+
+    const updatedUser = User.findById(userID);
     return updatedUser;
   } catch (err) {
     logger.info(`Error updating score: ${err.message}`);

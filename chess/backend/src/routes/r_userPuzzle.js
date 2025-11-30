@@ -18,8 +18,12 @@ import {
  * @swagger
  * /userpuzzle/createuserpuzzle:
  *   post:
- *     summary: Create user puzzle
- *     description: Creates a user made puzzle, saves to personal database.
+ *     summary: Create a user puzzle
+ *     description: Creates a user puzzle
+ *     tags:
+ *       - User Puzzles
+ *     security:
+ *       - bearerAuth: []
  *     requestBody:
  *       required: true
  *       content:
@@ -27,9 +31,6 @@ import {
  *           schema:
  *             type: object
  *             properties:
- *               user:
- *                 type: string
- *                 description: User ID
  *               pgn:
  *                 type: string
  *               answer:
@@ -37,12 +38,77 @@ import {
  *               rating:
  *                 type: number
  *             required:
- *               - user
  *               - pgn
  *               - answer
  *               - rating
+ *     responses:
+ *       200:
+ *         description: Puzzle created
+ *       404:
+ *         description: Failed to create puzzle
+ *
+ * /userpuzzle/byuser/self:
+ *   get:
+ *     summary: Get all user puzzles
+ *     description: Get all puzzles from a user that is logged in.
  *     tags:
  *       - User Puzzles
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Success
+ *
+ * /userpuzzle/Bypuzzleid/{id}:
+ *   get:
+ *     summary: Get puzzle by id
+ *     description: Get all puzzles from a user that is logged in.
+ *     tags:
+ *       - User Puzzles
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *      - in: path
+ *        name: id
+ *        schema:
+ *          type: string
+ *        required: true
+ *        description: puzzle id to find puzzle.
+ *     responses:
+ *       200:
+ *         description: Success
+ *
+ * /userpuzzle/updatepuzzle/{id}:
+ *   patch:
+ *     summary: Patch puzzle via id
+ *     tags:
+ *       - User Puzzles
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Puzzle ID to update
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               pgn:
+ *                 type: string
+ *               answer:
+ *                 type: string
+ *               rating:
+ *                 type: number
+ *             required:
+ *               - pgn
+ *               - answer
+ *               - rating
  *     responses:
  *       200:
  *         description: Success

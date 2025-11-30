@@ -15,7 +15,7 @@ import { requireAuth } from "../middleware/jwt.js";
 
 /**
  * @swagger
- * user/signup:
+ * /user/signup:
  *   post:
  *     summary: Signup
  *     description: Make an account.
@@ -106,19 +106,21 @@ import { requireAuth } from "../middleware/jwt.js";
  *       200:
  *         description: Success
  *
- * /userscore_up/{id}:
+ * /user/score_up/{id}:
  *   patch:
  *     summary: Increase user score
  *     description: Increase the user score by one.
+ *     tags:
+ *       - User
+ *     security:
+ *       - bearerAuth: []
  *     parameters:
  *       - in: path
  *         name: id
+ *         required: true
  *         schema:
  *           type: string
- *         required: true
- *         description: Get user information by searching with user ID.
- *     tags:
- *       - User
+ *         description: User ID
  *     responses:
  *       200:
  *         description: Success
@@ -141,7 +143,6 @@ export function userRoutes(app) {
 
   app.patch(
     "/api/v1/user/score_up/:id",
-    requireAuth,
     validate(objectIdSchema, "params"),
     async (req, res) => {
       try {

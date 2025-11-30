@@ -27,7 +27,7 @@ const swaggerDefinition = {
         type: "http",
         scheme: "bearer",
         bearerFormat: "JWT",
-        description: "JWTトークンを**Bearer [token]**形式で設定します。",
+        description: "JWT token only. (Do NOT type 'Bearer')",
       },
     },
 
