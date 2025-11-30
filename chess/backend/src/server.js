@@ -1,5 +1,5 @@
 import "dotenv/config";
-import { app } from "./app.js";
+import app from "./app.js";
 import { initJobs } from "./service/jobs/dailypuzzleget.js";
 import { initDB } from "./db/init.js";
 import { logger } from "./utils/logger.js";
