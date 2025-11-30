@@ -111,14 +111,14 @@ describe("Puzzle routes", () => {
     expect(res.body.createdAt).toBe("2025-01-01T00:00:00.000Z");
   });
 
-  it("GET /api/v1/puzzle/byuserid/:id", async () => {
+  it("GET /api/v1/puzzle/bypuzzleid/:id", async () => {
     const dummy1 = await saveDummy(dummyFixedId);
     const dummy2 = await saveDummy({
       pgn: "e3",
       createdAt: new Date("1900-01-01"),
     });
     const res = await request(app).get(
-      `/api/v1/puzzle/byuserid/${FAKE_PUZZLE_ID}`
+      `/api/v1/puzzle/bypuzzleid/${FAKE_PUZZLE_ID}`
     );
 
     expect(res.statusCode).toBe(200);
