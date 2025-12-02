@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { get_all_Puzzle } from "../api/api_puzzle";
+import { getAllPuzzle } from "../api/api_puzzle";
 
 export function useFetchAllPuzzles() {
   const puzzlesQuery = useQuery({
     queryKey: ["puzzles"],
-    queryFn: get_all_Puzzle,
+    queryFn: getAllPuzzle,
   });
 
   const raw = puzzlesQuery.data ?? [];

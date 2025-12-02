@@ -3,7 +3,7 @@ import { SideBar } from "../components/sidebar.jsx";
 import { UserProfile } from "../components/userprofile_test.jsx";
 import PuzzleCard from "../components/Puzzlecard.jsx";
 import styles from "./PuzzleListPage.module.css";
-import { useFetchAllPuzzles } from "../hooks/usePuzzleFetch Hook.js";
+import { useFetchAllPuzzles } from "../hooks/useFetchAllHook.js";
 
 export function PuzzleListPage() {
   const { puzzles, isLoading, isError } = useFetchAllPuzzles();

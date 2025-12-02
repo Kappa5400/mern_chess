@@ -4,7 +4,7 @@ import { ShowPuzzleText } from "../components/puzzle_list_text.jsx";
 import { UserProfile } from "../components/userprofile_test.jsx";
 import styles from "./Index.module.css";
 import { ChessboardComponent } from "../components/chessboard_starting_pos.jsx";
-import { useFetchAllPuzzles } from "../hooks/usePuzzleFetch Hook.js";
+import { useFetchAllPuzzles } from "../hooks/useFetchAllHook.js";
 
 export function Index() {
   const puzzles = useFetchAllPuzzles();
@@ -18,9 +18,10 @@ export function Index() {
         </div>
         <h1>Chess Puzzle App</h1>
         <ChessboardComponent />
-        <ShowPuzzleText puzzles={puzzles.puzzles} 
+        <ShowPuzzleText
+          puzzles={puzzles.puzzles}
           isLoading={puzzles.isLoading}
-          />
+        />
       </main>
     </div>
   );
