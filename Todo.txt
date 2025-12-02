@@ -25,34 +25,56 @@ Need to add JOI schemas for user puzzle creation and impliment in routes
 7.5 Rate limiting, look into express-rate-limit. Setup right  before doing aws deployment setup
 8. Deployment to aws
 
+frontend to do
 
 
-middleware to add:
-Helmet
-Compression
-express-mongo-sanitize
+sign up and login page functionality
+    -just need to wire input boxes to api calls
 
+puzzle list page functionality
+    -component chessboard card that loads puzzle and data
 
-Optional
-Mongod db playground, auto report making
-swagger api documentation
+actual puzzle page
+    -component for usable board, loads puzzle state, input validation and checking for answer
+    -logic to check move is correct or not with chess.jest
+    -score implimentation for correct solution on first try or 0 on fail 
+    -add component for puzzle date, if user made who made it, others if think of
+    -hard
+
+scoreboard functionality
+    -scoreboard component shows top 10 users pulled from api
+    - chart component
+
+profile page functionality
+    -page to show user puzzles
+
+make a puzzle page and functionality
+    -page to create user puzzle
+    -component chessboard to make puzzle
+    -impliment crud from chessboard state
+    -hardest thing prob
+
+write about page
+    -ez
+
+make pretty
+    -tailwind css
+    react-hot-toast for events (created a puzzle successfully )
+
+To do later
+swagger api documentation improve
+readme make
+about page
+Mongod db playground, auto report making (optional)
 
 backend:
-add sameuser creation detection and err handling
-user password validation
 change joi password and username min, make test for min
 
 front end
-tailwind chess
-react
-react-hook-form
-react-hot-toast
 lucide-reacts
 
 to study more in depth:
 axios
 Logging
 joi
-Helmet
-Compression
 frontend
