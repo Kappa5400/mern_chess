@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate, Link } from "react-router-dom";
-import { signup } from "../api/api_user.js";
+import { signup } from "../api/api_user";
 import { SideBar } from "../components/sidebar.jsx";
 import styles from "./Index.module.css";
 

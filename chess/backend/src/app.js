@@ -9,20 +9,25 @@ import { userRoutes } from "./routes/r_user.js";
 import swaggerUi from "swagger-ui-express";
 import { swaggerSpec } from "./swagger/swaggerOptions.js";
 import mongoSanitize from "express-mongo-sanitize";
+import dotenv from "dotenv";
+dotenv.config();
 
 const app = express();
+
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", process.env.CLIENT_URL);
+  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+
+  if (req.method === "OPTIONS") return res.sendStatus(200);
+  next();
+});
+
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use(express.json());
 app.use(helmet());
 app.use(compression());
-
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    credentials: true,
-  })
-);
 
 // in order to sanatize
 // allows newer express to edit query req after recieving

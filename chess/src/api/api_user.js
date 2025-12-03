@@ -1,4 +1,5 @@
-const BASE_URL = import.meta.env.VITE_API_URL;
+//update befor deployment
+const BASE_URL = "http://localhost:3001";
 
 const getHeadersToken = () => {
   const token = localStorage.getItem("token");
@@ -9,7 +10,7 @@ const getHeadersToken = () => {
 };
 
 export const signup = async ({ username, password }) => {
-  const res = await fetch(`${BASE_URL}/user/signup`, {
+  const res = await fetch(`${BASE_URL}/api/v1/user/signup`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
@@ -19,7 +20,7 @@ export const signup = async ({ username, password }) => {
 };
 
 export const login = async ({ username, password }) => {
-  const res = await fetch(`${BASE_URL}/user/login`, {
+  const res = await fetch(`${BASE_URL}/api/v1/user/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
@@ -29,7 +30,7 @@ export const login = async ({ username, password }) => {
 };
 
 export const raiseUserScore = async (id) => {
-  const res = await fetch(`${BASE_URL}/user/score_up/${id}`, {
+  const res = await fetch(`${BASE_URL}/api/v1/user/score_up/${id}`, {
     method: "PATCH",
     headers: getHeadersToken(),
   });
@@ -38,7 +39,7 @@ export const raiseUserScore = async (id) => {
 };
 
 export const getUserInfo = async (id) => {
-  const res = await fetch(`${BASE_URL}/user/byuserid/${id}`, {
+  const res = await fetch(`${BASE_URL}/api/v1/user/byuserid/${id}`, {
     method: "GET",
     headers: getHeadersToken(),
   });
@@ -47,7 +48,7 @@ export const getUserInfo = async (id) => {
 };
 
 export const getTopUsers = async () => {
-  const res = await fetch(`${BASE_URL}/user/topusers`, {
+  const res = await fetch(`${BASE_URL}/api/v1/user/topusers`, {
     method: "GET",
     headers: { "Content-Type": "application/json" },
   });
