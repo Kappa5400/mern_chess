@@ -3,14 +3,15 @@ import PropTypes from "prop-types";
 import styles from "./profile.module.css";
 import { jwtDecode } from "jwt-decode";
 import { useAuth } from "../contexts/AuthContext.jsx";
+import { User } from "./user.jsx";
 
 export function Profile({ name }) {
   const [token, setToken] = useAuth();
 
   if (token) {
-    console.log("Raw token string:", token);
-    console.log("Decoded payload:", jwtDecode(token));
     const { sub } = jwtDecode(token);
+    console.log("Raw token string:", token);
+
     return (
       <div>
         Logged in as <User id={sub} />
@@ -28,5 +29,5 @@ export function Profile({ name }) {
 }
 
 Profile.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.string),
+  name: PropTypes.string.isRequired,
 };

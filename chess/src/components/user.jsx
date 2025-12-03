@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import PropTypes from "prop-types";
-import { getUserInfo } from "../api/api_users.js";
+import { getUserInfo } from "../api/api_user.js";
 
 export function User({ id }) {
   const userInfoQuery = useQuery({
