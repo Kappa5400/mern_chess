@@ -7,11 +7,15 @@ export function useFetchAllPuzzles() {
     queryFn: getAllPuzzle,
   });
 
-  const raw = puzzlesQuery.data ?? [];
-  const puzzles = Array.isArray(raw[0]) ? raw[0] : raw;
+  const data = puzzlesQuery.data;
 
-  //logging
-  console.log("Puzzle data from hook:", JSON.stringify(puzzles));
+  const puzzles = Array.isArray(data)
+    ? Array.isArray(data[0])
+      ? data[0]
+      : data
+    : [];
+
+  console.log("Puzzle data from hook:", puzzles);
 
   return {
     puzzles,

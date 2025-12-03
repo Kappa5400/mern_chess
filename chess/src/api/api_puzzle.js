@@ -1,4 +1,5 @@
-const BASE_URL = import.meta.env.VITE_API_URL;
+//update befor deployment
+const BASE_URL = "http://localhost:3001";
 
 const getHeaders = () => {
   return {
@@ -7,15 +8,18 @@ const getHeaders = () => {
 };
 
 export const getAllPuzzle = async () => {
-  const res = await fetch(`${BASE_URL}/puzzle/get_all_puzzles`, {
+  console.log("Fetching all puzzles");
+  const res = await fetch(`${BASE_URL}/api/v1/puzzle/GetAllPuzzles`, {
     headers: getHeaders(),
   });
+  console.log("Status: ", res.status);
+  console.log("Res: ", res);
   if (!res.ok) throw new Error("Failed to get all puzzles");
   return await res.json();
 };
 
 export const getPuzzleById = async (_id) => {
-  const res = await fetch(`${BASE_URL}/puzzle/${_id}`, {
+  const res = await fetch(`${BASE_URL}/api/v1/bypuzzleid/${_id}`, {
     headers: getHeaders(),
   });
   if (!res.ok) throw new Error("Failed to retreive single puzzle by id");
@@ -23,7 +27,7 @@ export const getPuzzleById = async (_id) => {
 };
 
 export const GetMostRecent = async () => {
-  const res = await fetch(`${BASE_URL}/puzzle/recent`, {
+  const res = await fetch(`${BASE_URL}/api/v1/puzzle/recent`, {
     headers: getHeaders(),
   });
   if (!res.ok) throw new Error("Failed to retreive most recent puzzle");

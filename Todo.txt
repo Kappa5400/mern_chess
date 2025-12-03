@@ -20,19 +20,18 @@ Need to add JOI schemas for user puzzle creation and impliment in routes
 
 *Bookmark*
 6. frontend  build
-6.5 readme.me make
-7. Docker 
-7.5 Rate limiting, look into express-rate-limit. Setup right  before doing aws deployment setup
-8. Deployment to aws
+
 
 frontend to do
 
 
 sign up and login page functionality
     -just need to wire input boxes to api calls
+    done
 
 puzzle list page functionality
     -component chessboard card that loads puzzle and data
+
 
 actual puzzle page
     -component for usable board, loads puzzle state, input validation and checking for answer
@@ -47,6 +46,8 @@ scoreboard functionality
 
 profile page functionality
     -page to show user puzzles
+    -show user score
+    -show where user is in scoreboard?
 
 make a puzzle page and functionality
     -page to create user puzzle
@@ -57,9 +58,16 @@ make a puzzle page and functionality
 write about page
     -ez
 
-make pretty
+make pretty (optional)
     -tailwind css
     react-hot-toast for events (created a puzzle successfully )
+
+
+6.5 readme.me make
+7. Docker 
+7.5 Rate limiting, look into express-rate-limit. Setup right  before doing aws deployment setup
+8. Deployment to aws
+
 
 To do later
 swagger api documentation improve
