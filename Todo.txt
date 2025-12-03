@@ -32,6 +32,8 @@ sign up and login page functionality
 puzzle list page functionality
     -component chessboard card that loads puzzle and data
 
+    *I am here*
+    in backend need to make backend api endpoint puzzle fen 
 
 actual puzzle page
     -component for usable board, loads puzzle state, input validation and checking for answer

@@ -33,3 +33,11 @@ export const GetMostRecent = async () => {
   if (!res.ok) throw new Error("Failed to retreive most recent puzzle");
   return await res.json();
 };
+
+export const getPuzzleFen = async (_id) => {
+  const res = await fetch(`${BASE_URL}/api/v1/puzzle/fen/${_id}`, {
+    headers: getHeaders(),
+  });
+  if (!res.ok) throw new Error("Failed to retreive puzzle FEN");
+  return await res.json();
+};

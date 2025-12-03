@@ -4,6 +4,7 @@ import { UserProfile } from "../components/userprofile_test.jsx";
 import PuzzleCard from "../components/Puzzlecard.jsx";
 import styles from "./PuzzleListPage.module.css";
 import { useFetchAllPuzzles } from "../hooks/useFetchAllHook.js";
+import { Chess } from "chess.js";
 
 export function PuzzleListPage() {
   const { puzzles, isLoading, isError } = useFetchAllPuzzles();
@@ -25,7 +26,7 @@ export function PuzzleListPage() {
         <h1>Puzzle List</h1>
         <div className={styles.puzzleGrid}>
           {puzzles.map((p) => (
-            <PuzzleCard key={p._id} pgn={p.pgn} />
+            <PuzzleCard key={p._id} id={p._id} pgn={p.pgn} />
           ))}
         </div>
       </main>

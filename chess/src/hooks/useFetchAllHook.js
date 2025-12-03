@@ -7,7 +7,7 @@ export function useFetchAllPuzzles() {
     queryFn: getAllPuzzle,
   });
 
-  const data = puzzlesQuery.data;
+  const data = puzzlesQuery.data ?? [];
 
   const puzzles = Array.isArray(data)
     ? Array.isArray(data[0])
