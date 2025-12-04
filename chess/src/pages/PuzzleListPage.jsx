@@ -17,13 +17,15 @@ export function PuzzleListPage() {
       try {
         const g = new Chess();
         g.loadPgn(p.pgn);
-        return g.fen();
+        return String(g.fen());
       } catch {
         return "start";
       }
     })();
-    return { ...p, fen }; // id や pgn を保持
+    return { ...p, fen };
   });
+
+  console.log("Fen list: ", fen_list);
 
   for (let i = 0; i < 3; i++) {
     console.log("Loop debug pgn: ", fen_list[i].pgn);

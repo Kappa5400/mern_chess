@@ -3,14 +3,16 @@ import PropTypes from "prop-types";
 import styles from "./Puzzlecard.module.css";
 
 export default function PuzzleCard({ id, fen }) {
+  console.log("Fen inside card component: ", fen);
+  const chessboardOptions = {
+    position: fen,
+    id: id,
+    boardWidth: 220,
+    arePiecesDraggable: false,
+  };
   return (
     <div className={styles.puzzlecard}>
-      <Chessboard
-        id={id}
-        position={fen}
-        boardWidth={220}
-        arePiecesDraggable={false}
-      />
+      <Chessboard options={chessboardOptions} />
     </div>
   );
 }
