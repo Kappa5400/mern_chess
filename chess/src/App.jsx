@@ -7,6 +7,7 @@ import { Login } from "./pages/login_page.jsx";
 import { Signup } from "./pages/signup_page.jsx";
 import { PuzzleListPage } from "./pages/PuzzleListPage.jsx";
 import { AuthContext, AuthContextProvider } from "./contexts/AuthContext.jsx";
+import { Test } from "./pages/pgnviewtest.jsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -31,6 +32,7 @@ export function App() {
             <Route path="/score" element={<Index />} />
             <Route path="/about" element={<Index />} />
             <Route path="/profile/:id" element={<Index />} />
+            <Route path="/test" element={<Test />} />
           </Routes>
         </BrowserRouter>
       </AuthContextProvider>

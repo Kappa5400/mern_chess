@@ -2,12 +2,12 @@ import { Chessboard } from "react-chessboard";
 import PropTypes from "prop-types";
 import styles from "./Puzzlecard.module.css";
 
-export default function PuzzleCard({ id, pgn }) {
+export default function PuzzleCard({ id, fen }) {
   return (
     <div className={styles.puzzlecard}>
       <Chessboard
         id={id}
-        position={pgn || "start"}
+        position={fen}
         boardWidth={220}
         arePiecesDraggable={false}
       />

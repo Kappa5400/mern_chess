@@ -13,6 +13,7 @@
     "test": "cross-env NODE_ENV=test node --experimental-vm-modules node_modules/jest/bin/jest.js --detectOpenHandles --forceExit"
   },
   "dependencies": {
+    "@lichess-org/pgn-viewer": "^2.5.4",
     "axios": "^1.13.2",
     "bcrypt": "^6.0.0",
     "compression": "^1.8.1",

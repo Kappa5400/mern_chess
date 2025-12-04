@@ -12,8 +12,22 @@ export function PuzzleListPage() {
   if (isLoading) return <p>Loading</p>;
   if (isError) return <p>Error</p>;
 
+  const fen_list = puzzles.map((p) => {
+    const fen = (() => {
+      try {
+        const g = new Chess();
+        g.loadPgn(p.pgn);
+        return g.fen();
+      } catch {
+        return "start";
+      }
+    })();
+    return { ...p, fen }; // id や pgn を保持
+  });
+
   for (let i = 0; i < 3; i++) {
-    console.log("Loop debug: ", puzzles[i].pgn);
+    console.log("Loop debug pgn: ", fen_list[i].pgn);
+    console.log("Fen: ", fen_list[i].fen);
   }
 
   return (
@@ -25,8 +39,8 @@ export function PuzzleListPage() {
         </div>
         <h1>Puzzle List</h1>
         <div className={styles.puzzleGrid}>
-          {puzzles.map((p) => (
-            <PuzzleCard key={p._id} id={p._id} pgn={p.pgn} />
+          {fen_list.map((p) => (
+            <PuzzleCard key={p._id} id={p._id} fen={p.fen} />
           ))}
         </div>
       </main>
