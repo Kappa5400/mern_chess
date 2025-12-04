@@ -9,6 +9,7 @@ export default function PuzzleCard({ id, fen }) {
     id: id,
     boardWidth: 220,
     arePiecesDraggable: false,
+    showAnimations: false,
   };
   return (
     <div className={styles.puzzlecard}>
