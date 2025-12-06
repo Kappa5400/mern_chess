@@ -33,17 +33,19 @@ puzzle list page functionality
     -component chessboard card that loads puzzle and data
         done
     add clicking navigate to puzzle
-    
+    done
 
 actual puzzle page
     -component for usable board, loads puzzle state, input validation and checking for answer
     -logic to check move is correct or not with chess.jest
     -score implimentation for correct solution on first try or 0 on fail 
-    -add component for puzzle date, if user made who made it, others if think of
     - Need to calc who move it is to show black or white to move
     - hard
 
     *I am here*
+
+user puzzle stuff
+    - making puzzle page, all that logic and setup
 
 scoreboard functionality
     -scoreboard component shows top 10 users pulled from api
@@ -59,6 +61,8 @@ make a puzzle page and functionality
     -component chessboard to make puzzle
     -impliment crud from chessboard state
     -hardest thing prob
+    --add component for puzzle date, if user made who made it, others if think of
+
 
 write about page
     -ez
