@@ -27,7 +27,8 @@ export function PuzzleListPage() {
 
   console.log("Fen list: ", fen_list);
 
-  for (let i = 0; i < 3; i++) {
+  //adjust length to puzzle amount in db
+  for (let i = 0; i < 2; i++) {
     console.log("Loop debug pgn: ", fen_list[i].pgn);
     console.log("Fen: ", fen_list[i].fen);
   }

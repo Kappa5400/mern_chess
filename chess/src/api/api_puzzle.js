@@ -19,7 +19,7 @@ export const getAllPuzzle = async () => {
 };
 
 export const getPuzzleById = async (_id) => {
-  const res = await fetch(`${BASE_URL}/api/v1/bypuzzleid/${_id}`, {
+  const res = await fetch(`${BASE_URL}/api/v1/puzzle/bypuzzleid/${_id}`, {
     headers: getHeaders(),
   });
   if (!res.ok) throw new Error("Failed to retreive single puzzle by id");

@@ -4,30 +4,29 @@ import { UserProfile } from "../components/userprofile_test.jsx";
 import styles from "./Index.module.css";
 import { usePuzzleFetchHook } from "../hooks/useFetchPuzzleHook.js";
 import { Chess } from "chess.js";
+import { useParams } from "react-router-dom";
+import { ChessboardPuzzle } from "../components/chessboard_puzzle.jsx";
 
-export function PuzzlePage(id) {
+export function PuzzlePage() {
+  const { id } = useParams();
+
   const { puzzle, isLoading, isError } = usePuzzleFetchHook(id);
 
   if (isLoading) return <p>Loading</p>;
   if (isError) return <p>Error</p>;
 
-  const puzzleWithFen = puzzle.map((p) => {
-    const fen = (() => {
-      try {
-        const g = new Chess();
-        g.loadPgn(p.pgn);
-        return String(g.fen());
-      } catch {
-        return "start";
-      }
-    })();
-    return { ...p, fen };
-  });
+  let fen = "";
 
-  console.log("puzzleWithFen: ", puzzleWithFen);
+  try {
+    const g = new Chess();
+    g.loadPgn(puzzle.pgn);
+    fen = String(g.fen());
+  } catch {
+    fen = "start";
+  }
 
-  console.log("Pgn: ", puzzleWithFen.pgn);
-  console.log("Fen: ", puzzleWithFen.fen);
+  console.log("Pgn: ", puzzle.pgn);
+  console.log("Fen: ", fen);
 
   return (
     <div className={styles.container}>
@@ -36,13 +35,9 @@ export function PuzzlePage(id) {
         <div className={styles.profileContainer}>
           <UserProfile />
         </div>
-        <h1>Puzzle List</h1>
+        <h1>Puzzle</h1>
         <div className={styles.puzzle}>
-          <chessboard_puzzle
-            key={puzzleWithFen._id}
-            id={puzzleWithFen._id}
-            fen={puzzleWithFen.fen}
-          />
+          <ChessboardPuzzle key={puzzle._id} id={puzzle._id} fen={fen} />
         </div>
       </main>
     </div>
