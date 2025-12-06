@@ -31,8 +31,8 @@ sign up and login page functionality
 
 puzzle list page functionality
     -component chessboard card that loads puzzle and data
-
-    *I am here*
+        done
+    add clicking navigate to puzzle
     
 
 actual puzzle page
@@ -42,6 +42,8 @@ actual puzzle page
     -add component for puzzle date, if user made who made it, others if think of
     - Need to calc who move it is to show black or white to move
     - hard
+
+    *I am here*
 
 scoreboard functionality
     -scoreboard component shows top 10 users pulled from api

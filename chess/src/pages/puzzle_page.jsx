@@ -1,28 +1,33 @@
-import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import ChessboardWithPGN from "../components/chessboard_puzzle.jsx";
-import { getPuzzleById } from "../api/api_puzzle.js";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import React from "react";
 import { SideBar } from "../components/sidebar.jsx";
 import { UserProfile } from "../components/userprofile_test.jsx";
 import styles from "./Index.module.css";
+import { usePuzzleFetchHook } from "../hooks/useFetchPuzzleHook.js";
+import { Chess } from "chess.js";
 
-export function PuzzlePage() {
-  const { game_id } = useParams();
-  const [pgn, setPGN] = useState(null);
+export function PuzzlePage(id) {
+  const { puzzle, isLoading, isError } = usePuzzleFetchHook(id);
 
-  useEffect(() => {
-    async function fetchPGN() {
+  if (isLoading) return <p>Loading</p>;
+  if (isError) return <p>Error</p>;
+
+  const puzzleWithFen = puzzle.map((p) => {
+    const fen = (() => {
       try {
-        const res = await fetch(getPuzzleById(game_id));
-        const data = await res.json();
-        setPGN(data.pgn);
-      } catch (err) {
-        console.error("Failed to get  pgn", err);
+        const g = new Chess();
+        g.loadPgn(p.pgn);
+        return String(g.fen());
+      } catch {
+        return "start";
       }
-    }
-    fetchPGN();
-  }, [game_id]);
+    })();
+    return { ...p, fen };
+  });
+
+  console.log("puzzleWithFen: ", puzzleWithFen);
+
+  console.log("Pgn: ", puzzleWithFen.pgn);
+  console.log("Fen: ", puzzleWithFen.fen);
 
   return (
     <div className={styles.container}>
@@ -31,9 +36,13 @@ export function PuzzlePage() {
         <div className={styles.profileContainer}>
           <UserProfile />
         </div>
-        <h2 className="text-xl font-bold mb-2">Puzzle #{game_id}</h2>
-        <div styles={{ maxWidth: "500px", margin: "0 auto" }}>
-          <ChessboardWithPGN pgn={pgn} />
+        <h1>Puzzle List</h1>
+        <div className={styles.puzzle}>
+          <chessboard_puzzle
+            key={puzzleWithFen._id}
+            id={puzzleWithFen._id}
+            fen={puzzleWithFen.fen}
+          />
         </div>
       </main>
     </div>

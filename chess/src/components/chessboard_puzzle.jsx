@@ -1,19 +1,23 @@
-import { useEffect, useState } from "react";
 import { Chessboard } from "react-chessboard";
-import { Chess } from "chess.js";
+import PropTypes from "prop-types";
+import styles from "./chessboard_puzzle.module.css";
 
-export default function ChessboardWithPGN({ pgn }) {
-  const [game, setGame] = useState(new Chess());
-
-  useEffect(() => {
-    const g = new Chess();
-    if (pgn) g.loadPgn(pgn);
-    setGame(g);
-  }, [pgn]);
-
+export default function Puzzle({ id, fen }) {
+  console.log("Fen inside component: ", fen);
+  const chessboardOptions = {
+    position: fen,
+    id: id,
+    boardWidth: 220,
+    arePiecesDraggable: false,
+    showAnimations: false,
+  };
   return (
-    <div style={{ maxWidth: "500px", margin: "0 auto" }}>
-      <Chessboard position={game.fen()} />;
+    <div className={styles.Puzzle}>
+      <Chessboard options={chessboardOptions} />
     </div>
   );
 }
+
+Puzzle.propTypes = {
+  fen: PropTypes.string,
+};

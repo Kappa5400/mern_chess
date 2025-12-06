@@ -1,0 +1,9 @@
+.Puzzle {
+  width: 700px;
+  max-width: 100%;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 12px 16px;
+  margin: 12px 0;
+  background: #fafafa;
+}
