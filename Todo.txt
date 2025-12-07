@@ -37,19 +37,19 @@ puzzle list page functionality
 
 actual puzzle page
     -component for usable board, loads puzzle state, input validation and checking for answer
-    -logic to check move is correct or not with chess.jest
+    -logic to check move is correct or not with chess and jest
     -score implimentation for correct solution on first try or 0 on fail 
     - Need to calc who move it is to show black or white to move
     - hard
 
     *I am here*
 
-user puzzle stuff
-    - making puzzle page, all that logic and setup
-
 scoreboard functionality
     -scoreboard component shows top 10 users pulled from api
     - chart component
+
+    note: Fix the password token being sent to the frontend
+    need to change api to only get user.username and user.score
 
 profile page functionality
     -page to show user puzzles

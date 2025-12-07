@@ -7,6 +7,8 @@ import { Login } from "./pages/login_page.jsx";
 import { Signup } from "./pages/signup_page.jsx";
 import { PuzzleListPage } from "./pages/PuzzleListPage.jsx";
 import { AuthContext, AuthContextProvider } from "./contexts/AuthContext.jsx";
+import { About } from "./pages/About.jsx";
+import { Scoreboard } from "./pages/Scoreboard.jsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -28,8 +30,8 @@ export function App() {
             <Route path="/today" element={<Index />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/list" element={<PuzzleListPage />} />
-            <Route path="/score" element={<Index />} />
-            <Route path="/about" element={<Index />} />
+            <Route path="/score" element={<Scoreboard />} />
+            <Route path="/about" element={<About />} />
             <Route path="/profile/:id" element={<Index />} />
           </Routes>
         </BrowserRouter>

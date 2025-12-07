@@ -28,6 +28,21 @@ export function PuzzlePage() {
   console.log("Pgn: ", puzzle.pgn);
   console.log("Fen: ", fen);
 
+  let whiteToMove = false;
+  const pgn = puzzle.pgn;
+  let moveCount = 0;
+  for (let i = 0; i < pgn.length; i++) {
+    if (pgn[i] == " ") {
+      moveCount++;
+    }
+  }
+
+  if (moveCount % 2 == 0) {
+    whiteToMove = true;
+  } else {
+    whiteToMove = false;
+  }
+
   return (
     <div className={styles.container}>
       <SideBar />
@@ -36,6 +51,7 @@ export function PuzzlePage() {
           <UserProfile />
         </div>
         <h1>Puzzle</h1>
+        <h2>{whiteToMove ? "White to move" : "Black to move"}</h2>
         <div className={styles.puzzle}>
           <ChessboardPuzzle key={puzzle._id} id={puzzle._id} fen={fen} />
         </div>
