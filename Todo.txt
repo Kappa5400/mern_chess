@@ -6,7 +6,7 @@ Done (remember auto delete add after 10  puzzle in db)`
 2. Input validation (look into joi or express-validator)
 joi implimented 
 
-testing surface
+
 3. Logging (look into winston or morgon, or just morgan)
 
 
