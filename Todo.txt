@@ -35,6 +35,9 @@ puzzle list page functionality
     add clicking navigate to puzzle
     done
 
+    to do 
+    add date above boards
+
 actual puzzle page
     -component for usable board, loads puzzle state, input validation and checking for answer
     -logic to check move is correct or not with chess and jest
@@ -48,15 +51,14 @@ scoreboard functionality
     -scoreboard component shows top 10 users pulled from api
     - chart component
 
-    note: Fix the password token being sent to the frontend
-    need to change api to only get user.username and user.score
+    done
 
 profile page functionality
     -page to show user puzzles
     -show user score
     -show where user is in scoreboard?
 
-make a puzzle page and functionality
+make a user puzzle page and functionality
     -page to create user puzzle
     -component chessboard to make puzzle
     -impliment crud from chessboard state

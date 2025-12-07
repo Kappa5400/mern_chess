@@ -8,9 +8,9 @@ export function SideBar() {
     { name: "Home", url: "/" },
     { name: "Login", url: "/login" },
     { name: "Sign up", url: "/signup" },
-    { name: "Today's Puzzle", url: "/today" },
     { name: "Puzzle List", url: "/list" },
     { name: "Scoreboard", url: "/score" },
+    { name: "User puzzles", url: "/userpuzzlelist" },
     { name: "About", url: "/about" },
   ];
 
