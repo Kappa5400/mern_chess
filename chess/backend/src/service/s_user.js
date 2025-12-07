@@ -32,7 +32,10 @@ export async function raiseUserScore(userID) {
 
 export async function getTopUsers() {
   try {
-    const topUsers = await User.find({}).sort({ score: -1 }).limit(5);
+    const topUsers = await User.find({})
+      .sort({ score: -1 })
+      .limit(5)
+      .select({ username: 1, score: 1, _id: 0 });
     return topUsers;
   } catch (err) {
     logger.info("Error getting top users : ", err);
