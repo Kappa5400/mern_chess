@@ -1,51 +1,57 @@
-import { useCallback } from "react";
+import { Chess } from "chess.js";
+import { Chessboard } from "react-chessboard";
+import { useRef, useState } from "react";
 
-export function useChessPieceDrop(
-  chessGameRef,
-  setChessPosition,
-  whiteToMove,
-  onMoveSuccess
-) {
-  // onPieceDropをuseCallbackでメモ化
-  const onPieceDrop = useCallback(
-    (sourceSquare, targetSquare) => {
-      const game = chessGameRef.current;
+export function useOnPieceDrop({ sourceSquare, targetSquare }) {
+  const chessGameRef = useRef(new Chess());
+  const chessGame = chessGameRef.current;
 
-      // 1. 手番チェック (Turn Guard)
-      // ゲーム内の手番と、プレイヤーの色(whiteToMove)が一致しなければ動かせない
-      const isWhiteTurn = game.turn() === "w";
-      if ((isWhiteTurn && !whiteToMove) || (!isWhiteTurn && whiteToMove)) {
-        return false;
-      }
+  // track the current position of the chess game in state to trigger a re-render of the chessboard
+  const [setChessPosition] = useState(chessGame.fen());
 
-      try {
-        // 2. 移動の実行 (Attempt Move)
-        const move = game.move({
-          from: sourceSquare,
-          to: targetSquare,
-          promotion: "q", // 簡易化のため常にクイーンに昇格
-        });
+  // make a random "CPU" move
+  function makeRandomMove() {
+    // get all possible moves`
+    const possibleMoves = chessGame.moves();
 
-        // 無効な手なら false を返す (盤面のスナップバック)
-        if (move === null) return false;
+    // exit if the game is over
+    if (chessGame.isGameOver()) {
+      return;
+    }
 
-        // 3. 状態更新 (Update State)
-        // 成功した場合のみ盤面を更新
-        setChessPosition(game.fen());
+    // pick a random move
+    const randomMove =
+      possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
 
-        // 4. 追加アクションのトリガー (Trigger callback)
-        // 例: パズルの正解判定や、CPUの着手などを呼び出す
-        if (onMoveSuccess) {
-          onMoveSuccess(move);
-        }
+    // make the move
+    chessGame.move(randomMove);
 
-        return true;
-      } catch (e) {
-        return false;
-      }
-    },
-    [chessGameRef, setChessPosition, whiteToMove, onMoveSuccess]
-  );
+    // update the position state
+    setChessPosition(chessGame.fen());
+  }
+  // type narrow targetSquare potentially being null (e.g. if dropped off board)
+  if (!targetSquare) {
+    return false;
+  }
 
-  return onPieceDrop;
+  // try to make the move according to chess.js logic
+  try {
+    chessGame.move({
+      from: sourceSquare,
+      to: targetSquare,
+      promotion: "q", // always promote to a queen for example simplicity
+    });
+
+    // update the position state upon successful move to trigger a re-render of the chessboard
+    setChessPosition(chessGame.fen());
+
+    // make random cpu move after a short delay
+    setTimeout(makeRandomMove, 500);
+
+    // return true as the move was successful
+    return true;
+  } catch {
+    // return false as the move was not successful
+    return false;
+  }
 }
