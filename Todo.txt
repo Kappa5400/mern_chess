@@ -45,7 +45,7 @@ actual puzzle page
     - Need to calc who move it is to show black or white to move
     - hard
 
-    *I am here*
+   
 
 scoreboard functionality
     -scoreboard component shows top 10 users pulled from api
@@ -53,10 +53,7 @@ scoreboard functionality
 
     done
 
-profile page functionality
-    -page to show user puzzles
-    -show user score
-    -show where user is in scoreboard?
+
 
 make a user puzzle page and functionality
     -page to create user puzzle
@@ -65,6 +62,12 @@ make a user puzzle page and functionality
     -hardest thing prob
     --add component for puzzle date, if user made who made it, others if think of
 
+ *I am here*
+
+profile page functionality
+    -page to show user puzzles
+    -show user score
+    -show where user is in scoreboard?
 
 write about page
     -ez

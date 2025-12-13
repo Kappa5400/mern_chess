@@ -5,7 +5,6 @@ import { useRef, useState, useEffect } from "react";
 import { Chess } from "chess.js";
 import { useRaiseScore } from "../hooks/useRaiseScoreHook";
 
-
 export function ChessboardPuzzle({
   // eslint-disable-next-line
   id,
@@ -38,7 +37,8 @@ export function ChessboardPuzzle({
     movesRef.current = movesArray.map((moveStr) => {
       const from = moveStr.slice(0, 2);
       const to = moveStr.slice(2, 4);
-      return { from, to };
+      const promote = moveStr.slice(5);
+      return { from, to, promote };
     });
 
     gameRef.current = new Chess(fen);
@@ -57,6 +57,8 @@ export function ChessboardPuzzle({
       onWrongMove?.();
       return false;
     }
+
+    // need to handle promotion logic
 
     game.move({ from: sourceSquare, to: targetSquare, promotion: "q" });
     setPosition(game.fen());
