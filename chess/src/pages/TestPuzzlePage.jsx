@@ -38,9 +38,9 @@ export function TestPuzzlePage() {
   }
 
   if (moveCount % 2 == 0) {
-    whiteToMove = true;
-  } else {
     whiteToMove = false;
+  } else {
+    whiteToMove = true;
   }
 
   return (
@@ -50,6 +50,7 @@ export function TestPuzzlePage() {
         <div className={styles.profileContainer}>
           <UserProfile />
         </div>
+        <h1>Test</h1>
         <h1>Puzzle</h1>
         <h2>{whiteToMove ? "White to move" : "Black to move"}</h2>
         <div className={styles.puzzle}>
@@ -57,6 +58,7 @@ export function TestPuzzlePage() {
             key={puzzle._id}
             id={puzzle._id}
             fen={fen}
+            whiteToMove={whiteToMove}
             answer={puzzle.answer}
           />
         </div>

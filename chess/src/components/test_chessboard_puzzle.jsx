@@ -10,15 +10,17 @@ export function TestChessboardPuzzle({ id, fen, whiteToMove, answer }) {
 
   const gameRef = useRef(null);
   const movesRef = useRef([]);
+  let puzzleLen = (answer.length - 4) / 5 + 1;
 
-  // 初期化 & 手順生成
   useEffect(() => {
     const game = new Chess(fen);
 
-    // answer が文字列の場合は空白で分割
     const movesArray = typeof answer === "string" ? answer.split(" ") : answer;
 
-    console.log("Ans: ", answer);
+    const puzzleLen = movesArray.length;
+    console.log("White to move: ", whiteToMove);
+    console.log("Ans: ", movesArray);
+    console.log("Ans  len: ", puzzleLen);
 
     movesRef.current = movesArray.map((moveStr) => {
       const from = moveStr.slice(0, 2);
@@ -31,11 +33,13 @@ export function TestChessboardPuzzle({ id, fen, whiteToMove, answer }) {
     setCurrentMoveIndex(0);
   }, [fen, answer]);
 
-  // 駒移動
   function onPieceDrop({ sourceSquare, targetSquare }) {
     const game = gameRef.current;
     const required = movesRef.current[currentMoveIndex];
-    if (!game || !required) return false;
+    if (!game || !required) {
+      console.log("Win");
+      return false;
+    }
 
     if (required.from !== sourceSquare || required.to !== targetSquare)
       return false;
@@ -49,14 +53,22 @@ export function TestChessboardPuzzle({ id, fen, whiteToMove, answer }) {
       if (!cpu) return;
       game.move(cpu);
       setPosition(game.fen());
-      setCurrentMoveIndex((i) => i + 2);
+      setCurrentMoveIndex((i) => i + 1);
     }, 200);
+    console.log(currentMoveIndex);
+    console.log("Puzzle len: ", puzzleLen);
+    if (currentMoveIndex == puzzleLen - 1) {
+      console.log("win");
+    }
 
     return true;
   }
 
   function canDragPiece({ piece }) {
-    return piece.pieceType[0] === "w";
+    if (whiteToMove == true) {
+      return piece.pieceType[0] === "w";
+    }
+    return piece.pieceType[0] === "b";
   }
 
   const chessboardOptions = {
