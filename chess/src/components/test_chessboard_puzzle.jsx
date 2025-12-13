@@ -13,10 +13,12 @@ export function TestChessboardPuzzle({ id, fen, whiteToMove, answer }) {
 
   // 初期化 & 手順生成
   useEffect(() => {
-    const game = new Chess();
+    const game = new Chess(fen);
 
     // answer が文字列の場合は空白で分割
     const movesArray = typeof answer === "string" ? answer.split(" ") : answer;
+
+    console.log("Ans: ", answer);
 
     movesRef.current = movesArray.map((moveStr) => {
       const from = moveStr.slice(0, 2);
@@ -57,16 +59,17 @@ export function TestChessboardPuzzle({ id, fen, whiteToMove, answer }) {
     return piece.pieceType[0] === "w";
   }
 
+  const chessboardOptions = {
+    position: position,
+    onPieceDrop: onPieceDrop,
+    boardWidth: 700,
+    canDragPiece,
+    boardOrientation: whiteToMove ? "white" : "black",
+  };
+
   return (
     <div className={styles.Puzzle}>
-      <Chessboard
-        id={id}
-        position={position}
-        onPieceDrop={onPieceDrop}
-        canDragPiece={canDragPiece}
-        boardWidth={700}
-        boardOrientation={whiteToMove ? "white" : "black"}
-      />
+      <Chessboard options={chessboardOptions} />
     </div>
   );
 }
