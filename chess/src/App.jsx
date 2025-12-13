@@ -9,6 +9,7 @@ import { PuzzleListPage } from "./pages/PuzzleListPage.jsx";
 import { AuthContext, AuthContextProvider } from "./contexts/AuthContext.jsx";
 import { About } from "./pages/About.jsx";
 import { Scoreboard } from "./pages/Scoreboard.jsx";
+import { TestPuzzlePage } from "./pages/TestPuzzlePage.jsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,6 +35,7 @@ export function App() {
             <Route path="/about" element={<About />} />
             <Route path="/profile/:id" element={<Index />} />
             <Route path="/userpuzzlelist" element={<Index />} />
+            <Route path="/test/:id" element={<TestPuzzlePage />} />
           </Routes>
         </BrowserRouter>
       </AuthContextProvider>

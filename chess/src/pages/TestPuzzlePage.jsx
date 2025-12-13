@@ -5,7 +5,7 @@ import styles from "./Index.module.css";
 import { usePuzzleFetchHook } from "../hooks/useFetchPuzzleHook.js";
 import { Chess } from "chess.js";
 import { useParams } from "react-router-dom";
-import { ChessboardPuzzle } from "../components/chessboard_puzzle.jsx";
+import { TestChessboardPuzzle } from "../components/test_chessboard_puzzle.jsx";
 
 export function TestPuzzlePage() {
   const { id } = useParams();
@@ -53,7 +53,12 @@ export function TestPuzzlePage() {
         <h1>Puzzle</h1>
         <h2>{whiteToMove ? "White to move" : "Black to move"}</h2>
         <div className={styles.puzzle}>
-          <ChessboardPuzzle key={puzzle._id} id={puzzle._id} fen={fen} />
+          <TestChessboardPuzzle
+            key={puzzle._id}
+            id={puzzle._id}
+            fen={fen}
+            answer={puzzle.answer}
+          />
         </div>
       </main>
     </div>
