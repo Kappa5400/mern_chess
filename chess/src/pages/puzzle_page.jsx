@@ -6,11 +6,14 @@ import { usePuzzleFetchHook } from "../hooks/useFetchPuzzleHook.js";
 import { Chess } from "chess.js";
 import { useParams } from "react-router-dom";
 import { ChessboardPuzzle } from "../components/chessboard_puzzle.jsx";
+import { useState } from "react";
 
 export function PuzzlePage() {
   const { id } = useParams();
-
   const { puzzle, isLoading, isError } = usePuzzleFetchHook(id);
+
+  const [solved, setSolved] = useState(false);
+  const [wrongMove, setWrongMove] = useState(false);
 
   if (isLoading) return <p>Loading</p>;
   if (isError) return <p>Error</p>;
@@ -50,9 +53,14 @@ export function PuzzlePage() {
         <div className={styles.profileContainer}>
           <UserProfile />
         </div>
-        <h1>Test</h1>
         <h1>Puzzle</h1>
         <h2>{whiteToMove ? "White to move" : "Black to move"}</h2>
+        <h1>
+          {solved && wrongMove ? "Complete!" : ""}
+          {solved && !wrongMove ? "Complete!" : ""}
+          {wrongMove && !solved ? "Try another move." : ""}
+        </h1>
+
         <div className={styles.puzzle}>
           <ChessboardPuzzle
             key={puzzle._id}
@@ -60,6 +68,8 @@ export function PuzzlePage() {
             fen={fen}
             whiteToMove={whiteToMove}
             answer={puzzle.answer}
+            onSolved={() => setSolved(true)}
+            onWrongMove={() => setWrongMove(true)}
           />
         </div>
       </main>
