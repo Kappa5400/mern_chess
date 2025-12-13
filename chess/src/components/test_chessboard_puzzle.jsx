@@ -4,6 +4,7 @@ import styles from "./chessboard_puzzle.module.css";
 import { useRef, useState, useEffect } from "react";
 import { Chess } from "chess.js";
 
+// eslint-disable-next-line
 export function TestChessboardPuzzle({ id, fen, whiteToMove, answer }) {
   const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
   const [position, setPosition] = useState(fen);
@@ -13,6 +14,7 @@ export function TestChessboardPuzzle({ id, fen, whiteToMove, answer }) {
   let puzzleLen = (answer.length - 4) / 5 + 1;
 
   useEffect(() => {
+    // eslint-disable-next-line
     const game = new Chess(fen);
 
     const movesArray = typeof answer === "string" ? answer.split(" ") : answer;
@@ -31,6 +33,7 @@ export function TestChessboardPuzzle({ id, fen, whiteToMove, answer }) {
     gameRef.current = new Chess(fen);
     setPosition(fen);
     setCurrentMoveIndex(0);
+    // eslint-disable-next-line
   }, [fen, answer]);
 
   function onPieceDrop({ sourceSquare, targetSquare }) {

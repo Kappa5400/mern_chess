@@ -10,6 +10,7 @@ export function Profile({ name }) {
 
   if (token) {
     const { sub } = jwtDecode(token);
+    //delete below
     console.log("Raw token string:", token);
 
     return (
