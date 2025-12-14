@@ -56,8 +56,8 @@ export function PuzzlePage() {
         <h1>Puzzle</h1>
         <h2>{whiteToMove ? "White to move" : "Black to move"}</h2>
         <h1>
-          {solved && wrongMove ? "Complete!" : ""}
-          {solved && !wrongMove ? "Complete!" : ""}
+          {solved && wrongMove ? "Complete! Plus one point!" : ""}
+          {solved && !wrongMove ? "Complete! Plus one point!" : ""}
           {wrongMove && !solved ? "Try another move." : ""}
         </h1>
 

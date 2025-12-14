@@ -1,15 +1,24 @@
-import { Chessboard } from "react-chessboard";
+import { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
-import { useRef, useState, useEffect } from "react";
 import { Chess } from "chess.js";
 import {
-  defaultPieces,
+  Chessboard,
   ChessboardProvider,
   SparePiece,
+  defaultPieces,
 } from "react-chessboard";
 import styles from "./chessboard_puzzle.module.css";
 
 export function MakeUserPuzzleBoard() {
+  // --- State Definitions ---
+  // FENの各要素を管理するためのState
+  const [colorToMove, setColorToMove] = useState("w");
+  const [whiteCastle, setWhiteCastle] = useState("KQ");
+  const [blackCastle, setBlackCastle] = useState("kq");
+  const [isEpEnabled, setIsEpEnabled] = useState("false"); // "true" or "false" (string for select)
+  const [epSquare, setEpSquare] = useState("-");
+
+  // Chess instance
   const chessGameRef = useRef(
     new Chess("8/8/8/8/8/8/8/8 w - - 0 1", {
       skipValidation: true,
@@ -17,12 +26,87 @@ export function MakeUserPuzzleBoard() {
   );
   const chessGame = chessGameRef.current;
 
-  // track the current position of the chess game in state to trigger a re-render of the chessboard
+  // Board position state
   const [chessPosition, setChessPosition] = useState(chessGame.fen());
-
   const [squareWidth, setSquareWidth] = useState(null);
 
-  // get the width of a square to use for the spare piece sizes
+  // --- Helpers ---
+
+  // 汎用的なFEN更新関数: 指定したインデックスのパーツだけ書き換える
+  const updateFenPart = (index, newValue) => {
+    const fenParts = chessGame.fen().split(" ");
+    fenParts[index] = newValue;
+    const newFen = fenParts.join(" ");
+
+    // chess.jsとReact Stateの両方を更新
+    try {
+      chessGame.load(newFen);
+      setChessPosition(newFen);
+    } catch (error) {
+      console.error("Invalid FEN:", newFen);
+    }
+  };
+
+  // --- Handlers ---
+
+  const handleColorChange = (e) => {
+    const newColor = e.target.value;
+    setColorToMove(newColor);
+
+    // 手番が変わるとアンパッサンの有効段が変わるため、EPはリセットするのが安全です
+    setIsEpEnabled("false");
+    setEpSquare("-");
+
+    // FEN更新 (Index 1: Active Color, Index 3: EP target reset to "-")
+    const fenParts = chessGame.fen().split(" ");
+    fenParts[1] = newColor;
+    fenParts[3] = "-";
+    const newFen = fenParts.join(" ");
+    chessGame.load(newFen);
+    setChessPosition(newFen);
+  };
+
+  const handleWhiteCastleChange = (e) => {
+    const newWhite = e.target.value;
+    setWhiteCastle(newWhite);
+
+    // 現在の黒の権利と結合
+    let newCastling = newWhite + blackCastle;
+    if (newCastling === "") newCastling = "-";
+
+    updateFenPart(2, newCastling);
+  };
+
+  const handleBlackCastleChange = (e) => {
+    const newBlack = e.target.value;
+    setBlackCastle(newBlack);
+
+    // 現在の白の権利と結合
+    let newCastling = whiteCastle + newBlack;
+    if (newCastling === "") newCastling = "-";
+
+    updateFenPart(2, newCastling);
+  };
+
+  const handleEnPassantToggle = (e) => {
+    const enabled = e.target.value;
+    setIsEpEnabled(enabled);
+
+    if (enabled === "false") {
+      setEpSquare("-");
+      updateFenPart(3, "-");
+    }
+    // "true"にした直後はまだスクエア未定なのでFENは更新しないか、"-"のまま待機
+  };
+
+  const handleEpTargetChange = (e) => {
+    const target = e.target.value;
+    setEpSquare(target);
+    updateFenPart(3, target);
+  };
+
+  // --- Drag & Drop Logic ---
+
   useEffect(() => {
     const square = document
       .querySelector(`[data-column="a"][data-row="1"]`)
@@ -30,35 +114,22 @@ export function MakeUserPuzzleBoard() {
     setSquareWidth(square?.width ?? null);
   }, []);
 
-  // handle piece drop
   function onPieceDrop({ sourceSquare, targetSquare, piece }) {
     const color = piece.pieceType[0];
     const type = piece.pieceType[1].toLowerCase();
 
-    // if the piece is dropped off the board, we need to remove it from the board
     if (!targetSquare) {
       chessGame.remove(sourceSquare);
       setChessPosition(chessGame.fen());
-
-      // successful drop off board
       return true;
     }
 
-    // if the piece is not a spare piece, we need to remove it from it's original square
     if (!piece.isSparePiece) {
       chessGame.remove(sourceSquare);
     }
 
-    // try to place the piece on the board
-    const success = chessGame.put(
-      {
-        color: color,
-        type: type,
-      },
-      targetSquare
-    );
+    const success = chessGame.put({ color, type }, targetSquare);
 
-    // show error message if cannot place another king
     if (!success) {
       alert(
         `The board already contains a ${
@@ -68,24 +139,20 @@ export function MakeUserPuzzleBoard() {
       return false;
     }
 
-    // update the game state and return true if successful
     setChessPosition(chessGame.fen());
     return true;
   }
 
-  // get the piece types for the black and white spare pieces
-  const blackPieceTypes = [];
-  const whitePieceTypes = [];
+  // --- Render Helpers ---
 
-  for (const pieceType of Object.keys(defaultPieces)) {
-    if (pieceType[0] === "b") {
-      blackPieceTypes.push(pieceType);
-    } else {
-      whitePieceTypes.push(pieceType);
-    }
-  }
+  const blackPieceTypes = Object.keys(defaultPieces).filter(
+    (p) => p[0] === "b"
+  );
+  const whitePieceTypes = Object.keys(defaultPieces).filter(
+    (p) => p[0] === "w"
+  );
+  const files = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
-  // set the chessboard options
   const chessboardOptions = {
     position: chessPosition,
     onPieceDrop,
@@ -95,7 +162,8 @@ export function MakeUserPuzzleBoard() {
   return (
     <div className={styles.Puzzle}>
       <ChessboardProvider className={styles.Puzzle} options={chessboardOptions}>
-        {squareWidth ? (
+        {/* Black Spares */}
+        {squareWidth && (
           <div
             style={{
               display: "grid",
@@ -116,11 +184,12 @@ export function MakeUserPuzzleBoard() {
               </div>
             ))}
           </div>
-        ) : null}
+        )}
 
         <Chessboard />
 
-        {squareWidth ? (
+        {/* White Spares */}
+        {squareWidth && (
           <div
             style={{
               display: "grid",
@@ -141,14 +210,123 @@ export function MakeUserPuzzleBoard() {
               </div>
             ))}
           </div>
-        ) : null}
+        )}
       </ChessboardProvider>
+
+      {/* --- Controls Form --- */}
+      <div style={{ marginTop: "20px", fontFamily: "sans-serif" }}>
+        {/* 1. Color to Move */}
+        <div style={{ marginBottom: "10px" }}>
+          <strong>Color to move: </strong>
+          <label style={{ marginLeft: "10px" }}>
+            <input
+              type="radio"
+              name="colorToMove"
+              value="w"
+              checked={colorToMove === "w"}
+              onChange={handleColorChange}
+            />
+            White
+          </label>
+          <label style={{ marginLeft: "10px" }}>
+            <input
+              type="radio"
+              name="colorToMove"
+              value="b"
+              checked={colorToMove === "b"}
+              onChange={handleColorChange}
+            />
+            Black
+          </label>
+        </div>
+
+        {/* 2. Castling Rights */}
+        <div style={{ marginBottom: "10px" }}>
+          <label>
+            White Castle:
+            <select
+              value={whiteCastle}
+              onChange={handleWhiteCastleChange}
+              style={{ marginLeft: "5px", marginRight: "15px" }}
+            >
+              <option value="KQ">King & Queen (KQ)</option>
+              <option value="K">King side (K)</option>
+              <option value="Q">Queen side (Q)</option>
+              <option value="">None</option>
+            </select>
+          </label>
+
+          <label>
+            Black Castle:
+            <select
+              value={blackCastle}
+              onChange={handleBlackCastleChange}
+              style={{ marginLeft: "5px" }}
+            >
+              <option value="kq">King & Queen (kq)</option>
+              <option value="k">King side (k)</option>
+              <option value="q">Queen side (q)</option>
+              <option value="">None</option>
+            </select>
+          </label>
+        </div>
+
+        {/* 3. En Passant */}
+        <div>
+          <label>
+            En Passant Available?
+            <select
+              value={isEpEnabled}
+              onChange={handleEnPassantToggle}
+              style={{ marginLeft: "5px" }}
+            >
+              <option value="false">No</option>
+              <option value="true">Yes</option>
+            </select>
+          </label>
+
+          {/* 条件付きレンダリング: Yesの場合のみターゲット選択を表示 */}
+          {isEpEnabled === "true" && (
+            <label style={{ marginLeft: "15px" }}>
+              Target Square:
+              <select
+                value={epSquare}
+                onChange={handleEpTargetChange}
+                style={{ marginLeft: "5px" }}
+              >
+                <option value="-">Select...</option>
+                {files.map((file) => {
+                  // White番なら相手(黒)が動いた直後なのでRank 6、Black番ならRank 3
+                  const rank = colorToMove === "w" ? 6 : 3;
+                  const sq = `${file}${rank}`;
+                  return (
+                    <option key={sq} value={sq}>
+                      {sq}
+                    </option>
+                  );
+                })}
+              </select>
+            </label>
+          )}
+        </div>
+
+        {/* Debug: 現在のFENを表示 (開発中のみ便利) */}
+        <div
+          style={{
+            marginTop: "15px",
+            padding: "10px",
+            background: "#f0f0f0",
+            fontSize: "0.8em",
+            wordBreak: "break-all",
+          }}
+        >
+          <strong>FEN:</strong> {chessPosition}
+        </div>
+      </div>
     </div>
   );
 }
 
 MakeUserPuzzleBoard.propTypes = {
-  fen: PropTypes.string.isRequired,
-  answer: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,
-  whiteToMove: PropTypes.bool.isRequired,
+  // 必要に応じて追加
 };
