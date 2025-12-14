@@ -21,13 +21,14 @@ export function ChessboardPuzzle({
 
   const gameRef = useRef(null);
   const movesRef = useRef([]);
-  let puzzleLen = (answer.length - 4) / 5 + 1;
+  let puzzleLen = Math.floor((answer.length - 4) / 5 + 1);
 
   useEffect(() => {
     // eslint-disable-next-line
     const game = new Chess(fen);
 
-    const movesArray = typeof answer === "string" ? answer.split(" ") : answer;
+    const movesArray =
+      typeof answer === "string" ? answer.match(/.{1,5}/g) ?? [] : answer;
 
     const puzzleLen = movesArray.length;
     console.log("White to move: ", whiteToMove);
@@ -37,7 +38,7 @@ export function ChessboardPuzzle({
     movesRef.current = movesArray.map((moveStr) => {
       const from = moveStr.slice(0, 2);
       const to = moveStr.slice(2, 4);
-      const promote = moveStr.slice(5);
+      const promote = moveStr[4] !== " " ? moveStr[4] : undefined;
       return { from, to, promote };
     });
 
@@ -60,7 +61,11 @@ export function ChessboardPuzzle({
 
     // need to handle promotion logic
 
-    game.move({ from: sourceSquare, to: targetSquare, promotion: "q" });
+    game.move({
+      from: sourceSquare,
+      to: targetSquare,
+      promotion: required.promote,
+    });
     setPosition(game.fen());
     setCurrentMoveIndex((i) => i + 1);
 
@@ -71,7 +76,7 @@ export function ChessboardPuzzle({
       setPosition(game.fen());
       setCurrentMoveIndex((i) => i + 1);
     }, 200);
-    console.log(currentMoveIndex);
+    console.log("Current move index: ", currentMoveIndex);
     console.log("Puzzle len: ", puzzleLen);
     if (currentMoveIndex == puzzleLen - 1) {
       console.log("Win");
