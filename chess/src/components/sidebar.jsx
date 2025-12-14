@@ -10,7 +10,7 @@ export function SideBar() {
     { name: "Sign up", url: "/signup" },
     { name: "Puzzle List", url: "/list" },
     { name: "Scoreboard", url: "/score" },
-    { name: "User puzzles", url: "/userpuzzlelist" },
+    { name: "User puzzles", url: "/makeuserpuzzle" },
     { name: "About", url: "/about" },
   ];
 
