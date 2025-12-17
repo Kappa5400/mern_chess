@@ -1,5 +1,4 @@
 import { useState, useRef, useEffect } from "react";
-import PropTypes from "prop-types";
 import { Chess } from "chess.js";
 import {
   Chessboard,
@@ -17,6 +16,8 @@ export function MakeUserPuzzleBoard() {
   const [blackCastle, setBlackCastle] = useState("kq");
   const [isEpEnabled, setIsEpEnabled] = useState("false"); // "true" or "false" (string for select)
   const [epSquare, setEpSquare] = useState("-");
+  const [answerInput, setPuzzleAnswer] = useState("");
+  const [puzzleRating, setPuzzleRating] = useState("");
 
   // Chess instance
   const chessGameRef = useRef(
@@ -103,6 +104,40 @@ export function MakeUserPuzzleBoard() {
     const target = e.target.value;
     setEpSquare(target);
     updateFenPart(3, target);
+  };
+
+  const handlePuzzleRatingChange = (e) => {
+    const target = e.target.value;
+    if (target === "") {
+      setPuzzleRating("");
+      return;
+    }
+
+    if (!/^\d+$/.test(target)) return;
+
+    const num = Number(target);
+    if (num > 3000 || target < 0) {
+      return;
+    }
+    setPuzzleRating(target);
+  };
+
+  const handlePuzzleAnswer = (e) => {
+    const target = e.target.value;
+    setPuzzleAnswer(target);
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!answerInput) return alert("Enter an answer");
+    if (!puzzleRating) return alert("Rating is required");
+
+    const payload = {
+      fen: chessPosition,
+      pgn: answerInput,
+      rating: Number(puzzleRating),
+    };
+    console.log("Submitting: ", payload);
   };
 
   // --- Drag & Drop Logic ---
@@ -309,7 +344,30 @@ export function MakeUserPuzzleBoard() {
             </label>
           )}
         </div>
+        <br />
+        <form onSubmit={handleSubmit}>
+          <label>
+            Type answer pgn:
+            <input
+              type="text"
+              value={answerInput}
+              onChange={handlePuzzleAnswer}
+            />
+          </label>
+          <br />
+          <br />
+          <label>
+            Type puzzle rating:
+            <input
+              type="text"
+              value={puzzleRating}
+              onChange={handlePuzzleRatingChange}
+            />
+          </label>
 
+          <br />
+          <button type="submit">Submit Puzzle</button>
+        </form>
         {/* Debug: 現在のFENを表示 (開発中のみ便利) */}
         <div
           style={{
