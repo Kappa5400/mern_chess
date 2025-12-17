@@ -7,10 +7,13 @@ import {
   defaultPieces,
 } from "react-chessboard";
 import styles from "./chessboard_puzzle.module.css";
+import { createUserPuzzle } from "../api/api_user_puzzle";
+import { useNavigate } from "react-router-dom";
 
 export function MakeUserPuzzleBoard() {
   // --- State Definitions ---
   // FENの各要素を管理するためのState
+  const navigate = useNavigate();
   const [colorToMove, setColorToMove] = useState("w");
   const [whiteCastle, setWhiteCastle] = useState("KQ");
   const [blackCastle, setBlackCastle] = useState("kq");
@@ -127,17 +130,33 @@ export function MakeUserPuzzleBoard() {
     setPuzzleAnswer(target);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!answerInput) return alert("Enter an answer");
     if (!puzzleRating) return alert("Rating is required");
 
+    const token = localStorage.getItem("token");
+    if (!token) {
+      alert("You must be logged in to save puzzle.");
+      return;
+    }
+
     const payload = {
       fen: chessPosition,
-      pgn: answerInput,
+      answer: answerInput,
       rating: Number(puzzleRating),
     };
+
     console.log("Submitting: ", payload);
+
+    try {
+      await createUserPuzzle(payload);
+      alert("Puzzle saved to data base.");
+      navigate("/");
+    } catch (error) {
+      console.log("Error submitting to database: ", error);
+      alert("Error: couldn't save puzzle.");
+    }
   };
 
   // --- Drag & Drop Logic ---

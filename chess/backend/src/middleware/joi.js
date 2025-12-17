@@ -1,10 +1,9 @@
 import Joi from "joi";
 
 export const createPuzzleSchema = Joi.object({
-  pgn: Joi.string().min(1).required(),
+  fen: Joi.string().min(1).required(),
   answer: Joi.string().required(),
   rating: Joi.number().integer().min(0).max(2900).required(),
-  date: Joi.date(),
 });
 
 export const updatePuzzleSchema = Joi.object({

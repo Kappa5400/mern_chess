@@ -30,11 +30,11 @@ export const getPuzzleByPuzzleID = async (puzzleID) => {
   return await res.json();
 };
 
-export const createUserPuzzle = async (Userid, pgn, answer, rating) => {
+export const createUserPuzzle = async ({ fen, answer, rating }) => {
   const res = await fetch(`${BASE_URL}api/v1/userpuzzle/createuserpuzzle`, {
     method: "POST",
     headers: getHeaders(),
-    body: JSON.stringify({ user: Userid, pgn, answer, rating }),
+    body: JSON.stringify({ fen: fen, answer: answer, rating: rating }),
   });
   if (!res.ok) throw new Error("Failed to create user puzzle");
   return await res.json();

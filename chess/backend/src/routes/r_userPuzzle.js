@@ -142,10 +142,10 @@ export function userPuzzleRoutes(app) {
     validate(createUserPuzzleSchema),
     async (req, res) => {
       const id = req.auth.sub;
-      const { pgn, answer, date, rating } = req.body;
+      const { fen, answer, rating } = req.body;
       const data = {
         user: id,
-        pgn: pgn,
+        fen: fen,
         answer: answer,
         rating: rating,
       };

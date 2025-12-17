@@ -60,7 +60,7 @@ export async function createUserPuzzle(data) {
   try {
     const createdPuzzle = new UserPuzzle({
       user: data.user,
-      pgn: data.pgn,
+      fen: data.fen,
       answer: data.answer,
       rating: data.rating,
     });

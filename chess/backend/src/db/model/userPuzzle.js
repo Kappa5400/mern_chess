@@ -7,7 +7,7 @@ const userPuzzleSchema = new Schema(
       ref: "user",
       required: true,
     },
-    pgn: { type: String, required: true },
+    fen: { type: String, required: true },
     answer: { type: String, required: true },
     rating: { type: Number, required: true },
   },
