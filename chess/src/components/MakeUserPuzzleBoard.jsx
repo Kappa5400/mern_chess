@@ -23,10 +23,12 @@ export function MakeUserPuzzleBoard() {
   const [epSquare, setEpSquare] = useState("-");
   const [answerInput, setPuzzleAnswer] = useState("");
   const [puzzleRating, setPuzzleRating] = useState("");
+  // eslint-disable-next-line
   const [token, setToken] = useAuth();
 
   //auth handle
   if (token) {
+    // eslint-disable-next-line
     const { sub } = jwtDecode(token);
   }
   // Chess instance
@@ -53,6 +55,7 @@ export function MakeUserPuzzleBoard() {
     try {
       chessGame.load(newFen);
       setChessPosition(newFen);
+      // eslint-disable-next-line
     } catch (error) {
       console.error("Invalid FEN:", newFen);
     }
