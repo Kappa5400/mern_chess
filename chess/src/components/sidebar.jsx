@@ -8,10 +8,11 @@ export function SideBar() {
     { name: "Home", url: "/" },
     { name: "Login", url: "/login" },
     { name: "Sign up", url: "/signup" },
-    { name: "Puzzle List", url: "/list" },
+    { name: "Puzzle list", url: "/list" },
     { name: "Scoreboard", url: "/score" },
-    { name: "User puzzles", url: "/makeuserpuzzle" },
-    { name: "About", url: "/about" },
+    { name: "Make user puzzle", url: "/makeuserpuzzle" },
+    { name: "View own puzzle", url: "/about" },
+    { name: "View all user puzzles", url: "/about" },
   ];
 
   return (

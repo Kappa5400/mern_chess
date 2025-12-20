@@ -36,6 +36,9 @@ export function App() {
             <Route path="/profile/:id" element={<Index />} />
             <Route path="/userpuzzlelist" element={<Index />} />
             <Route path="/makeuserpuzzle" element={<MakeUserPuzzlePage />} />
+            <Route path="/userpuzzlelist" element={<Index />} />
+            <Route path="/viewuserpuzzle/:id" element={<Index />} />
+            <Route path="/publicuserpuzzlelist" element={<Index />} />
           </Routes>
         </BrowserRouter>
       </AuthContextProvider>
