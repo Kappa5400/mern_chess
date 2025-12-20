@@ -13,9 +13,10 @@ export const updatePuzzleSchema = Joi.object({
 });
 
 export const createUserPuzzleSchema = Joi.object({
-  pgn: Joi.string().min(1).required(),
+  fen: Joi.string().min(1).required(),
   answer: Joi.string().required(),
   rating: Joi.number().integer().min(0).max(2900).required(),
+  pgn: Joi.string().optional().allow(""),
 });
 
 export const objectIdSchema = Joi.object({

@@ -1,5 +1,5 @@
 //update befor deployment
-const BASE_URL = "http://localhost:3001";
+const BASE_URL = "http://localhost:3001/";
 
 const getHeaders = () => {
   const token = localStorage.getItem("token");
@@ -30,13 +30,20 @@ export const getPuzzleByPuzzleID = async (puzzleID) => {
   return await res.json();
 };
 
-export const createUserPuzzle = async ({ fen, answer, rating }) => {
+export const createUserPuzzle = async ({ fen, answer, rating }, token) => {
   const res = await fetch(`${BASE_URL}api/v1/userpuzzle/createuserpuzzle`, {
     method: "POST",
-    headers: getHeaders(),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
     body: JSON.stringify({ fen: fen, answer: answer, rating: rating }),
   });
-  if (!res.ok) throw new Error("Failed to create user puzzle");
+  if (!res.ok) {
+    const error = await res.json();
+    console.error("Error: ", error);
+    throw new Error(error.message || "Failed to make user puzzle");
+  }
   return await res.json();
 };
 

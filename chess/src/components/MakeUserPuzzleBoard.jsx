@@ -9,6 +9,8 @@ import {
 import styles from "./chessboard_puzzle.module.css";
 import { createUserPuzzle } from "../api/api_user_puzzle";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
+import { jwtDecode } from "jwt-decode";
 
 export function MakeUserPuzzleBoard() {
   // --- State Definitions ---
@@ -21,7 +23,12 @@ export function MakeUserPuzzleBoard() {
   const [epSquare, setEpSquare] = useState("-");
   const [answerInput, setPuzzleAnswer] = useState("");
   const [puzzleRating, setPuzzleRating] = useState("");
+  const [token, setToken] = useAuth();
 
+  //auth handle
+  if (token) {
+    const { sub } = jwtDecode(token);
+  }
   // Chess instance
   const chessGameRef = useRef(
     new Chess("8/8/8/8/8/8/8/8 w - - 0 1", {
@@ -135,7 +142,6 @@ export function MakeUserPuzzleBoard() {
     if (!answerInput) return alert("Enter an answer");
     if (!puzzleRating) return alert("Rating is required");
 
-    const token = localStorage.getItem("token");
     if (!token) {
       alert("You must be logged in to save puzzle.");
       return;
@@ -150,7 +156,7 @@ export function MakeUserPuzzleBoard() {
     console.log("Submitting: ", payload);
 
     try {
-      await createUserPuzzle(payload);
+      await createUserPuzzle(payload, token);
       alert("Puzzle saved to data base.");
       navigate("/");
     } catch (error) {
