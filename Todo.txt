@@ -77,6 +77,9 @@ make pretty (optional)
     react-hot-toast for events (created a puzzle successfully )
 
 
+TODO:
+integrate testing swag ect for get all user puzzle backend api point
+
 6.5 readme.me make
 7. Docker 
 7.5 Rate limiting, look into express-rate-limit. Setup right  before doing aws deployment setup

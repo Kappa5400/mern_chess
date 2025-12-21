@@ -23,6 +23,22 @@ export async function getPuzzleByPuzzleID(userid, puzzleId) {
   }
 }
 
+export async function getPublicPuzzleByID(puzzleId) {
+  try {
+    const puz = await UserPuzzle.findOne({ _id: puzzleId });
+    return puz;
+  } catch (err) {
+    logger.info("Error getting public puzzle from id: ", err);
+  }
+}
+
+export async function get_all_user_puzzles(
+  query = {},
+  { sortBy = "createdAt", sortOrder = "descending" } = {}
+) {
+  return await UserPuzzle.find(query).sort({ [sortBy]: sortOrder });
+}
+
 export async function updateUserPuzzle(userid, userPuzzleID, newPuzzle) {
   try {
     const update = await UserPuzzle.findOneAndUpdate(

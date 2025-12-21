@@ -4,6 +4,7 @@ import {
   updateUserPuzzle,
   deleteUserPuzzle,
   createUserPuzzle,
+  get_all_user_puzzles,
 } from "../service/s_userPuzzle.js";
 
 import { requireAuth } from "../middleware/jwt.js";
@@ -136,6 +137,21 @@ export function userPuzzleRoutes(app) {
       return res.json(fetchedP);
     }
   );
+
+  //to add : validation
+  app.get("/api/V1/userpuzzle/public/Bypuzzleid/:id"),
+    async (req, res) => {
+      const { id } = req.params;
+      const fetchedpublic = await getPublicPuzzleByID(id);
+      if (!fetchedpublic)
+        return res.status(404).json({ Error: "Public puzzle not found" });
+      return res.json(fetchedpublic);
+    };
+
+  app.get("/api/v1/userpuzzle/all", async (req, res) => {
+    const all_user_puzzles = await get_all_user_puzzles();
+    return res.json([all_user_puzzles]);
+  });
 
   app.post(
     "/api/v1/userpuzzle/createuserpuzzle",

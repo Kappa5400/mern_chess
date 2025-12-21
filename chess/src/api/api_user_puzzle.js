@@ -34,6 +34,28 @@ export const getPuzzleByPuzzleID = async (puzzleID) => {
   return await res.json();
 };
 
+export const getPublicPuzzleByID = async (puzzleID) => {
+  const res = await fetch(
+    `${BASE_URL}api/V1/userpuzzle/public/Bypuzzleid/${puzzleID}`,
+    {
+      method: "GET",
+    }
+  );
+  if (!res.ok) throw new Error("Failed to get public puzzle by puzzle id");
+  return await res.json();
+};
+
+export const getAllUserPuzzles = async () => {
+  console.log("Fetching all user puzzles");
+  const res = await fetch(`${BASE_URL}api/v1/userpuzzle/all`, {
+    headers: getHeaders(),
+  });
+  console.log("Status: ", res.status);
+  console.log("Res: ", res);
+  if (!res.ok) throw new Error("Failed to get all user puzzles");
+  return await res.json();
+};
+
 export const createUserPuzzle = async ({ fen, answer, rating }, token) => {
   const res = await fetch(`${BASE_URL}api/v1/userpuzzle/createuserpuzzle`, {
     method: "POST",

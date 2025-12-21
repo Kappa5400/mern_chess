@@ -12,7 +12,7 @@ export function SideBar() {
     { name: "Scoreboard", url: "/score" },
     { name: "Make user puzzle", url: "/makeuserpuzzle" },
     { name: "View own puzzle", url: "/userpuzzlelist" },
-    { name: "View all user puzzles", url: "/about" },
+    { name: "View all user puzzles", url: "/ViewAllUserPuzzlePage" },
   ];
 
   return (
