@@ -18,33 +18,13 @@ export function UserPuzzlePage() {
   if (isLoading) return <p>Loading</p>;
   if (isError) return <p>Error</p>;
 
-  let fen = "";
+  let whiteToMove = true;
 
-  try {
-    const g = new Chess();
-    g.loadPgn(puzzle.pgn);
-    fen = String(g.fen());
-  } catch {
-    fen = "start";
-  }
-
-  console.log("Pgn: ", puzzle.pgn);
-  console.log("Fen: ", fen);
-
-  let whiteToMove = false;
-  const pgn = puzzle.pgn;
-  let moveCount = 0;
-  for (let i = 0; i < pgn.length; i++) {
-    if (pgn[i] == " ") {
-      moveCount++;
-    }
-  }
-
-  if (moveCount % 2 == 0) {
-    whiteToMove = false;
-  } else {
+  // who to move logic fen
+  let puzzle_fen_color = puzzle.fen.split(" ")[1];
+  if (puzzle_fen_color == "w") {
     whiteToMove = true;
-  }
+  } else whiteToMove = false;
 
   return (
     <div className={styles.container}>
@@ -65,7 +45,7 @@ export function UserPuzzlePage() {
           <ChessboardPuzzle
             key={puzzle._id}
             id={puzzle._id}
-            fen={fen}
+            fen={puzzle.fen}
             whiteToMove={whiteToMove}
             answer={puzzle.answer}
             onSolved={() => setSolved(true)}
