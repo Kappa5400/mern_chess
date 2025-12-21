@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserPuzzles } from "../api/api_user_puzzle";
+import { useAuth } from "../contexts/AuthContext";
 
-export function useFetchAllOwnuserPuzzles(token) {
+export function useFetchAllOwnuserPuzzles() {
+  const [token] = useAuth();
+
   const puzzlesQuery = useQuery({
-    queryKey: ["user puzzles", token],
-    queryFn: () => getUserPuzzles(token),
+    queryKey: ["user puzzles"],
+    queryFn: getUserPuzzles,
     enabled: !!token,
   });
 

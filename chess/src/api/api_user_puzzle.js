@@ -3,6 +3,7 @@ const BASE_URL = "http://localhost:3001/";
 
 const getHeaders = () => {
   const token = localStorage.getItem("token");
+  console.log("Token from api send: ", token);
   return {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
@@ -10,9 +11,12 @@ const getHeaders = () => {
 };
 
 export const getUserPuzzles = async () => {
+  console.log("local store", localStorage);
   const res = await fetch(`${BASE_URL}api/v1/userpuzzle/byuser/self`, {
     method: "GET",
-    headers: getHeaders(),
+    headers: {
+      ...getHeaders(),
+    },
   });
   if (!res.ok) throw new Error("Failed to get user puzzles");
   return await res.json();

@@ -5,6 +5,7 @@ import jwt from "jsonwebtoken";
 
 export async function getUserPuzzles(userID) {
   try {
+    console.log("Test from service :", userID);
     const userP = await UserPuzzle.find({ user: userID });
     return userP;
   } catch (err) {

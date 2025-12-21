@@ -11,7 +11,7 @@ export function SideBar() {
     { name: "Puzzle list", url: "/list" },
     { name: "Scoreboard", url: "/score" },
     { name: "Make user puzzle", url: "/makeuserpuzzle" },
-    { name: "View own puzzle", url: "/about" },
+    { name: "View own puzzle", url: "/userpuzzlelist" },
     { name: "View all user puzzles", url: "/about" },
   ];
 

@@ -116,8 +116,9 @@ import {
 
 export function userPuzzleRoutes(app) {
   app.get("/api/v1/userpuzzle/byuser/self", requireAuth, async (req, res) => {
-    const id = req.auth.sub;
-    const allUserP = await getUserPuzzles(id);
+    const userId = req.auth.sub;
+    console.log("UserID search test ", userId);
+    const allUserP = await getUserPuzzles(userId);
     if (!allUserP)
       return res.status(404).json({ Error: "Failed to fetch puzzles" });
     return res.json(allUserP);

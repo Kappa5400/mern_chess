@@ -15,6 +15,7 @@ export function Login() {
     mutationFn: () => login({ username, password }),
     onSuccess: (data) => {
       setToken(data.token);
+      localStorage.setItem("token", data.token);
       navigate("/");
     },
     onError: () => alert("failed to login!"),
