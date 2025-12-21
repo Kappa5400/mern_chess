@@ -11,6 +11,7 @@ import { About } from "./pages/About.jsx";
 import { Scoreboard } from "./pages/Scoreboard.jsx";
 import { MakeUserPuzzlePage } from "./pages/MakeUserPuzzlePage.jsx";
 import { ViewOwnPuzzlePage } from "./pages/ViewOwnPuzzle.jsx";
+import { UserPuzzlePage } from "./pages/userPuzzleView.jsx";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -37,7 +38,7 @@ export function App() {
             <Route path="/profile/:id" element={<Index />} />
             <Route path="/makeuserpuzzle" element={<MakeUserPuzzlePage />} />
             <Route path="/userpuzzlelist" element={<ViewOwnPuzzlePage />} />
-            <Route path="/viewuserpuzzle/:id" element={<Index />} />
+            <Route path="/viewuserpuzzle/:id" element={<UserPuzzlePage />} />
             <Route path="/publicuserpuzzlelist" element={<Index />} />
           </Routes>
         </BrowserRouter>

@@ -19,7 +19,7 @@ export default function UserPuzzleCard({ id, fen }) {
   return (
     <div
       className={styles.puzzlecard}
-      onClick={() => navigate(`/userpuzzleview/${id}`)}
+      onClick={() => navigate(`/viewuserpuzzle/${id}`)}
     >
       <Chessboard options={chessboardOptions} />
     </div>
