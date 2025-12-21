@@ -36,7 +36,7 @@ export const getPuzzleByPuzzleID = async (puzzleID) => {
 
 export const getPublicPuzzleByID = async (puzzleID) => {
   const res = await fetch(
-    `${BASE_URL}api/V1/userpuzzle/public/Bypuzzleid/${puzzleID}`,
+    `${BASE_URL}api/v1/userpuzzle/public/bypuzzleid/${puzzleID}`,
     {
       method: "GET",
     }

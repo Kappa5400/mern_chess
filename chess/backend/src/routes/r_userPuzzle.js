@@ -139,14 +139,18 @@ export function userPuzzleRoutes(app) {
   );
 
   //to add : validation
-  app.get("/api/V1/userpuzzle/public/Bypuzzleid/:id"),
-    async (req, res) => {
+  app.get("/api/v1/userpuzzle/public/bypuzzleid/:id", async (req, res) => {
+    try {
       const { id } = req.params;
       const fetchedpublic = await getPublicPuzzleByID(id);
       if (!fetchedpublic)
         return res.status(404).json({ Error: "Public puzzle not found" });
       return res.json(fetchedpublic);
-    };
+    } catch (err) {
+      console.error(err);
+      return res.status(500).json({ Error: "Server error" });
+    }
+  });
 
   app.get("/api/v1/userpuzzle/all", async (req, res) => {
     const all_user_puzzles = await get_all_user_puzzles();

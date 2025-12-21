@@ -25,7 +25,7 @@ export async function getPuzzleByPuzzleID(userid, puzzleId) {
 
 export async function getPublicPuzzleByID(puzzleId) {
   try {
-    const puz = await UserPuzzle.findOne({ _id: puzzleId });
+    const puz = await UserPuzzle.findById(puzzleId);
     return puz;
   } catch (err) {
     logger.info("Error getting public puzzle from id: ", err);
