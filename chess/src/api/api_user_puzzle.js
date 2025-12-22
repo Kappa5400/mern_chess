@@ -1,4 +1,4 @@
-//update befor deployment
+//update before deployment
 const BASE_URL = "http://localhost:3001/";
 
 const getHeaders = () => {
@@ -35,6 +35,7 @@ export const getPuzzleByPuzzleID = async (puzzleID) => {
 };
 
 export const getPublicPuzzleByID = async (puzzleID) => {
+  console.log("Api param puzzleid: ", puzzleID);
   const res = await fetch(
     `${BASE_URL}api/v1/userpuzzle/public/bypuzzleid/${puzzleID}`,
     {
@@ -42,7 +43,9 @@ export const getPublicPuzzleByID = async (puzzleID) => {
     }
   );
   if (!res.ok) throw new Error("Failed to get public puzzle by puzzle id");
-  return await res.json();
+  const data = await res.json();
+  console.log("Data from api call: ", data);
+  return await res.json;
 };
 
 export const getAllUserPuzzles = async () => {

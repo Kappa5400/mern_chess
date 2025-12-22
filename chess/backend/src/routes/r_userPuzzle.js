@@ -5,6 +5,7 @@ import {
   deleteUserPuzzle,
   createUserPuzzle,
   get_all_user_puzzles,
+  getPublicPuzzleByID,
 } from "../service/s_userPuzzle.js";
 
 import { requireAuth } from "../middleware/jwt.js";
@@ -14,6 +15,8 @@ import {
   validate,
   objectIdSchema,
 } from "../middleware/joi.js";
+
+import { logger } from "../utils/logger.js";
 
 /**
  * @swagger
@@ -142,10 +145,11 @@ export function userPuzzleRoutes(app) {
   app.get("/api/v1/userpuzzle/public/bypuzzleid/:id", async (req, res) => {
     try {
       const { id } = req.params;
+      logger.log("Id from params public call: ", id);
       const fetchedpublic = await getPublicPuzzleByID(id);
       if (!fetchedpublic)
         return res.status(404).json({ Error: "Public puzzle not found" });
-      return res.json(fetchedpublic);
+      return res.json({ puzzle: fetchedpublic });
     } catch (err) {
       console.error(err);
       return res.status(500).json({ Error: "Server error" });

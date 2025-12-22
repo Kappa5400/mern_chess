@@ -20,6 +20,8 @@ export function ViewPublicPuzzle() {
 
   let whiteToMove = true;
 
+  console.log("public puz :", puzzle);
+
   // who to move logic fen
   let puzzle_fen_color = puzzle.fen.split(" ")[1];
   if (puzzle_fen_color == "w") {

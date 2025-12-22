@@ -2,13 +2,14 @@ import { useQuery } from "@tanstack/react-query";
 import { getPublicPuzzleByID } from "../api/api_user_puzzle";
 
 export function useFetchPublicPuzzleHook(id) {
+  console.log("Hook id ", id);
   const puzzlesQuery = useQuery({
-    queryKey: ["puzzles", id],
+    queryKey: ["PublicPuzzle", id],
     queryFn: () => getPublicPuzzleByID(id),
     enabled: !!id,
   });
 
-  const puzzle = puzzlesQuery.data ?? null;
+  const puzzle = puzzlesQuery.data?.puzzle ?? null;
 
   console.log("Puzzle data from hook:", puzzle);
 
