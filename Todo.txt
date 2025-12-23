@@ -62,12 +62,17 @@ make a user puzzle page and functionality
     -hardest thing prob
     --add component for puzzle date, if user made who made it, others if think of
 
- *I am here*
-
 profile page functionality
     -page to show user puzzles
     -show user score
     -show where user is in scoreboard?
+
+ *I am here*
+to  do
+update and delete user puzzles func
+puzzle validation on create and update
+show  own user score when logged in
+
 
 write about page
     -ez
@@ -78,7 +83,7 @@ make pretty (optional)
 
 
 TODO:
-integrate testing swag ect for get all user puzzle backend api point
+
 
 6.5 readme.me make
 7. Docker 
@@ -87,10 +92,10 @@ integrate testing swag ect for get all user puzzle backend api point
 
 
 To do later
-swagger api documentation improve
-readme make
-about page
-Mongod db playground, auto report making (optional)
+integrate testing for new endpoints
+swagger api documentation new endpoints
+readme / about page make
+
 
 backend:
 change joi password and username min, make test for min
