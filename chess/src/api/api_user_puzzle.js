@@ -45,7 +45,9 @@ export const getPublicPuzzleByID = async (puzzleID) => {
   if (!res.ok) throw new Error("Failed to get public puzzle by puzzle id");
   const data = await res.json();
   console.log("Data from api call: ", data);
-  return await res.json;
+  const p = data.puzzle;
+  console.log("P ", p);
+  return await p;
 };
 
 export const getAllUserPuzzles = async () => {

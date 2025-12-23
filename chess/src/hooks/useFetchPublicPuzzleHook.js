@@ -9,7 +9,7 @@ export function useFetchPublicPuzzleHook(id) {
     enabled: !!id,
   });
 
-  const puzzle = puzzlesQuery.data?.puzzle ?? null;
+  const puzzle = puzzlesQuery.data;
 
   console.log("Puzzle data from hook:", puzzle);
 
