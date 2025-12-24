@@ -56,7 +56,7 @@ const saveDummyUser = async (overrides) =>
 
 const createDummyPuzzle = (overrides = {}) => ({
   user: 0,
-  pgn: "a3",
+  fen: "a3",
   answer: "a6",
   rating: 1,
   ...overrides,
@@ -72,7 +72,7 @@ describe(" User puzzle routes ", () => {
       password: "password",
     };
     const dummyPuz = {
-      pgn: "e4",
+      fen: "e4",
       answer: "e5",
       rating: 0,
     };
@@ -89,7 +89,7 @@ describe(" User puzzle routes ", () => {
     const USER_ID_STRING = newUser._id.toString();
 
     const sendData = {
-      pgn: "e4",
+      fen: "e4",
       answer: "e5",
       rating: 0,
     };
@@ -109,7 +109,7 @@ describe(" User puzzle routes ", () => {
       password: "password",
     };
     const dummyPuz = {
-      pgn: "e4",
+      fen: "e4",
       answer: "e5",
       rating: 0,
     };
@@ -124,7 +124,7 @@ describe(" User puzzle routes ", () => {
 
     const sendData = {
       user: newUser._id,
-      pgn: "e4",
+      fen: "e4",
       answer: "e5",
       rating: 0,
     };
@@ -134,7 +134,7 @@ describe(" User puzzle routes ", () => {
       .get("/api/v1/userpuzzle/byuser/self")
       .set("Authorization", `Bearer ${token}`);
 
-    expect(res.body[0].pgn).toBe("e4");
+    expect(res.body[0].fen).toBe("e4");
   });
   it("GET /api/v1/userpuzzle/Bypuzzleid/:id get puzzle from id", async () => {
     const dummyUser = {
@@ -142,7 +142,7 @@ describe(" User puzzle routes ", () => {
       password: "password",
     };
     const dummyPuz = {
-      pgn: "e4",
+      fen: "e4",
       answer: "e5",
       rating: 0,
     };
@@ -157,7 +157,7 @@ describe(" User puzzle routes ", () => {
 
     const sendData = {
       user: newUser._id,
-      pgn: "e4",
+      fen: "e4",
       answer: "e5",
       rating: 0,
     };
@@ -167,7 +167,7 @@ describe(" User puzzle routes ", () => {
       .get(`/api/v1/userpuzzle/Bypuzzleid/${savedP._id}`)
       .set("Authorization", `Bearer ${token}`);
 
-    expect(res.body.pgn).toBe("e4");
+    expect(res.body.fen).toBe("e4");
   });
   it("PATCH /api/v1/updatepuzzle/:id update puzzle", async () => {
     const dummyUser = {
@@ -175,12 +175,12 @@ describe(" User puzzle routes ", () => {
       password: "password",
     };
     const dummyPuz = {
-      pgn: "e4",
+      fen: "e4",
       answer: "e5",
       rating: 0,
     };
 
-    const newpgn = "a4";
+    const newfen = "a4";
     const newans = "a5";
     const newrating = 2;
 
@@ -194,7 +194,7 @@ describe(" User puzzle routes ", () => {
 
     const sendData = {
       user: newUser._id,
-      pgn: "e4",
+      fen: "e4",
       answer: "e5",
       rating: 0,
     };
@@ -202,7 +202,7 @@ describe(" User puzzle routes ", () => {
     const savedP = await createUserPuzzle(sendData);
 
     const newPuz = {
-      pgn: "a4",
+      fen: "a4",
       answer: "a5",
       rating: 2,
     };
@@ -212,7 +212,7 @@ describe(" User puzzle routes ", () => {
       .set("Authorization", `Bearer ${token}`)
       .send(newPuz);
 
-    expect(res.body.pgn).toBe("a4");
+    expect(res.body.fen).toBe("a4");
   });
 
   it("DELETE /api/v1/userpuzzle/delete/:id Delete", async () => {
@@ -231,7 +231,7 @@ describe(" User puzzle routes ", () => {
 
     const dummyPuz = {
       user: newUser._id,
-      pgn: "e4",
+      fen: "e4",
       answer: "e5",
       rating: 0,
     };
