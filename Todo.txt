@@ -90,6 +90,8 @@ TODO:
 7.5 Rate limiting, look into express-rate-limit. Setup right  before doing aws deployment setup
 8. Deployment to aws
 
+9.
+end to end testing
 
 To do later
 integrate testing for new endpoints
