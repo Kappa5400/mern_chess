@@ -28,7 +28,7 @@ Backend
 
 Packages used:
 
-"axios": API Request package, used to ping the lichess daily puzzle endpoint. I used axios for mocking within my unit testing in jest so that I didn't have to actually hit the lichess endpoint when doing testing. I used curl for the actual puzzle retreival as curl is easier to impliment, a simple one liner, to do HTTP get requests.
+"axios": API Request package, used to send HTTP GET request to Lichess dailypuzzle backend.
 
 "bcrypt": Encryption package for encrypting user passwords.
 
@@ -79,7 +79,6 @@ I use testing to also automate CI/CO with github actions. I will write more on m
 
 "supertest": Integration and end to end test package.
 
-"vite": Frontend build tool.
 
 
 
@@ -89,17 +88,34 @@ Packages used:
 
 "react": Frontend framework.
 
+"Vite": Frontend build tool.
+
+"Chess.js": Handles the chess game logic.
+
+"react-chessboard": React chessboard component to display the board conditions, interacts with chess.js for rule handling.
+
+"tanstack": Querying tool for react.
+
+"jwt-decode": for decoding jwt tokens made in the backend, for validating frontend user session.
+
+"react-router-dom": routing for frontend in react.
+
+
+
+
+Cron Job
+
+
+
 
 Testing, CI/CD, and Deployment
+
+
 
 
 Security
 
 
-
-
-
-"react-dom": React router for front end.
   
 WIP
 
