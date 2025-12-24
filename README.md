@@ -70,7 +70,7 @@ File structure
 
 Backend File Structure
 
-|mern_chess/chess/backend/src/
+|mern_chess/chess/src/
 ├──__tests__/ # Unit test and integration testing.
 ├──db/ #Stores the database init script and models.
 ├──middleware/ #joi data validation and jwt auth.
@@ -83,14 +83,23 @@ Backend File Structure
 |app.js #entry point
 |server.js # server setup
 
-Frontend
+Frontend File Structure
 
-
-
+|mern_chess/chess/backend/src/
+├──api/ # Where the frontend connects to backend api
+├──components # React components
+├──contexts # Authentication context for security.
+├──hooks # React hooks for api calls and querying.
+├──pages # Page templates
+|App.jsx # Routing 
+|main.jsx # Entry point.
 
 
 Cron Job
+chess/backend/src/service/jobs
 
+There are two fetch scripts to get the daily puzzle. runDailyFetch.js is run manually via node script calling in the cmd line.
+The other script, dailypuzzleget.js, sets up two cronjobs to attempt to fetch the lichess dailypuzzle. As the lichess dailypuzzle is not updated at the same time every day, I had to have two jobs setup to 'check' if the puzzle was updated or not. The script gets the puzzle currently in the lichess endpoint, and if it already matches a puzzle that is in the database, it ignores it. If it doesn't match, it will add it to the database, then call delete oldest puzzle.
 
 
 
