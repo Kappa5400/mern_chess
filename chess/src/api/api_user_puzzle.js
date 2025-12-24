@@ -81,7 +81,7 @@ export const createUserPuzzle = async ({ fen, answer, rating }, token) => {
 export const updateUserPuzzle = async (
   Userid,
   puzzleID,
-  pgn,
+  fen,
   answer,
   rating
 ) => {
@@ -90,7 +90,7 @@ export const updateUserPuzzle = async (
     {
       method: "PATCH",
       headers: getHeaders(),
-      body: JSON.stringify({ puzzleID, pgn, answer, rating }),
+      body: JSON.stringify({ puzzleID, fen, answer, rating }),
     }
   );
   if (!res.ok) throw new Error("Failed to update user puzzle");

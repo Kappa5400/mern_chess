@@ -4,13 +4,25 @@ import { UserProfile } from "../components/userprofile_test.jsx";
 import styles from "./Index.module.css";
 import { useUserPuzzleFetchHook } from "../hooks/useFetchUserPuzzleHook.js";
 import { Chess } from "chess.js";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ChessboardPuzzle } from "../components/chessboard_puzzle.jsx";
 import { useState } from "react";
+import { deleteUserPuzzle } from "../api/api_user_puzzle.js";
 
 export function UserPuzzlePage() {
+  const navigate = useNavigate();
   const { id } = useParams();
   const { puzzle, isLoading, isError } = useUserPuzzleFetchHook(id);
+  const [Del, setDelete] = useState(0);
+
+  //handlers
+  //eslint-disable-next-line
+  const handleDelete = async (e) => {
+    setDelete(1);
+    await deleteUserPuzzle(puzzle._id);
+    alert("Puzzle deleted.");
+    navigate("/");
+  };
 
   const [solved, setSolved] = useState(false);
   const [wrongMove, setWrongMove] = useState(false);
@@ -52,6 +64,7 @@ export function UserPuzzlePage() {
             onWrongMove={() => setWrongMove(true)}
           />
         </div>
+        <button onClick={handleDelete}>Delete Puzzle</button>
       </main>
     </div>
   );

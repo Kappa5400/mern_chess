@@ -28,7 +28,7 @@ export function Login() {
     <div className={styles.container}>
       <SideBar />
       <form onSubmit={handleSubmit}>
-        <hr />
+        <h1>Login</h1>
         <br />
         <div className={styles.input}>
           <label htmlFor="create-username">Username: </label>

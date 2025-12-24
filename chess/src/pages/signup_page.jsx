@@ -23,6 +23,7 @@ export function Signup() {
     <div className={styles.container}>
       <SideBar />
       <form onSubmit={handleSubmit}>
+        <h1>Sign up</h1>
         <div className={styles.input}>
           <label htmlFor="create-username">Username: </label>
           <input
