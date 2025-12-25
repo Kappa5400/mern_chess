@@ -70,6 +70,7 @@ File structure
 Backend File Structure
 
 |mern_chess/chess/src/
+
 ├──__tests__/ # Unit test and integration testing.
 ├──db/ #Stores the database init script and models.
 ├──middleware/ #joi data validation and jwt auth.
@@ -103,7 +104,7 @@ There are two fetch scripts to get the daily puzzle. runDailyFetch.js is run man
 The other script, dailypuzzleget.js, sets up two cronjobs to attempt to fetch the lichess dailypuzzle. As the lichess dailypuzzle is not updated at the same time every day, I had to have two jobs setup to 'check' if the puzzle was updated or not. The script gets the puzzle currently in the lichess endpoint, and if it already matches a puzzle that is in the database, it ignores it. If it doesn't match, it will add it to the database, then call delete oldest puzzle. As this is just a toy app, it was important to make sure the database size was self regulated.
 
 Security
-To support account creation and login, I used jsonwebtokens to track tokens during sessions, allowing for user authenticated required actions and page views. The passwords are hashed before being saved to the database and unhashed in the frontend if being authenticated. All user input is sanatized and most are type validated with joi schemas. In total, this app is not spectacualrly security focused, but it has a basic support for expected website security.
+To support account creation and login, I used jsonwebtokens to track tokens during sessions, allowing for user authenticated required actions and page views. The passwords are hashed before being saved to the database and are used in the frontend for verification. All user input is sanatized and most are type validated with joi schemas. In total, this app is not spectacualrly security focused, but it has a basic support for expected website security.
 
 Frontend
 The frontend uses react component based structure with pages, components, state hooks, and api. The flow of logic is as follows:
