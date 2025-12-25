@@ -93,6 +93,9 @@ TODO:
 9.
 end to end testing
 
+10.
+server side rendering, asset (chess piece) loading, robots.txt, seo, other frontend fixings
+
 To do later
 integrate testing for new endpoints
 swagger api documentation new endpoints
