@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 import compression from "compression";
 import { puzzleRoutes } from "./routes/r_puzzle.js";
 import { userPuzzleRoutes } from "./routes/r_userPuzzle.js";
@@ -53,6 +54,15 @@ app.use(
     },
   })
 );
+
+//rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: "Rate limit reached, try again later.",
+});
+
+app.use("/api/", limiter);
 
 if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
