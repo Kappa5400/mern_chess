@@ -24,8 +24,8 @@ System Architecture
 
 Packages used:
 
-Security : bcrypt: Encryption package for encrypting user passwords.
-Utility: axios, dotenv, compression, cors, cron, mongoose, morgan, winston, swagger, eslint
+Security : bcrypt,  exprewss-jwt, express-mongo-sanatize, joi, helmet, jsonwebtoken
+Utility: axios, dotenv, compression, cors, cron, mongoose, morgan, winston, swagger, eslint, cross-env
 Testing: jest, mongodb-memory-server, supertest
 Frontend: React, Vite, Chess.js, react-chessboard, tanstack, jwt-decode, react-router-dom
 
@@ -42,8 +42,7 @@ Utility:
 axios: API Request package, used to send HTTP GET request to Lichess dailypuzzle backend.
 compression: Compresses HTTP responses.
 cors: Cross-Origin Resource Sharing, so that the backend api is accessable to the frontend.
-cron: An automatic script runner, used to run the fetch jobs to retreive the lichess dailypuzzle daily. I have the script run twice a day, in the morning and evening, to fetch the daily chess puzzle when it is udpated. The lichess daily puzzle updates randomly during the day. Duplicate puzzles are ignored. The job scripts are in the below filepath:
-chess/backend/src/service/jobs
+cron: An automatic script runner, used to run the fetch jobs to retreive the lichess dailypuzzle daily. I have the script run twice a day, in the morning and evening, to fetch the daily chess puzzle when it is udpated. The lichess daily puzzle updates randomly during the day. Duplicate puzzles are ignored. The job scripts are in the following filepath: chess/backend/src/service/jobs
 mongoose: Database ARM to run queries into mongodb.
 morgan: middleware for logging http requests.  
 winston: Logging.
@@ -94,13 +93,22 @@ Frontend File Structure
 |App.jsx # Routing 
 |main.jsx # Entry point.
 
+Backend
+The backend follows a basic database model<-->service<--->route pattern with some middleware for input validation and logging. For the actual logic, I seperated files into three buckets: user account logic, puzzle logic, and user made puzzle logic. There are 3 db models, 3 service files, and 3 route files setup, seperating the logic between the buckets. The user made puzzle has crud capabilities and expected crud endpoints which can be accessed on the frontend with authentication, as well as a way to 'publicly' view user made puzzles without authentication. The puzzle logic is for viewing puzzles in the frontend only, as puzzles are retrieved with cronjob scripts in the backend. Finally, the user logic has support for creating users and logging in to the created accounts.
 
 Cron Job
 chess/backend/src/service/jobs
 
 There are two fetch scripts to get the daily puzzle. runDailyFetch.js is run manually via node script calling in the cmd line.
-The other script, dailypuzzleget.js, sets up two cronjobs to attempt to fetch the lichess dailypuzzle. As the lichess dailypuzzle is not updated at the same time every day, I had to have two jobs setup to 'check' if the puzzle was updated or not. The script gets the puzzle currently in the lichess endpoint, and if it already matches a puzzle that is in the database, it ignores it. If it doesn't match, it will add it to the database, then call delete oldest puzzle.
+The other script, dailypuzzleget.js, sets up two cronjobs to attempt to fetch the lichess dailypuzzle. As the lichess dailypuzzle is not updated at the same time every day, I had to have two jobs setup to 'check' if the puzzle was updated or not. The script gets the puzzle currently in the lichess endpoint, and if it already matches a puzzle that is in the database, it ignores it. If it doesn't match, it will add it to the database, then call delete oldest puzzle. As this is just a toy app, it was important to make sure the database size was self regulated.
 
+Security
+To support account creation and login, I used jsonwebtokens to track tokens during sessions, allowing for user authenticated required actions and page views. The passwords are hashed before being saved to the database and unhashed in the frontend if being authenticated. All user input is sanatized and most are type validated with joi schemas. In total, this app is not spectacualrly security focused, but it has a basic support for expected website security.
+
+Frontend
+The frontend uses react component based structure with pages, components, state hooks, and api. The flow of logic is as follows:
+pages <--> components <--> hooks <--> api
+Sometimes inside a component, however, I did call api functions instead of using hooks in the event that a state wasn't necessary. The frontend uses the react-chessboard library and chess.js to handle the chess logic and board state visualization: however, in order to make user created puzzles, I had to write the logic to input the puzzle information in the front end. The frontend also has token conditional pages and actions, such as creating user puzzles, deleting user puzzles, and viewing all self made puzzles. The frontend also has a page to view all user made puzzles that all uses can access: however, users are not able to do user restricted actions, such as delete those puzzles. There is also a scoreboard to view the top five users and their scores, you get a point for each puzzle you solve.
 
 
 Testing, CI/CD, and Deployment
@@ -108,7 +116,6 @@ Testing, CI/CD, and Deployment
 
 
 
-Security
 
 
   
