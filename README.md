@@ -72,27 +72,45 @@ Backend File Structure
 |mern_chess/chess/src/
 
 ├──__tests__/ # Unit test and integration testing.
+
 ├──db/ #Stores the database init script and models.
+
 ├──middleware/ #joi data validation and jwt auth.
+
 ├──routes/ # routing logic.
+
 ├──service/ # business logic.
+
 | └──jobs/ # cronjob scripts.
+
 ├──swagger/ #swagger endpoint documentation setup files
+
 ├──tests/ # testing setup teardown files
+
 ├──utils/ # Winston logging.
+
 |app.js #entry point
+
 |server.js # server setup
 
 Frontend File Structure
 
 |mern_chess/chess/backend/src/
+
 ├──api/ # Where the frontend connects to backend api
+
 ├──components # React components
+
 ├──contexts # Authentication context for security.
+
 ├──hooks # React hooks for api calls and querying.
+
 ├──pages # Page templates
+
 |App.jsx # Routing 
+
 |main.jsx # Entry point.
+
 
 Backend
 The backend follows a basic database model<-->service<--->route pattern with some middleware for input validation and logging. For the actual logic, I seperated files into three buckets: user account logic, puzzle logic, and user made puzzle logic. There are 3 db models, 3 service files, and 3 route files setup, seperating the logic between the buckets. The user made puzzle has crud capabilities and expected crud endpoints which can be accessed on the frontend with authentication, as well as a way to 'publicly' view user made puzzles without authentication. The puzzle logic is for viewing puzzles in the frontend only, as puzzles are retrieved with cronjob scripts in the backend. Finally, the user logic has support for creating users and logging in to the created accounts.
