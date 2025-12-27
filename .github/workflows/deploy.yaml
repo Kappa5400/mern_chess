@@ -5,11 +5,11 @@ on:
 
 jobs:
   backend-ci:
-    uses: ./.github/workflows/backend-ci.yml
+    uses: ./.github/workflows/backend-ci.yaml
     secrets: inherit # 全てのSecretを子Workflowに継承
 
   frontend-ci:
-    uses: ./.github/workflows/frontend-ci.yml
+    uses: ./.github/workflows/frontend-ci.yaml
     secrets: inherit
 
   deploy:
