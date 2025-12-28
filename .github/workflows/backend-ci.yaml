@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./chess/backend
+        working-directory: ./chess
     env:
       DATABASE_URL: mongodb://dummy_url
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
