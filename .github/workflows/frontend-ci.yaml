@@ -15,7 +15,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: ./chess/frontend
+          context: ./chess
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/mernchess_frontend:latest
           build-args: |
