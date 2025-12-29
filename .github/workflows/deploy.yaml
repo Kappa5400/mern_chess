@@ -36,7 +36,7 @@ jobs:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME}}
 
           with:
-          host: ${{ secrets.DROPLET_IP}}
+          host: ${{ secrets.DROPLET_IP }}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: MONGO_URI, JWT_SECRET, DOCKER_USERNAME
