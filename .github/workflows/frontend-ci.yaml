@@ -19,4 +19,4 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/mernchess_frontend:latest
           build-args: |
-            VITE_API_URL=http://${{ secrets.DROPLET_IP }}/api
+            VITE_BACKEND_URL=http://${{ secrets.DROPLET_IP }}:3001
