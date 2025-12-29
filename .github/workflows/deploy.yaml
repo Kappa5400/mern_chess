@@ -43,7 +43,7 @@ jobs:
           script: |
             cd ~/mern_chess
             cat <<EOF > .env
-            MONGO_URI=${{ secrets.MONGO_URI }}
+            DB_URL=${{ secrets.MONGO_URI }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
             DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
             PORT=5000
