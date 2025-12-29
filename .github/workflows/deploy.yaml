@@ -25,7 +25,7 @@ jobs:
           host: ${{ secrets.DROPLET_IP }}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "docker-compose.yml"
+          source: "docker-compose.yaml"
           target: "~/mern_chess"
 
       - name: SSH and Deploy
