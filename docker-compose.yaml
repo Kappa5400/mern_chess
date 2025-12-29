@@ -4,7 +4,7 @@ services:
     ports:
       - "5000:5000"
     env_file:
-      - .env
+      - /root/mern_chess/.env
     restart: always
 
   frontend:
