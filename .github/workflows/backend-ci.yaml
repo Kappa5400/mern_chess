@@ -12,6 +12,7 @@ jobs:
       DATABASE_URL: mongodb://dummy_url
       JWT_SECRET: ${{ secrets.JWT_SECRET }}
       NODE_ENV: test
+      CLIENT_URL: ${{ secrets.DROPLET_URL }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
