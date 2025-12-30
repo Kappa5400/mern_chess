@@ -34,7 +34,7 @@ jobs:
           MONGO_URI: ${{ secrets.MONGO_URI}}
           JWT_SECRET: ${{ secrets.JWT_SECRET}}
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME}}
-
+          CLIENT_URL: ${{ secrets.DROPLET_IP }}
         with:
           host: ${{ secrets.DROPLET_IP }}
           username: root
