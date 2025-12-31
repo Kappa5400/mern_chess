@@ -1,14 +1,10 @@
 import React from "react";
 import { SideBar } from "../components/sidebar.jsx";
-import { ShowPuzzleText } from "../components/puzzle_list_text.jsx";
 import { UserProfile } from "../components/userprofile_test.jsx";
 import styles from "./Index.module.css";
 import { ChessboardComponent } from "../components/chessboard_starting_pos.jsx";
-import { useFetchAllPuzzles } from "../hooks/useFetchAllHook.js";
 
 export function Index() {
-  const puzzles = useFetchAllPuzzles();
-
   return (
     <div className={styles.container}>
       <SideBar />
@@ -18,10 +14,8 @@ export function Index() {
         </div>
         <h1>Chess Puzzle App</h1>
         <ChessboardComponent />
-        <ShowPuzzleText
-          puzzles={puzzles.puzzles}
-          isLoading={puzzles.isLoading}
-        />
+        <div></div>
+        <br />
       </main>
     </div>
   );

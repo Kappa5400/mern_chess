@@ -17,10 +17,37 @@
 
 .input {
   margin-left: 1rem;
-  margin-top: 3rem
+  margin-top: 3rem;
 }
 
-.button{
+.button {
   margin-left: 3rem;
-  
+}
+
+.About_text {
+  max-width: 800px; /* 一行を長くしすぎない */
+  margin: 0 auto; /* 中央寄せ */
+  line-height: 1.7; /* 行間を広く */
+  color: #333; /* 目に優しい黒 */
+  font-family: sans-serif;
+  padding: 20px;
+}
+
+/* 中の見出しやリストを装飾 */
+.About_text h3 {
+  border-left: 5px solid #007bff;
+  padding-left: 10px;
+  margin-top: 2rem;
+}
+
+.About_text h4 {
+  color: #555;
+  margin-top: 1.5rem;
+}
+.About_text pre {
+  background: #f4f4f4;
+  padding: 1rem;
+  border-radius: 5px;
+  overflow-x: auto; /* はみ出し防止 */
+  font-family: "Courier New", Courier, monospace;
 }

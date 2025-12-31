@@ -13,6 +13,7 @@ export function SideBar() {
     { name: "Make user puzzle", url: "/makeuserpuzzle" },
     { name: "View own puzzle", url: "/userpuzzlelist" },
     { name: "View all user puzzles", url: "/ViewAllUserPuzzlePage" },
+    { name: "About page", url: "/About" },
   ];
 
   return (
