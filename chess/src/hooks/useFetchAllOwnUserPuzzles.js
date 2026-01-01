@@ -6,9 +6,11 @@ export function useFetchAllOwnuserPuzzles() {
   const [token] = useAuth();
 
   const puzzlesQuery = useQuery({
-    queryKey: ["user puzzles"],
+    queryKey: ["OwnUserPuzzles"],
     queryFn: getUserPuzzles,
     enabled: !!token,
+    staleTime: 0,
+    gcTime: 0,
   });
 
   const data = puzzlesQuery.data ?? [];

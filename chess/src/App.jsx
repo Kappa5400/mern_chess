@@ -29,18 +29,54 @@ export function App() {
       <AuthContextProvider>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/puzzle/:id" element={<PuzzlePage />} />
-            <Route path="/today" element={<Index />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/list" element={<PuzzleListPage />} />
-            <Route path="/score" element={<Scoreboard />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/profile/:id" element={<Index />} />
-            <Route path="/makeuserpuzzle" element={<MakeUserPuzzlePage />} />
-            <Route path="/userpuzzlelist" element={<ViewOwnPuzzlePage />} />
-            <Route path="/viewuserpuzzle/:id" element={<UserPuzzlePage />} />
+            <Route
+              path="/"
+              element={<Index key={window.location.pathname} />}
+            />
+            <Route
+              path="/login"
+              element={<Login key={window.location.pathname} />}
+            />
+            <Route
+              path="/puzzle/:id"
+              element={<PuzzlePage key={window.location.pathname} />}
+            />
+            <Route
+              path="/today"
+              element={<Index key={window.location.pathname} />}
+            />
+            <Route
+              path="/signup"
+              element={<Signup key={window.location.pathname} />}
+            />
+            <Route
+              path="/list"
+              element={<PuzzleListPage key={window.location.pathname} />}
+            />
+            <Route
+              path="/score"
+              element={<Scoreboard key={window.location.pathname} />}
+            />
+            <Route
+              path="/about"
+              element={<About key={window.location.pathname} />}
+            />
+            <Route
+              path="/profile/:id"
+              element={<Index key={window.location.pathname} />}
+            />
+            <Route
+              path="/makeuserpuzzle"
+              element={<MakeUserPuzzlePage key={window.location.pathname} />}
+            />
+            <Route
+              path="/userpuzzlelist"
+              element={<ViewOwnPuzzlePage key={window.location.pathname} />}
+            />
+            <Route
+              path="/viewuserpuzzle/:id"
+              element={<UserPuzzlePage key={window.location.pathname} />}
+            />
             <Route
               path="/ViewAllUserPuzzlePage"
               element={<ViewAllUserPuzzlePage />}

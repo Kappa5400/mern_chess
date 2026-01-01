@@ -105,30 +105,32 @@ export function About() {
             </p>
             <br />
             <h3>File structure </h3> <h4> Backend File Structure</h4>
-            |mern_chess/chess/src/ <br />
-            ├──**tests**/ # Unit test and integration testing. <br />
-            ├──db/ #Stores the database init script and models.
-            <br />
-            ├──middleware/ #joi data validation and jwt auth. <br />
-            ├──routes/ # routing logic. <br />
-            ├──service/ # business logic. <br />| └──jobs/ # cronjob scripts.{" "}
-            <br />
-            ├──swagger/ #swagger endpoint documentation setup files
-            <br />
-            ├──tests/ # testing setup teardown files <br />
-            ├──utils/ # Winston logging. <br />
-            |app.js #entry point <br />
-            |server.js # server setup Frontend File Structure
-            <h4>Frontend</h4>
-            |mern_chess/chess/backend/src/ <br />
-            ├──api/ # Where the frontend connects to backend api <br />
-            ├──components # React components
-            <br />
-            ├──contexts # Authentication context for security. <br />
-            ├──hooks # React hooks for api calls and querying.
-            <br /> ├──pages # Page templates <br />
-            |App.jsx # Routing <br />
-            |main.jsx # Entry point. <br />
+            <p>
+              |mern_chess/chess/src/ <br />
+              ├──**tests**/ # Unit test and integration testing. <br />
+              ├──db/ #Stores the database init script and models.
+              <br />
+              ├──middleware/ #joi data validation and jwt auth. <br />
+              ├──routes/ # routing logic. <br />
+              ├──service/ # business logic. <br />| └──jobs/ # cronjob scripts.{" "}
+              <br />
+              ├──swagger/ #swagger endpoint documentation setup files
+              <br />
+              ├──tests/ # testing setup teardown files <br />
+              ├──utils/ # Winston logging. <br />
+              |app.js #entry point <br />
+              |server.js # server setup Frontend File Structure
+              <h4>Frontend</h4>
+              |mern_chess/chess/backend/src/ <br />
+              ├──api/ # Where the frontend connects to backend api <br />
+              ├──components # React components
+              <br />
+              ├──contexts # Authentication context for security. <br />
+              ├──hooks # React hooks for api calls and querying.
+              <br /> ├──pages # Page templates <br />
+              |App.jsx # Routing <br />
+              |main.jsx # Entry point. <br />
+            </p>
             <h2>Backend</h2>
             <p>
               The backend follows a basic database model &lt;——&lt; service

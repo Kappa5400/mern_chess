@@ -7,6 +7,7 @@ import { useFetchAllPuzzles } from "../hooks/useFetchAllHook.js";
 import { Chess } from "chess.js";
 
 export function PuzzleListPage() {
+  console.log("Non User Puzzle page start");
   const { puzzles, isLoading, isError } = useFetchAllPuzzles();
 
   if (isLoading) return <p>Loading</p>;
@@ -25,13 +26,7 @@ export function PuzzleListPage() {
     return { ...p, fen };
   });
 
-  console.log("Fen list: ", fen_list);
-
-  //adjust length to puzzle amount in db
-  for (let i = 0; i < 2; i++) {
-    console.log("Loop debug pgn: ", fen_list[i].pgn);
-    console.log("Fen: ", fen_list[i].fen);
-  }
+  console.log("non user puz parameters to component: ", fen_list);
 
   return (
     <div className={styles.container}>

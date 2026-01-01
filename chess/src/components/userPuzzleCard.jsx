@@ -4,8 +4,6 @@ import styles from "./Puzzlecard.module.css";
 import { useNavigate } from "react-router-dom";
 
 export default function UserPuzzleCard({ id, fen }) {
-  console.log("Fen inside card component: ", fen);
-
   const navigate = useNavigate();
 
   const chessboardOptions = {
@@ -20,6 +18,7 @@ export default function UserPuzzleCard({ id, fen }) {
     <div
       className={styles.puzzlecard}
       onClick={() => navigate(`/viewuserpuzzle/${id}`)}
+      key={id}
     >
       <Chessboard options={chessboardOptions} />
     </div>

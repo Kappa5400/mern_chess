@@ -3,8 +3,10 @@ import { getAllPuzzle } from "../api/api_puzzle";
 
 export function useFetchAllPuzzles() {
   const puzzlesQuery = useQuery({
-    queryKey: ["puzzles"],
+    queryKey: ["AllPuzzles"],
     queryFn: getAllPuzzle,
+    staleTime: 0,
+    gcTime: 0,
   });
 
   const data = puzzlesQuery.data ?? [];
@@ -14,8 +16,6 @@ export function useFetchAllPuzzles() {
       ? data[0]
       : data
     : [];
-
-  console.log("Puzzle data from hook:", puzzles);
 
   return {
     puzzles,

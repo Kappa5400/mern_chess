@@ -3,9 +3,11 @@ import { getPuzzleById } from "../api/api_puzzle";
 
 export function usePuzzleFetchHook(id) {
   const puzzlesQuery = useQuery({
-    queryKey: ["puzzles", id],
+    queryKey: ["SinglePuzzle", id],
     queryFn: () => getPuzzleById(id),
     enabled: !!id,
+    staleTime: 0,
+    gcTime: 0,
   });
 
   const puzzle = puzzlesQuery.data ?? null;

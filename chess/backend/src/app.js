@@ -86,4 +86,9 @@ app.use((err, req, res, next) => {
   next(err);
 });
 
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+  next();
+});
+
 export default app;
