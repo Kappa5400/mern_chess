@@ -1,16 +1,33 @@
 services:
+  nginx:
+    image: nginx:alpine
+    container_name: mern_nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      # MOUNT PROD CONFIG ON SERVER, DEV CONFIG LOCALLY
+      - ./nginx/prod.conf:/etc/nginx/conf.d/default.conf:ro
+      # MOUNT THE DIST FOLDER TO BE SERVED
+      - ./frontend/dist:/usr/share/nginx/html:ro
+    depends_on:
+      - backend
+    restart: always
+
   backend:
     image: ${DOCKER_USERNAME}/mernchess_backend:latest
-    ports:
-      - "5000:5000"
+    container_name: mern_backend
+    # No need to expose 5000 to the host; Nginx talks to it internally
+    expose:
+      - "5000"
     env_file:
       - /root/mern_chess/.env
     restart: always
 
+  # Optional: In prod, this service can just be used to 'hold' the image
+  # but nginx handles the actual traffic.
   frontend:
     image: ${DOCKER_USERNAME}/mernchess_frontend:latest
-    ports:
-      - "80:80"
     restart: always
     depends_on:
       - backend
