@@ -61,7 +61,7 @@ export const getAllUserPuzzles = async () => {
 };
 
 export const createUserPuzzle = async ({ fen, answer, rating }, token) => {
-  const res = await fetch(`${BASE_URL}api/v1/userpuzzle/createuserpuzzle`, {
+  const res = await fetch(`${BASE_URL}/api/v1/userpuzzle/createuserpuzzle`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
