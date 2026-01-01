@@ -1,4 +1,4 @@
-test 9
+test 10
 To do
 1. Automate puzzle fetching to add daily puzzle from lichess api endpoint (look at node-cron)  
 Done (remember auto delete add after 10  puzzle in db) 
