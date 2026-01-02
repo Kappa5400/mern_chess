@@ -1,5 +1,4 @@
 name: Master Deployment Pipeline
-
 on:
   push:
     branches: [master]
@@ -20,24 +19,68 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # nginx 設定を「必ずファイル」として保証
-      - name: Ensure nginx config file
+      # STEP 1: PRE-CLEANUP
+      # This deletes the "fake" directories Docker creates when files are missing
+      - name: Pre-deployment Cleanup
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.DROPLET_IP }}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            rm -rf ~/mern_chess/nginx/nginx.conf
             rm -rf ~/mern_chess/nginx/prod.conf
             mkdir -p ~/mern_chess/nginx
             : > ~/mern_chess/nginx/prod.conf
 
-      # 必要ファイルのみ転送
+      # STEP 2: TRANSFER ACTUAL FILES
+      # This sends your real configuration files to the server
       - name: Copy deployment files to server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.DROPLET_IP }}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "docker-compose.yaml,nginx/prod.conf"
-          target:
+          source: "docker-compose.yaml,nginx/"
+          target: "~/mern_chess"
+          strip_components: 0
+
+      # STEP 3: CONFIGURE AND START
+      - name: SSH and Deploy
+        uses: appleboy/ssh-action@v1.0.3
+        env:
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          JWT_SECRET: ${{ secrets.JWT_SECRET }}
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+        with:
+          host: ${{ secrets.DROPLET_IP }}
+          username: root
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd ~/mern_chess
+
+            # Create the production .env file
+            cat <<EOF > .env
+            DB_URL=${{ secrets.MONGO_URI }}
+            JWT_SECRET=${{ secrets.JWT_SECRET }}
+            DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
+            CLIENT_URL=http://${{ secrets.DROPLET_IP }}
+            PORT=5000
+            EOF
+
+            # Deploy containers
+            docker compose pull
+            docker compose up -d --remove-orphans
+
+            # Wait for Nginx to attempt startup
+            sleep 5
+
+            # FINAL CHECK: Only reload if Nginx is actually running
+            if [ "$(docker inspect -f '{{.State.Running}}' mern_nginx)" = "true" ]; then
+                docker exec mern_nginx nginx -t && docker exec mern_nginx nginx -s reload
+                echo "Deployment Successful!"
+            else
+                echo "Nginx container failed to start. Printing logs..."
+                docker logs mern_nginx
+                exit 1
+            fi
