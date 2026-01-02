@@ -42,8 +42,8 @@ jobs:
           envs: MONGO_URI, JWT_SECRET, DOCKER_USERNAME
           script: |
             cd ~/mern_chess
-            [ -d nginx/nginx.conf ] && rm -rf nginx/nginx.conf
-            [ -d nginx/prod.conf ] && rm -rf nginx/prod.conf
+            rm -rf nginx/nginx.conf nginx/prod.conf
+            mkdir -p nginx
             cat <<EOF > .env
             DB_URL=${{ secrets.MONGO_URI }}
             JWT_SECRET=${{ secrets.JWT_SECRET }}
