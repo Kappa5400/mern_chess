@@ -19,7 +19,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Copy docker-compose.yml to server
+      - name: Copy docker-compose.yaml to server
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ secrets.DROPLET_IP }}
@@ -33,7 +33,7 @@ jobs:
           host: ${{ secrets.DROPLET_IP }}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "DOCKER-COMPOSE.YAML,NGINX/"
+          source: "docker-compose.yaml,nginx/"
           target: "~/mern_chess"
       - name: SSH and Deploy
         uses: appleboy/ssh-action@master
