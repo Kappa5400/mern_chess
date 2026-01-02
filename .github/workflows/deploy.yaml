@@ -30,7 +30,7 @@ jobs:
       - name: Copy deploy files to server
         uses: appleboy/scp-action@v0.1.7
         with:
-          host: ${{ secrets.DROPTLET_IP }}
+          host: ${{ secrets.DROPLET_IP }}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: "DOCKER-COMPOSE.YAML,NGINX/"
