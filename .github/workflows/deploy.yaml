@@ -41,7 +41,7 @@ jobs:
           host: ${{ secrets.DROPLET_IP }}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "docker-compose.yaml,nginx/"
+          source: "docker-compose.yaml,nginx/, chess/src/"
           target: "~/mern_chess"
           strip_components: 0
 
