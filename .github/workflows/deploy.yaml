@@ -76,11 +76,9 @@ jobs:
             sleep 30
 
             # FINAL CHECK: Only reload if Nginx is actually running
-            if [ "$(docker inspect -f '{{.State.Running}}' mern_nginx)" = "true" ]; then
-                docker exec mern_nginx nginx -t && docker exec mern_nginx nginx -s reload
-                echo "Deployment Successful!"
+            if [ "$(docker inspect -f '{{.State.Running}}' $NGINX)" = "true" ]; then
+            docker exec $NGINX nginx -t && docker exec $NGINX nginx -s reload
             else
-                echo "Nginx container failed to start. Printing logs..."
-                docker logs mern_nginx
-                exit 1
+              docker logs $NGINX
+              exit 1
             fi
