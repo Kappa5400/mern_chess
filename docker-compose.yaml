@@ -1,6 +1,7 @@
 services:
   nginx:
     image: ${DOCKER_USERNAME}/mernchess_frontend:latest
+    container_name: mern_nginx
     ports:
       - "80:80"
     volumes:

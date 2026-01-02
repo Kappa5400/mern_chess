@@ -28,10 +28,9 @@ jobs:
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            rm -rf ~/mern_chess/nginx/nginx.conf
-            rm -rf ~/mern_chess/nginx/prod.conf
+            # Only remove the specific files to clear Docker's "fake" directories
+            rm -rf ~/mern_chess/nginx/nginx.conf ~/mern_chess/nginx/prod.conf
             mkdir -p ~/mern_chess/nginx
-            : > ~/mern_chess/nginx/prod.conf
 
       # STEP 2: TRANSFER ACTUAL FILES
       # This sends your real configuration files to the server
@@ -76,10 +75,11 @@ jobs:
             sleep 10
 
             # FINAL CHECK: Only reload if Nginx is actually running
-            NGINX=mern_chess-nginx-1
-            if [ "$(docker inspect -f '{{.State.Running}}' $NGINX)" = "true" ]; then
-            docker exec $NGINX nginx -t && docker exec $NGINX nginx -s reload
+            CONTAINER="mern_nginx" 
+            if [ "$(docker inspect -f '{{.State.Running}}' $CONTAINER 2>/dev/null)" = "true" ]; then
+              docker exec $CONTAINER nginx -t && docker exec $CONTAINER nginx -s reload
             else
-              docker logs $NGINX
+              echo "Deployment failed. Nginx is not running."
+              docker logs $CONTAINER || docker ps -a
               exit 1
             fi
