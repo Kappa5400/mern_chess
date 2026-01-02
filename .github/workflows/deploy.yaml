@@ -73,9 +73,10 @@ jobs:
             docker compose up -d --remove-orphans
 
             # Wait for Nginx to attempt startup
-            sleep 30
+            sleep 10
 
             # FINAL CHECK: Only reload if Nginx is actually running
+            NGINX=mern_chess-nginx-1
             if [ "$(docker inspect -f '{{.State.Running}}' $NGINX)" = "true" ]; then
             docker exec $NGINX nginx -t && docker exec $NGINX nginx -s reload
             else
