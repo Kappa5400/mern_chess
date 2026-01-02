@@ -40,7 +40,7 @@ jobs:
           host: ${{ secrets.DROPLET_IP }}
           username: root
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "docker-compose.yaml,nginx/, chess/src/"
+          source: "docker-compose.yaml,mern_chess/nginx/"
           target: "~/mern_chess"
           strip_components: 0
 
@@ -57,6 +57,8 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd ~/mern_chess
+            echo "Checking files in nginx folder:"
+            ls -la nginx/
 
             # Create the production .env file
             cat <<EOF > .env
@@ -71,7 +73,7 @@ jobs:
             docker compose pull
             docker compose up -d --remove-orphans
 
-            # Wait for Nginx to attempt startup
+
             sleep 10
 
             # FINAL CHECK: Only reload if Nginx is actually running
@@ -80,6 +82,7 @@ jobs:
               docker exec $CONTAINER nginx -t && docker exec $CONTAINER nginx -s reload
             else
               echo "Deployment failed. Nginx is not running."
+              ls -ld ~/mern_chess/nginx/prod.conf
               docker logs $CONTAINER || docker ps -a
               exit 1
             fi
