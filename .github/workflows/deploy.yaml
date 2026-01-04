@@ -38,7 +38,7 @@ jobs:
       - name: Verify Nginx
         run: |
           CONTAINER="mern_nginx"
-          sleep 10
+          sleep 60
           if [ "$(sudo docker inspect -f '{{.State.Running}}' $CONTAINER 2>/dev/null)" = "true" ]; then
             sudo docker exec $CONTAINER nginx -t && sudo docker exec $CONTAINER nginx -s reload
           else
