@@ -22,7 +22,7 @@ jobs:
       - name: Configure and Deploy
         run: |
 
-          cat <<EOF > .env
+          cat <<EOF | sudo tee .env > /dev/null
           DB_URL=${{ secrets.MONGO_URI }}
           JWT_SECRET=${{ secrets.JWT_SECRET }}
           DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
@@ -30,19 +30,19 @@ jobs:
           PORT=5000
           EOF
 
-          docker compose pull
-          docker compose up -d --remove-orphans
+          sudo docker compose pull
+          sudo docker compose up -d --remove-orphans
 
-          docker system prune -f
+          sudo docker system prune -f
 
       - name: Verify Nginx
         run: |
           CONTAINER="mern_nginx"
           sleep 10
-          if [ "$(docker inspect -f '{{.State.Running}}' $CONTAINER 2>/dev/null)" = "true" ]; then
-            docker exec $CONTAINER nginx -t && docker exec $CONTAINER nginx -s reload
+          if [ "$(sudo docker inspect -f '{{.State.Running}}' $CONTAINER 2>/dev/null)" = "true" ]; then
+            sudo docker exec $CONTAINER nginx -t && sudo docker exec $CONTAINER nginx -s reload
           else
             echo "Deployment failed. $CONTAINER is not running."
-            docker logs $CONTAINER
+            sudo docker logs $CONTAINER
             exit 1
           fi
