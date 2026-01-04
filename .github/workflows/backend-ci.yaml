@@ -1,6 +1,6 @@
 name: Mernchess Backend CI
 on:
-  workflow_call: # Masterから呼ばれるためのトリガー
+  workflow_call:
 
 jobs:
   lint-and-test:
