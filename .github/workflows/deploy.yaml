@@ -14,75 +14,35 @@ jobs:
 
   deploy:
     needs: [backend-ci, frontend-ci]
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # STEP 1: PRE-CLEANUP
-      # This deletes the "fake" directories Docker creates when files are missing
-      - name: Pre-deployment Cleanup
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.DROPLET_IP }}
-          username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            # Only remove the specific files to clear Docker's "fake" directories
-            rm -rf ~/mern_chess/nginx/nginx.conf ~/mern_chess/nginx/prod.conf
-            mkdir -p ~/mern_chess/nginx
+      - name: Configure and Deploy
+        run: |
 
-      # STEP 2: TRANSFER ACTUAL FILES
-      # This sends your real configuration files to the server
-      - name: Copy deployment files to server
-        uses: appleboy/scp-action@v0.1.7
-        with:
-          host: ${{ secrets.DROPLET_IP }}
-          username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          source: "docker-compose.yaml,nginx/nginx.conf, nginx/conf.d/prod.conf"
-          target: "~/mern_chess"
-          strip_components: 0
+          cat <<EOF > .env
+          DB_URL=${{ secrets.MONGO_URI }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
+          CLIENT_URL=https://chesspuzzlekappa54.me
+          PORT=5000
+          EOF
 
-      # STEP 3: CONFIGURE AND START
-      - name: SSH and Deploy
-        uses: appleboy/ssh-action@v1.0.3
-        env:
-          MONGO_URI: ${{ secrets.MONGO_URI }}
-          JWT_SECRET: ${{ secrets.JWT_SECRET }}
-          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        with:
-          host: ${{ secrets.DROPLET_IP }}
-          username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            cd ~/mern_chess
-            echo "Checking files in nginx folder:"
-            ls -la nginx/
+          docker compose pull
+          docker compose up -d --remove-orphans
 
-            # Create the production .env file
-            cat <<EOF > .env
-            DB_URL=${{ secrets.MONGO_URI }}
-            JWT_SECRET=${{ secrets.JWT_SECRET }}
-            DOCKER_USERNAME=${{ secrets.DOCKER_USERNAME }}
-            CLIENT_URL=http://${{ secrets.DROPLET_IP }}
-            PORT=5000
-            EOF
+          docker system prune -f
 
-            # Deploy containers
-            docker compose pull
-            docker compose up -d --remove-orphans
-
-
-            sleep 10
-
-            # FINAL CHECK: Only reload if Nginx is actually running
-            CONTAINER="mern_nginx" 
-            if [ "$(docker inspect -f '{{.State.Running}}' $CONTAINER 2>/dev/null)" = "true" ]; then
-              docker exec $CONTAINER nginx -t && docker exec $CONTAINER nginx -s reload
-            else
-              echo "Deployment failed. Nginx is not running."
-              ls -ld ~/mern_chess/nginx/prod.conf
-              docker logs $CONTAINER || docker ps -a
-              exit 1
-            fi
+      - name: Verify Nginx
+        run: |
+          CONTAINER="mern_nginx"
+          sleep 10
+          if [ "$(docker inspect -f '{{.State.Running}}' $CONTAINER 2>/dev/null)" = "true" ]; then
+            docker exec $CONTAINER nginx -t && docker exec $CONTAINER nginx -s reload
+          else
+            echo "Deployment failed. $CONTAINER is not running."
+            docker logs $CONTAINER
+            exit 1
+          fi
