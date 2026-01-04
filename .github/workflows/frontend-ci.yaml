@@ -23,4 +23,4 @@ jobs:
           tags: ${{ secrets.DOCKER_USERNAME }}/mernchess_frontend:latest
           # ここでビルド引数を注入
           build-args: |
-            VITE_BACKEND_URL=http://${{ secrets.DROPLET_IP }}:5000
+            VITE_BACKEND_URL=/api
