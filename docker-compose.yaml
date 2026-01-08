@@ -8,8 +8,8 @@ services:
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/conf.d/prod.conf:/etc/nginx/conf.d/default.conf:ro
-      - /etc/nginx/certs/cert.pem:/etc/nginx/certs/cert.pem:ro
-      - /etc/nginx/certs/key.pem:/etc/nginx/certs/key.pem:ro
+      - /mern_chess/nginx/certs/cert.pem:/etc/nginx/certs/cert.pem:ro
+      - /mern_chess/nginx/certs/key.pem:/etc/nginx/certs/key.pem:ro
 
     depends_on:
       - backend
