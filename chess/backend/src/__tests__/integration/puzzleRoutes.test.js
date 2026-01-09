@@ -78,7 +78,7 @@ describe("Puzzle routes", () => {
       data: mockApiCall,
     });
 
-    const res = await request(app).post("/api/v1/puzzle/fetch").send();
+    const res = await request(app).post("/v1/puzzle/fetch").send();
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("message", "Daily puzzle was saved to db");
   });
@@ -92,7 +92,7 @@ describe("Puzzle routes", () => {
       pgn: "e3",
       createdAt: new Date("1900-01-01"),
     });
-    const res = await request(app).get("/api/v1/puzzle/GetAllPuzzles");
+    const res = await request(app).get("/v1/puzzle/GetAllPuzzles");
     expect(res.statusCode).toBe(200);
     expect(res.body[0].length).toBe(2);
   });
@@ -106,7 +106,7 @@ describe("Puzzle routes", () => {
       pgn: "e3",
       createdAt: new Date("1900-01-01"),
     });
-    const res = await request(app).get("/api/v1/puzzle/recent");
+    const res = await request(app).get("/v1/puzzle/recent");
     expect(res.statusCode).toBe(200);
     expect(res.body.createdAt).toBe("2025-01-01T00:00:00.000Z");
   });
@@ -118,7 +118,7 @@ describe("Puzzle routes", () => {
       createdAt: new Date("1900-01-01"),
     });
     const res = await request(app).get(
-      `/api/v1/puzzle/bypuzzleid/${FAKE_PUZZLE_ID}`
+      `/v1/puzzle/bypuzzleid/${FAKE_PUZZLE_ID}`
     );
 
     expect(res.statusCode).toBe(200);
