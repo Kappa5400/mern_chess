@@ -243,7 +243,7 @@ describe(" User puzzle routes ", () => {
     const savedP = await createUserPuzzle(dummyPuz);
 
     const res = await request(app)
-      .delete(`/api/v1/userpuzzle/delete/${savedP._id}`)
+      .delete(`/apiz/v1/userpuzzle/delete/${savedP._id}`)
       .set("Authorization", `Bearer ${token}`);
 
     expect(getPuzzleByID(savedP._id)).toBeNull;
