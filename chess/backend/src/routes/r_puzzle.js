@@ -60,18 +60,18 @@ import { validate, objectIdSchema } from "../middleware/joi.js";
  */
 
 export function puzzleRoutes(app) {
-  app.post("/api/v1/puzzle/fetch", async (req, res) => {
+  app.post("/v1/puzzle/fetch", async (req, res) => {
     const daily = await getDailyPuzzle();
     return res.status(200).json({ message: "Daily puzzle was saved to db" });
   });
 
-  app.get("/api/v1/puzzle/GetAllPuzzles", async (req, res) => {
+  app.get("/v1/puzzle/GetAllPuzzles", async (req, res) => {
     const all_puzzles = await get_all_puzzles();
     return res.json([all_puzzles]);
   });
 
   app.get(
-    "/api/v1/puzzle/bypuzzleid/:id",
+    "/v1/puzzle/bypuzzleid/:id",
     validate(objectIdSchema),
     async (req, res) => {
       const { id } = req.params;
@@ -80,7 +80,7 @@ export function puzzleRoutes(app) {
     }
   );
 
-  app.get("/api/v1/puzzle/recent", async (req, res) => {
+  app.get("/v1/puzzle/recent", async (req, res) => {
     const most_recent_puzzle = await getMostRecent();
     return res.json(most_recent_puzzle);
   });
