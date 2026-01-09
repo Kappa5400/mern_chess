@@ -11,7 +11,7 @@ const getHeaders = () => {
 
 export const getUserPuzzles = async () => {
   console.log("local store", localStorage);
-  const res = await fetch(`${BASE_URL}/api/api/v1/userpuzzle/byuser/self`, {
+  const res = await fetch(`${BASE_URL}/api/v1/userpuzzle/byuser/self`, {
     method: "GET",
     headers: {
       ...getHeaders(),
@@ -23,7 +23,7 @@ export const getUserPuzzles = async () => {
 
 export const getPuzzleByPuzzleID = async (puzzleID) => {
   const res = await fetch(
-    `${BASE_URL}/api/api/v1/userpuzzle/Bypuzzleid/${puzzleID}`,
+    `${BASE_URL}/api/v1/userpuzzle/Bypuzzleid/${puzzleID}`,
     {
       method: "GET",
       headers: getHeaders(),
@@ -36,7 +36,7 @@ export const getPuzzleByPuzzleID = async (puzzleID) => {
 export const getPublicPuzzleByID = async (puzzleID) => {
   console.log("Api param puzzleid: ", puzzleID);
   const res = await fetch(
-    `${BASE_URL}/api/api/v1/userpuzzle/public/bypuzzleid/${puzzleID}`,
+    `${BASE_URL}/api/v1/userpuzzle/public/bypuzzleid/${puzzleID}`,
     {
       method: "GET",
     }
@@ -51,7 +51,7 @@ export const getPublicPuzzleByID = async (puzzleID) => {
 
 export const getAllUserPuzzles = async () => {
   console.log("Fetching all user puzzles");
-  const res = await fetch(`${BASE_URL}/api/api/v1/userpuzzle/all`, {
+  const res = await fetch(`${BASE_URL}/api/v1/userpuzzle/all`, {
     headers: getHeaders(),
   });
   console.log("Status: ", res.status);
@@ -61,17 +61,14 @@ export const getAllUserPuzzles = async () => {
 };
 
 export const createUserPuzzle = async ({ fen, answer, rating }, token) => {
-  const res = await fetch(
-    `${BASE_URL}/api/api/v1/userpuzzle/createuserpuzzle`,
-    {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({ fen: fen, answer: answer, rating: rating }),
-    }
-  );
+  const res = await fetch(`${BASE_URL}/api/v1/userpuzzle/createuserpuzzle`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ fen: fen, answer: answer, rating: rating }),
+  });
   if (!res.ok) {
     const error = await res.json();
     console.error("Error: ", error);
@@ -88,7 +85,7 @@ export const updateUserPuzzle = async (
   rating
 ) => {
   const res = await fetch(
-    `${BASE_URL}/api/api/v1/userpuzzle/updatepuzzle/${puzzleID}`,
+    `${BASE_URL}/api/v1/userpuzzle/updatepuzzle/${puzzleID}`,
     {
       method: "PATCH",
       headers: getHeaders(),
@@ -100,13 +97,10 @@ export const updateUserPuzzle = async (
 };
 
 export const deleteUserPuzzle = async (puzzleID) => {
-  const res = await fetch(
-    `${BASE_URL}/api/api/v1/userpuzzle/delete/${puzzleID}`,
-    {
-      method: "DELETE",
-      headers: getHeaders(),
-    }
-  );
+  const res = await fetch(`${BASE_URL}/api/v1/userpuzzle/delete/${puzzleID}`, {
+    method: "DELETE",
+    headers: getHeaders(),
+  });
   if (!res.ok) throw new Error("Failed to delete user puzzle");
   return await res.json();
 };
