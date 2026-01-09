@@ -119,7 +119,7 @@ import { logger } from "../utils/logger.js";
  */
 
 export function userPuzzleRoutes(app) {
-  app.get("/api/v1/userpuzzle/byuser/self", requireAuth, async (req, res) => {
+  app.get("/v1/userpuzzle/byuser/self", requireAuth, async (req, res) => {
     const userId = req.auth.sub;
     console.log("UserID search test ", userId);
     const allUserP = await getUserPuzzles(userId);
@@ -129,7 +129,7 @@ export function userPuzzleRoutes(app) {
   });
 
   app.get(
-    "/api/v1/userpuzzle/Bypuzzleid/:id",
+    "/v1/userpuzzle/Bypuzzleid/:id",
     requireAuth,
     validate(objectIdSchema, "params"),
     async (req, res) => {
@@ -142,7 +142,7 @@ export function userPuzzleRoutes(app) {
   );
 
   //to add : validation
-  app.get("/api/v1/userpuzzle/public/bypuzzleid/:id", async (req, res) => {
+  app.get("/v1/userpuzzle/public/bypuzzleid/:id", async (req, res) => {
     try {
       const { id } = req.params;
       logger.log("Id from params public call: ", id);
@@ -156,13 +156,13 @@ export function userPuzzleRoutes(app) {
     }
   });
 
-  app.get("/api/v1/userpuzzle/all", async (req, res) => {
+  app.get("/v1/userpuzzle/all", async (req, res) => {
     const all_user_puzzles = await get_all_user_puzzles();
     return res.json([all_user_puzzles]);
   });
 
   app.post(
-    "/api/v1/userpuzzle/createuserpuzzle",
+    "/v1/userpuzzle/createuserpuzzle",
     requireAuth,
     validate(createUserPuzzleSchema),
     async (req, res) => {
@@ -182,7 +182,7 @@ export function userPuzzleRoutes(app) {
   );
 
   app.patch(
-    "/api/v1/userpuzzle/updatepuzzle/:id",
+    "/v1/userpuzzle/updatepuzzle/:id",
     requireAuth,
     validate(objectIdSchema, "params"),
     validate(updatePuzzleSchema, "body"),
@@ -198,7 +198,7 @@ export function userPuzzleRoutes(app) {
   );
 
   app.delete(
-    "/api/v1/userpuzzle/delete/:id",
+    "/v1/userpuzzle/delete/:id",
     requireAuth,
     validate(objectIdSchema, "params"),
     async (req, res) => {

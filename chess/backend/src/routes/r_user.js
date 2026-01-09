@@ -128,7 +128,7 @@ import { requireAuth } from "../middleware/jwt.js";
 
 export function userRoutes(app) {
   app.get(
-    "/api/v1/user/byuserid/:id",
+    "/v1/user/byuserid/:id",
     validate(objectIdSchema, "params"),
     async (req, res) => {
       const userInfo = await getUserInfoByID(req.params.id);
@@ -136,13 +136,13 @@ export function userRoutes(app) {
     }
   );
 
-  app.get("/api/v1/user/topusers", async (req, res) => {
+  app.get("/v1/user/topusers", async (req, res) => {
     const topScoringUsers = await getTopUsers();
     return res.status(200).send(topScoringUsers);
   });
 
   app.patch(
-    "/api/v1/user/score_up/:id",
+    "/v1/user/score_up/:id",
     validate(objectIdSchema, "params"),
     async (req, res) => {
       try {
@@ -155,22 +155,18 @@ export function userRoutes(app) {
     }
   );
 
-  app.post(
-    "/api/v1/user/signup",
-    validate(createUserSchema),
-    async (req, res) => {
-      try {
-        const user = await createUser(req.body);
-        return res.status(201).json({ username: user.username });
-      } catch (err) {
-        return res.status(400).json({
-          error: "failed to create the user, does the username already exist?",
-        });
-      }
+  app.post("/v1/user/signup", validate(createUserSchema), async (req, res) => {
+    try {
+      const user = await createUser(req.body);
+      return res.status(201).json({ username: user.username });
+    } catch (err) {
+      return res.status(400).json({
+        error: "failed to create the user, does the username already exist?",
+      });
     }
-  );
+  });
 
-  app.post("/api/v1/user/login", validate(loginSchema), async (req, res) => {
+  app.post("/v1/user/login", validate(loginSchema), async (req, res) => {
     try {
       const token = await loginUser(req.body);
       return res.status(200).send({ token });
