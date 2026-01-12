@@ -95,7 +95,7 @@ describe(" User puzzle routes ", () => {
     };
 
     const res = await request(app)
-      .post("/api/v1/userpuzzle/createuserpuzzle")
+      .post("/v1/userpuzzle/createuserpuzzle")
       .set("Authorization", `Bearer ${token}`)
       .send(sendData);
 
@@ -103,7 +103,7 @@ describe(" User puzzle routes ", () => {
     expect(res.body).toHaveProperty("message", "Created user puzzle");
   });
 
-  it("GET /api/v1/userpuzzle/byuser/self get user puzzles", async () => {
+  it("GET /v1/userpuzzle/byuser/self get user puzzles", async () => {
     const dummyUser = {
       username: "test",
       password: "password",
@@ -131,7 +131,7 @@ describe(" User puzzle routes ", () => {
     await createUserPuzzle(sendData);
 
     const res = await request(app)
-      .get("/api/v1/userpuzzle/byuser/self")
+      .get("/v1/userpuzzle/byuser/self")
       .set("Authorization", `Bearer ${token}`);
 
     expect(res.body[0].fen).toBe("e4");
@@ -164,7 +164,7 @@ describe(" User puzzle routes ", () => {
     const savedP = await createUserPuzzle(sendData);
 
     const res = await request(app)
-      .get(`/api/v1/userpuzzle/Bypuzzleid/${savedP._id}`)
+      .get(`/v1/userpuzzle/Bypuzzleid/${savedP._id}`)
       .set("Authorization", `Bearer ${token}`);
 
     expect(res.body.fen).toBe("e4");
@@ -243,7 +243,7 @@ describe(" User puzzle routes ", () => {
     const savedP = await createUserPuzzle(dummyPuz);
 
     const res = await request(app)
-      .delete(`/apiz/v1/userpuzzle/delete/${savedP._id}`)
+      .delete(`/api/v1/userpuzzle/delete/${savedP._id}`)
       .set("Authorization", `Bearer ${token}`);
 
     expect(getPuzzleByID(savedP._id)).toBeNull;

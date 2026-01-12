@@ -39,7 +39,7 @@ const saveDummy = async (overrides) => User.create(createDummyUser(overrides));
 
 describe("User routes", () => {
   it("POST /api/v1/user/signup - create user", async () => {
-    const res = await request(app).post("/api/v1/user/signup").send({
+    const res = await request(app).post("/v1/user/signup").send({
       username: "test1",
       password: "password1",
     });
@@ -51,7 +51,7 @@ describe("User routes", () => {
   it("POST /api/v1/user/login - login", async () => {
     await createUser({ username: "test", password: "pass" });
 
-    const res = await request(app).post("/api/v1/user/login").send({
+    const res = await request(app).post("/v1/user/login").send({
       username: "test",
       password: "pass",
     });
