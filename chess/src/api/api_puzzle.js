@@ -8,7 +8,7 @@ const getHeaders = () => {
 
 export const getAllPuzzle = async () => {
   console.log("Fetching all puzzles");
-  const res = await fetch(`${BASE_URL}/api/api/v1/puzzle/GetAllPuzzles`, {
+  const res = await fetch(`${BASE_URL}/v1/puzzle/GetAllPuzzles`, {
     headers: getHeaders(),
   });
   console.log("Status: ", res.status);
@@ -18,7 +18,7 @@ export const getAllPuzzle = async () => {
 };
 
 export const getPuzzleById = async (_id) => {
-  const res = await fetch(`${BASE_URL}/api/api/v1/puzzle/bypuzzleid/${_id}`, {
+  const res = await fetch(`${BASE_URL}/v1/puzzle/bypuzzleid/${_id}`, {
     headers: getHeaders(),
   });
   if (!res.ok) throw new Error("Failed to retreive single puzzle by id");
@@ -26,7 +26,7 @@ export const getPuzzleById = async (_id) => {
 };
 
 export const GetMostRecent = async () => {
-  const res = await fetch(`${BASE_URL}/api/api/v1/puzzle/recent`, {
+  const res = await fetch(`${BASE_URL}/api/v1/puzzle/recent`, {
     headers: getHeaders(),
   });
   if (!res.ok) throw new Error("Failed to retreive most recent puzzle");
