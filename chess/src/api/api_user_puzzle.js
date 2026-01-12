@@ -51,7 +51,7 @@ export const getPublicPuzzleByID = async (puzzleID) => {
 
 export const getAllUserPuzzles = async () => {
   console.log("Fetching all user puzzles");
-  const res = await fetch(`${BASE_URL}/api/v1/userpuzzle/all`, {
+  const res = await fetch(`${BASE_URL}/api/api/v1/userpuzzle/all`, {
     headers: getHeaders(),
   });
   console.log("Status: ", res.status);
