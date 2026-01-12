@@ -9,7 +9,7 @@ const getHeadersToken = () => {
 };
 
 export const signup = async ({ username, password }) => {
-  const res = await fetch(`${BASE_URL}/api/v1/user/signup`, {
+  const res = await fetch(`${BASE_URL}/v1/user/signup`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ username, password }),
