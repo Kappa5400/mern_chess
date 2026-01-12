@@ -26,7 +26,7 @@ export const getPuzzleById = async (_id) => {
 };
 
 export const GetMostRecent = async () => {
-  const res = await fetch(`${BASE_URL}/api/v1/puzzle/recent`, {
+  const res = await fetch(`${BASE_URL}/v1/puzzle/recent`, {
     headers: getHeaders(),
   });
   if (!res.ok) throw new Error("Failed to retreive most recent puzzle");
