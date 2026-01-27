@@ -66,7 +66,8 @@ export function About() {
               express-jwt express-mongo-sanitize: Mongo-Sanatization middleware
               to prevent sql injection attacks <br /> joi: Middleware for input
               validation. helmet: Helmet middleware for HTTP security. <br />{" "}
-              jsonwebtoken: JSON web tokens for session authentication. <br />{" "}
+              jsonwebtoken: JSON web tokens for session authentication.{" "}
+              <br />{" "}
             </p>
             <h4>Utility:</h4>
             <p>
@@ -183,7 +184,34 @@ export function About() {
             actions, such as delete those puzzles. There is also a scoreboard to
             view the top five users and their scores, you get a point for each
             puzzle you solve. <br />
-            <h2>Testing, CI/CD, and Deployment</h2> WIP
+            <h2>Testing, CI/CD, and Deployment</h2>
+            <h3>Testing</h3>
+            Testing currently includes unit testing and integration testing
+            using the jest library. Unit tests make sure both expected failures
+            and expected success cases are operating correctly in the logic
+            layer and the integration tests make sure that the API is able to
+            send data successfully. There exists unit tests for every utilized
+            business logic function, both for expected passes and failures, as
+            well as integration tests for each utilized API endpoint. These make
+            sure that every update to the codebase will not destroy the base
+            functionality of the application. <br />
+            <h3>CI/CD</h3>
+            CI/CD is done with GitHub actions so that each Github push will test
+            and lint the backend, create new docker images on the server for the
+            front end and backend, and the images will then be deployed to the
+            server. On the website server there is a self-hosted GitHub runner
+            that receives Github actions to pull the updated docker image from
+            Dockerhub and the deploy the built images. This easy GitHub actions
+            to Docker to server pipeline ensures frictionless CI/CD.
+            <br />
+            <h3>Deployment</h3>
+            The website server is hosted through Digital Ocean, where a droplet
+            is setup and configured with a self hosted GitHub runner to handle
+            the CI/CD aspects of deployment. The server docker images are built
+            on each GitHub push that passes linting and testing, ensuring faulty
+            code is never deployed. Website IP masking and security from
+            external attacks are prevented through the use of Cloudflare and a
+            Digital Ocean firewall.
           </p>
         </div>
       </main>
