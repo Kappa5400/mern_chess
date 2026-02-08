@@ -14,6 +14,7 @@ export function SideBar() {
     { name: "View own puzzle", url: "/userpuzzlelist" },
     { name: "View all user puzzles", url: "/ViewAllUserPuzzlePage" },
     { name: "About page", url: "/About" },
+    { name: "アバウト", url: "/Aboutjp" },
   ];
 
   return (

@@ -15,210 +15,183 @@ export function About() {
 
         <br />
         <div className={styles.About_text}>
-          <h1>MERN Stack Chess App Introduction</h1>
+          <h1>MERNスタック チェスアプリ 概要</h1>
           <h2>
-            Github link: <br />
+            Githubリンク: <br />
             https://github.com/Kappa5400/mern_chess
             <br />
           </h2>
-          <h2>Intro</h2>
+          <h2>イントロダクション</h2>
           <p>
-            This is a repo of this website that is deployed on Digital Ocean.
-            Besides the normal parts of this website that are easy to see, this
-            application has a fully working CI/CD pipeline that on each Github
-            push will test and lints code, create a docker image for the front
-            end and back ends, have a self hosted Github runner on the website
-            server pull the docker images, build the images, then deploy the
-            images. Testing includes unit testing of both expected failures and
-            expected success of each part of the service layer and also includes
-            integration testing for each used API point. The app does a couple
-            of things currently: It supports account creation and login. It
-            calls the Lichess daily puzzle endpoint and saves the puzzle to the
-            database. It shows the last ten daily lichess puzzles. It supports a
-            basic score system, solving a puzzle while logged into an account
-            gives you a point. It shows the top 5 scoring users across the
-            website. For logged in users it supports puzzle creation, viewing,
-            and deletion. You can browse and play through all saved user
-            puzzles. The purpose of this app is to showcase my software
-            engineering abilities. As such, I will go through a more detailed
-            overview below.
+            本プロジェクトは、Digital
+            Oceanにデプロイされたチェスアプリのリポジトリです。
+            UIの構築だけでなく、実用的なCI/CDパイプラインを構築している点が特徴です。
+            GitHubへプッシュするたびに、コードのテストと静的解析（Lint）が自動実行され、フロントエンドとバックエンドのDockerイメージが生成されます。
+            その後、サーバー側のセルフホスト型GitHub
+            Runnerがイメージをプルし、デプロイまでを自動で行います。
+            テストに関しては、サービスレイヤーの各ユニットテスト（正常系・異常系）および全APIエンドポイントの結合テストを実装しています。
+            主な機能：アカウント作成・ログイン、Lichess
+            APIからのデイリーパズル自動取得と保存、直近10件のパズル表示、スコアシステム（ログイン中に解決でポイント付与）、ランキング表示、ユーザー独自のパズル作成・閲覧・削除。
+            このアプリは、私のソフトウェアエンジニアとしてのスキルを証明するために開発しました。詳細は以下の通りです。
           </p>
 
-          <h2>Project Walkthrough System Architecture </h2>
+          <h2>プロジェクト詳細：システムアーキテクチャ</h2>
           <p>
-            The webapp is built with a client-server architecture, where as the
-            backend is separate from the frontend. The backend contains the
-            database, mongodb in this case, the service layer, and the routing
-            layer. It also contains some middleware for data validation and
-            authentication, unit and integration testing, logging utilities, and
-            a simple job script. The apis are accessed via the frontend's api
-            handler layer which is either accessed through react hooks or
-            directly in components or pages. The frontend also contains
-            authentication contexts to handle tokens.
+            本アプリは、フロントエンドとバックエンドを完全に分離したクライアント・サーバーアーキテクチャで構築されています。
+            バックエンドにはMongoDBを採用し、サービスレイヤーとルーティングレイヤーで構成されています。
+            また、データバリデーションや認証のためのミドルウェア、テスト環境、ロギングユーティリティ、自動スクリプトを含んでいます。
+            フロントエンドからはReact
+            Hooksまたはコンポーネント経由でAPIハンドラー層にアクセスします。
+            また、認証コンテキストを使用してトークン管理を行っています。
           </p>
-          <h3>Packages Used</h3>
+          <h3>使用パッケージ</h3>
           <p>
-            Security : bcrypt, exprewss-jwt, express-mongo-sanatize, joi,
-            helmet, jsonwebtoken <br /> Utility: axios, dotenv, compression,
-            cors, cron, mongoose, morgan, winston, swagger, eslint, cross-env{" "}
-            <br /> Testing: jest, mongodb-memory-server, supertest
-            <br /> Frontend: React, Vite, Chess.js, react-chessboard, tanstack,
-            jwt-decode, react-router-dom Breakdown
-            <p />
-            <h3>Package Explanation</h3>
-            <h4>Security</h4>
-            <p>
-              bcrypt: Hashing package for encrypting user passwords.
-              <br />
-              express-jwt express-mongo-sanitize: Mongo-Sanatization middleware
-              to prevent sql injection attacks <br /> joi: Middleware for input
-              validation. helmet: Helmet middleware for HTTP security. <br />{" "}
-              jsonwebtoken: JSON web tokens for session authentication.{" "}
-              <br />{" "}
-            </p>
-            <h4>Utility:</h4>
-            <p>
-              axios: API Request package, used to send HTTP GET request to
-              Lichess dailypuzzle backend. compression: Compresses HTTP
-              responses. cors: Cross-Origin Resource Sharing, so that the
-              backend api is accessible to the frontend. <br /> cron: An
-              automatic script runner, used to run the fetch jobs to retrieve
-              the lichess dailypuzzle daily. I have the script run twice a day,
-              in the morning and evening, to fetch the daily chess puzzle when
-              it is updated. The lichess daily puzzle updates randomly during
-              the day. Duplicate puzzles are ignored. The job scripts are in the
-              following filepath: chess/backend/src/service/jobs mongoose:
-              Database ARM to run queries into mongodb. morgan: middleware for
-              logging http requests. winston: Logging. swagger: Backend API
-              Documentation. See below url to view the swagger documents for the
-              backend api: eslint: JS linter. cross-env: Environmental variable.
-            </p>{" "}
-            <h4>Testing</h4>
-            <p>
-              Jest: The testing suite I used for unit testing and integration
-              testing. mongodb-memory-server: Memory server used during testing.
-              Instead of using my development db, I use an in memory db to mock
-              db usage for testing. supertest: Integration and end to end test
-              package.
-            </p>
-            <h4>Frontend</h4>
-            <p>
-              React: Frontend framework. Vite: Frontend build tool. Chess.js:
-              Handles the chess game logic. react-chessboard: React chessboard
-              component to display the board conditions, interacts with chess.js
-              for rule handling. tanstack: Querying tool for react. jwt-decode:
-              for decoding jwt tokens made in the backend, for validating
-              frontend user session. react-router-dom: routing for frontend in
-              react.{" "}
-            </p>
+            セキュリティ: bcrypt, express-jwt, express-mongo-sanitize, joi,
+            helmet, jsonwebtoken <br />
+            ユーティリティ: axios, dotenv, compression, cors, cron, mongoose,
+            morgan, winston, swagger, eslint, cross-env <br />
+            テスト: jest, mongodb-memory-server, supertest <br />
+            フロントエンド: React, Vite, Chess.js, react-chessboard, tanstack,
+            jwt-decode, react-router-dom
+          </p>
+
+          <h3>パッケージ解説</h3>
+          <h4>セキュリティ</h4>
+          <p>
+            bcrypt: パスワードを暗号化（ハッシュ化）するためのパッケージ。
             <br />
-            <h3>File structure </h3> <h4> Backend File Structure</h4>
-            <p>
-              |mern_chess/chess/src/ <br />
-              ├──**tests**/ # Unit test and integration testing. <br />
-              ├──db/ #Stores the database init script and models.
-              <br />
-              ├──middleware/ #joi data validation and jwt auth. <br />
-              ├──routes/ # routing logic. <br />
-              ├──service/ # business logic. <br />| └──jobs/ # cronjob scripts.{" "}
-              <br />
-              ├──swagger/ #swagger endpoint documentation setup files
-              <br />
-              ├──tests/ # testing setup teardown files <br />
-              ├──utils/ # Winston logging. <br />
-              |app.js #entry point <br />
-              |server.js # server setup Frontend File Structure
-              <h4>Frontend</h4>
-              |mern_chess/chess/backend/src/ <br />
-              ├──api/ # Where the frontend connects to backend api <br />
-              ├──components # React components
-              <br />
-              ├──contexts # Authentication context for security. <br />
-              ├──hooks # React hooks for api calls and querying.
-              <br /> ├──pages # Page templates <br />
-              |App.jsx # Routing <br />
-              |main.jsx # Entry point. <br />
-            </p>
-            <h2>Backend</h2>
-            <p>
-              The backend follows a basic database model &lt;——&lt; service
-              &lt;——&lt; route pattern with some middleware for input validation
-              and logging. For the actual logic, I separated files into three
-              buckets: user account logic, puzzle logic, and user made puzzle
-              logic. There are 3 db models, 3 service files, and 3 route files
-              setup, separating the logic between the buckets. The user made
-              puzzle has crud capabilities and expected crud endpoints which can
-              be accessed on the frontend with authentication, as well as a way
-              to 'publicly' view user made puzzles without authentication. The
-              puzzle logic is for viewing puzzles in the frontend only, as
-              puzzles are retrieved with cronjob scripts in the backend.
-              Finally, the user logic has support for creating users and logging
-              in to the created accounts.{" "}
-            </p>
-            <h3>Cron Job</h3> There are two fetch scripts to get the daily
-            puzzle. runDailyFetch.js is run manually via node script calling in
-            the cmd line. The other script, dailypuzzleget.js, sets up two
-            cronjobs to attempt to fetch the lichess dailypuzzle. As the lichess
-            dailypuzzle is not updated at the same time every day, I had to have
-            two jobs setup to 'check' if the puzzle was updated or not. The
-            script gets the puzzle currently in the lichess endpoint, and if it
-            already matches a puzzle that is in the database, it ignores it. If
-            it doesn't match, it will add it to the database, then call delete
-            oldest puzzle. As this is just a toy app, it was important to make
-            sure the database size was self regulated.
+            express-jwt / express-mongo-sanitize:
+            MongoDBへの注入攻撃（インジェクション）を防ぐミッドウェア。
             <br />
-            <h2>Security</h2> To support account creation and login, I used
-            jsonwebtokens to track tokens during sessions, allowing for user
-            authenticated required actions and page views. The passwords are
-            hashed before being saved to the database and are used in the
-            frontend for verification. All user input is sanitized and most are
-            type validated with joi schemas. In total, this app is not
-            spectacularly security focused, but it has a basic support for
-            expected website security. <br />
-            <h2>Frontend</h2> The frontend uses react component based structure
-            with pages, components, state hooks, and api. The flow of logic is
-            as follows: pages &lt;--&lt; components &lt;--&lt; hooks &lt;--&lt;
-            api Sometimes inside a component, however, I did call api functions
-            instead of using hooks in the event that a state wasn't necessary.
-            The frontend uses the react-chessboard library and chess.js to
-            handle the chess logic and board state visualization: however, in
-            order to make user created puzzles, I had to write the logic to
-            input the puzzle information in the front end. The frontend also has
-            token conditional pages and actions, such as creating user puzzles,
-            deleting user puzzles, and viewing all self made puzzles. The
-            frontend also has a page to view all user made puzzles that all uses
-            can access: however, users are not able to do user restricted
-            actions, such as delete those puzzles. There is also a scoreboard to
-            view the top five users and their scores, you get a point for each
-            puzzle you solve. <br />
-            <h2>Testing, CI/CD, and Deployment</h2>
-            <h3>Testing</h3>
-            Testing currently includes unit testing and integration testing
-            using the jest library. Unit tests make sure both expected failures
-            and expected success cases are operating correctly in the logic
-            layer and the integration tests make sure that the API is able to
-            send data successfully. There exists unit tests for every utilized
-            business logic function, both for expected passes and failures, as
-            well as integration tests for each utilized API endpoint. These make
-            sure that every update to the codebase will not destroy the base
-            functionality of the application. <br />
-            <h3>CI/CD</h3>
-            CI/CD is done with GitHub actions so that each Github push will test
-            and lint the backend, create new docker images on the server for the
-            front end and backend, and the images will then be deployed to the
-            server. On the website server there is a self-hosted GitHub runner
-            that receives Github actions to pull the updated docker image from
-            Dockerhub and the deploy the built images. This easy GitHub actions
-            to Docker to server pipeline ensures frictionless CI/CD.
+            joi: 入力データのバリデーション用ミドルウェア。
             <br />
-            <h3>Deployment</h3>
-            The website server is hosted through Digital Ocean, where a droplet
-            is setup and configured with a self hosted GitHub runner to handle
-            the CI/CD aspects of deployment. The server docker images are built
-            on each GitHub push that passes linting and testing, ensuring faulty
-            code is never deployed. Website IP masking and security from
-            external attacks are prevented through the use of Cloudflare and a
-            Digital Ocean firewall.
+            helmet: HTTPヘッダーを設定し、セキュリティを強化するミドルウェア。
+            <br />
+            jsonwebtoken: セッション認証用のJSON Web Token。
+          </p>
+
+          <h4>ユーティリティ</h4>
+          <p>
+            axios: LichessのパズルAPIへHTTP GETリクエストを送るために使用。
+            <br />
+            compression: HTTPレスポンスを圧縮し、パフォーマンスを向上。
+            <br />
+            cors:
+            クロスオリジンリソース共有を設定し、フロントエンドからAPIへのアクセスを許可。
+            <br />
+            cron:
+            Lichessパズルを自動取得するためのスクリプト実行に使用。パズル更新が不定期なため、1日2回（朝・晩）チェックを行い、重複がない場合のみDBに保存します。
+            （実行パス: chess/backend/src/service/jobs）
+            <br />
+            mongoose: MongoDB操作のためのODM（Object Data Modeling）。
+            <br />
+            morgan / winston: HTTPリクエストのログ出力およびシステムログの管理。
+            <br />
+            swagger: APIドキュメントの自動生成。
+            <br />
+            eslint: JavaScriptコードの品質管理（リンター）。
+            <br />
+            cross-env: 環境変数をOSに依存せず設定するためのツール。
+          </p>
+
+          <h4>テスト</h4>
+          <p>
+            Jest: ユニットテストおよび結合テストに使用したテストフレームワーク。
+            <br />
+            mongodb-memory-server:
+            テスト時に実DBを汚さないよう、メモリ上で動作するDBをモックとして使用。
+            <br />
+            supertest: APIの結合テストおよびE2Eテスト用のパッケージ。
+          </p>
+
+          <h4>フロントエンド</h4>
+          <p>
+            React / Vite: フロントエンドフレームワークおよびビルドツール。
+            <br />
+            Chess.js: チェスのゲームロジック（ルール判定など）を制御。
+            <br />
+            react-chessboard:
+            盤面をUIに表示するコンポーネント。Chess.jsと連携して動作。
+            <br />
+            tanstack (React Query): 非同期データの取得・キャッシュ・同期を管理。
+            <br />
+            jwt-decode:
+            バックエンドで生成されたJWTをデコードし、セッションの有効性を確認。
+            <br />
+            react-router-dom: React内での画面遷移（ルーティング）を管理。
+          </p>
+
+          <br />
+          <h3>ファイル構成</h3>
+          <h4>バックエンド</h4>
+          <p>
+            | mern_chess/chess/src/ <br />
+            ├── __tests__/ # ユニットテストおよび結合テスト <br />
+            ├── db/ # DB初期化スクリプトとモデル定義 <br />
+            ├── middleware/ # joiバリデーションとJWT認証 <br />
+            ├── routes/ # ルーティングロジック <br />
+            ├── service/ # ビジネスロジック <br />
+            | └── jobs/ # cronジョブスクリプト <br />
+            ├── swagger/ # Swagger API定義ファイル <br />
+            ├── tests/ # テストのセットアップおよび破棄設定 <br />
+            ├── utils/ # Winstonロギング設定 <br />
+            | app.js # エントリーポイント <br />| server.js # サーバー設定
+          </p>
+
+          <h4>フロントエンド</h4>
+          <p>
+            | mern_chess/chess/frontend/src/ <br />
+            ├── api/ # API通信の定義 <br />
+            ├── components/ # Reactコンポーネント <br />
+            ├── contexts/ # 認証などのコンテキスト <br />
+            ├── hooks/ # API呼び出し等のカスタムフック <br />
+            ├── pages/ # ページテンプレート <br />
+            | App.jsx # ルーティング設定 <br />| main.jsx # エントリーポイント
+          </p>
+
+          <h2>バックエンド詳細</h2>
+          <p>
+            バックエンドは「DBモデル ⇄ サービス ⇄
+            ルート」の標準的なパターンに従い、バリデーションとロギングのミドルウェアを組み込んでいます。
+            ロジックは、ユーザー認証、パズル取得、ユーザー作成パズルの3つに分割して管理。
+            ユーザー作成パズルについてはCRUD機能を備えており、認証済みユーザーは自身のパズルの作成・削除が可能です（閲覧は未認証でも可能）。
+            DBサイズを適切に保つため、古いパズルを自動削除する仕組みも導入しています。
+          </p>
+
+          <h2>セキュリティ</h2>
+          <p>
+            JWTを用いてセッション中のトークンを追跡し、認証が必要なアクションを制御しています。
+            パスワードはDB保存前にハッシュ化。ユーザーからの入力はすべてサニタイズ（無害化）され、joiスキーマによって型と形式が厳密に検証されます。
+            Webサイトとして期待される標準的なセキュリティ対策を実装しています。
+          </p>
+
+          <h2>フロントエンド詳細</h2>
+          <p>
+            Reactのコンポーネントベースの構造を採用し、「Pages ⇄ Components ⇄
+            Hooks ⇄ API」という明確なデータフローを構築しました。
+            チェスのロジックにはChess.jsとreact-chessboardを使用していますが、パズル作成時の位置情報入力などの独自ロジックは自前で実装しています。
+            ログイン状態に応じた動的なUI変更（作成ボタンの表示・非表示など）や、スコアボード表示機能を備えています。
+          </p>
+
+          <h2>テスト、CI/CD、デプロイ</h2>
+          <h3>テスト</h3>
+          <p>
+            Jestを用いてユニットテストと結合テストを実施しています。
+            ビジネスロジックの各関数に対して正常・異常の両パターンをテストし、APIエンドポイントが正しくデータを送受信できることを保証しています。
+            これにより、コード変更時のデグレ（不具合の再発）を最小限に抑えています。
+          </p>
+          <h3>CI/CD</h3>
+          <p>
+            GitHub Actionsを利用し、プッシュごとに自動テストとリントを実行。
+            テスト通過後にDockerイメージをビルドし、サーバー側のGitHub
+            Runner経由で自動デプロイされるパイプラインを構築しました。
+            この一連の流れにより、摩擦のない継続的デリバリー（Frictionless
+            CI/CD）を実現しています。
+          </p>
+          <h3>デプロイ</h3>
+          <p>
+            Digital OceanのDroplet上でホスト。CloudflareによるIP秘匿化とDigital
+            Oceanのファイアウォールを組み合わせることで、外部攻撃（DDoS等）から保護された安全な環境を構築しています。
           </p>
         </div>
       </main>

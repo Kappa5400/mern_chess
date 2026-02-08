@@ -62,6 +62,10 @@ export function App() {
               element={<About key={window.location.pathname} />}
             />
             <Route
+              path="/aboutjp"
+              element={<About key={window.location.pathname} />}
+            />
+            <Route
               path="/profile/:id"
               element={<Index key={window.location.pathname} />}
             />
