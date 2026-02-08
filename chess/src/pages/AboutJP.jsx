@@ -4,7 +4,7 @@ import { UserProfile } from "../components/userprofile_test.jsx";
 import styles from "./Index.module.css";
 import { ChessboardComponent } from "../components/chessboard_starting_pos.jsx";
 
-export function About() {
+export function AboutJP() {
   return (
     <div className={styles.container}>
       <SideBar />
