@@ -8,6 +8,7 @@ import { Signup } from "./pages/signup_page.jsx";
 import { PuzzleListPage } from "./pages/PuzzleListPage.jsx";
 import { AuthContext, AuthContextProvider } from "./contexts/AuthContext.jsx";
 import { About } from "./pages/About.jsx";
+import { AboutJP } from "./pages/AboutJP.jsx";
 import { Scoreboard } from "./pages/Scoreboard.jsx";
 import { MakeUserPuzzlePage } from "./pages/MakeUserPuzzlePage.jsx";
 import { ViewOwnPuzzlePage } from "./pages/ViewOwnPuzzle.jsx";
@@ -63,7 +64,7 @@ export function App() {
             />
             <Route
               path="/aboutjp"
-              element={<About key={window.location.pathname} />}
+              element={<AboutJP key={window.location.pathname} />}
             />
             <Route
               path="/profile/:id"
