@@ -22,13 +22,15 @@ const run = async () => {
     del_flag = 1;
   } catch (err) {
     logger.info("Error getting daily puzzle: ", err);
+    await mongoose.connection.close();
+    logger.info("Closed db connection.");
     process.exit(2);
   }
 
   if (del_flag == 1) {
     try {
       logger.info("Attempting to delete oldest in db...");
-      deleteOldest();
+      await deleteOldest();
       logger.info("Oldest deleted.");
     } catch (err) {
       logger.info("Error deleting oldest puzzle in db: ", err);
