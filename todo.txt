@@ -1,12 +1,46 @@
 Issues to Fix
-1. node_modules is committed and in the zip. This is an immediate red flag on any repo review. Your root .gitignore has only 4 bytes in it — check that it's correctly excluding node_modules at all levels. A recruiter cloning this repo and seeing node_modules in the tree will form a negative impression before reading a line of code.
-2. Score manipulation — score_up endpoint has no auth. In r_user.js, the PATCH /v1/user/score_up/:id route has Joi validation on the id param but no requireAuth middleware. Anyone can POST to that endpoint with any user ID and inflate their score. The requireAuth import exists in the file but is never used there. This is exactly the kind of bug a web dev interviewer will find by reading the routes.
+1. node_modules is committed and in the zip. This is an immediate red flag on any 
+repo review. Your root .gitignore has only 4 bytes in it — check that it's correctly
+ excluding node_modules at all levels. A recruiter cloning this repo and seeing 
+ node_modules in the tree will form a negative impression before reading a line 
+ of code.
+
+2. Score manipulation — score_up endpoint has no auth. In r_user.js, 
+the PATCH /v1/user/score_up/:id route has Joi validation on the id param 
+but no requireAuth middleware. Anyone can POST to that endpoint with any 
+user ID and inflate their score. The requireAuth import exists in the file 
+but is never used there. This is exactly the kind of bug a web dev interviewer 
+will find by reading the routes.
+
 3. raiseUserScore has a missing await. In s_user.js:
 jsconst updatedUser = User.findById(userID);  // missing await
 return updatedUser;
-This returns a Mongoose Query object, not the actual user. It won't crash because the result isn't checked by the caller, but it's a real bug.
-4. bcrypt and jwt imported in s_userPuzzle.js but never used. Those two imports at the top of the user puzzle service are dead code — likely copy-paste from s_user.js. Clean these up before showing the code.
-5. Debug artifacts left in production code. console.log("Test from service :", userID) in s_userPuzzle.js and console.log("--- DEBUG: Reached GET / route ---") in app.js. You have Winston set up — use it, and remove the raw console logs. Reviewers notice this.
-6. The FEN debug display is visible in production UI. In MakeUserPuzzleBoard.jsx, the grey box showing the raw FEN string at the bottom is described as "開発中のみ便利" (useful during development only) in the comment — but it's still rendering in production. Either remove it or gate it behind import.meta.env.DEV.
-7. CORS origin is hardcoded to the old domain. app.js has origin: "https://mernchess.me" but the live URL appears to be chesspuzzlekappa54.me. If these are the same site with a domain change, the old one should be removed or this should be driven by an environment variable.
-8. alert() calls for user feedback. handleSubmit in the puzzle builder uses alert("Enter an answer"), alert("Puzzle saved to database.") etc. Native browser alerts look unpolished and block the thread. Your Todo.txt even mentions react-hot-toast — use it, or at minimum inline error state. Web dev companies specifically will judge this.
+This returns a Mongoose Query object, not the actual user. It won't 
+crash because the result isn't checked by the caller, but it's a real bug.
+
+4. bcrypt and jwt imported in s_userPuzzle.js but never used. Those two imports 
+at the top of the user puzzle service are dead code — likely copy-paste from
+ s_user.js. Clean these up before showing the code.
+
+5. Debug artifacts left in production code. console.log
+("Test from service :", userID) in s_userPuzzle.js and 
+console.log("--- DEBUG: Reached GET / route ---") in app.js. 
+You have Winston set up — use it, and remove the raw console logs. 
+Reviewers notice this.
+
+6. The FEN debug display is visible in production UI. 
+In MakeUserPuzzleBoard.jsx, the grey box showing the raw FEN string at 
+the bottom is described as "開発中のみ便利" (useful during development only) 
+in the comment — but it's still rendering in production. Either remove it or 
+gate it behind import.meta.env.DEV.
+
+7. CORS origin is hardcoded to the old domain. app.js has origin: 
+"https://mernchess.me" but the live URL appears to be chesspuzzlekappa54.me. 
+If these are the same site with a domain change, the old one should be removed 
+or this should be driven by an environment variable.
+
+8. alert() calls for user feedback. handleSubmit in the puzzle builder uses 
+alert("Enter an answer"), alert("Puzzle saved to database.") etc. Native browser 
+alerts look unpolished and block the thread. Your Todo.txt even mentions 
+react-hot-toast — use it, or at minimum inline error state. 
+Web dev companies specifically will judge this.

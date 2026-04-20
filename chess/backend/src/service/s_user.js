@@ -22,7 +22,7 @@ export async function raiseUserScore(userID) {
       { new: true }
     );
 
-    const updatedUser = User.findById(userID);
+    const updatedUser = await User.findById(userID);
     return updatedUser;
   } catch (err) {
     logger.info(`Error updating score: ${err.message}`);

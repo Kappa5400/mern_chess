@@ -17,9 +17,8 @@ services:
   backend:
     image: ${DOCKER_USERNAME}/mernchess_backend:latest
     container_name: mern_backend
-    # No need to expose 5000 to the host; Nginx talks to it internally
+
     expose:
       - "5000"
-    env_file:
-      - /root/mern_chess/.env
+
     restart: always

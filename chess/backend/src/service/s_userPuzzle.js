@@ -1,11 +1,10 @@
 import { UserPuzzle } from "../db/model/userPuzzle.js";
 import { logger } from "../utils/logger.js";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+
 
 export async function getUserPuzzles(userID) {
   try {
-    console.log("Test from service :", userID);
+    logger.info("Test from service :", userID);
     const userP = await UserPuzzle.find({ user: userID });
     return userP;
   } catch (err) {

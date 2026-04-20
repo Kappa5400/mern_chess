@@ -144,6 +144,7 @@ export function userRoutes(app) {
   app.patch(
     "/v1/user/score_up/:id",
     validate(objectIdSchema, "params"),
+    requireAuth,
     async (req, res) => {
       try {
         const score = await raiseUserScore(req.params.id);

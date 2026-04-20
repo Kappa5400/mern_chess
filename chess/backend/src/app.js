@@ -68,7 +68,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.get("/", (req, res) => {
-  console.log("--- DEBUG: Reached GET / route ---");
+  
   res.send("Hi sekai");
 });
 

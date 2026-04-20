@@ -13,8 +13,7 @@ import { useAuth } from "../contexts/AuthContext";
 import { jwtDecode } from "jwt-decode";
 
 export function MakeUserPuzzleBoard() {
-  // --- State Definitions ---
-  // FENの各要素を管理するためのState
+
   const navigate = useNavigate();
   const [colorToMove, setColorToMove] = useState("w");
   const [whiteCastle, setWhiteCastle] = useState("KQ");
@@ -26,12 +25,12 @@ export function MakeUserPuzzleBoard() {
   // eslint-disable-next-line
   const [token, setToken] = useAuth();
 
-  //auth handle
+
   if (token) {
     // eslint-disable-next-line
     const { sub } = jwtDecode(token);
   }
-  // Chess instance
+ 
   const chessGameRef = useRef(
     new Chess("8/8/8/8/8/8/8/8 w - - 0 1", {
       skipValidation: true,
@@ -39,19 +38,17 @@ export function MakeUserPuzzleBoard() {
   );
   const chessGame = chessGameRef.current;
 
-  // Board position state
+
   const [chessPosition, setChessPosition] = useState(chessGame.fen());
   const [squareWidth, setSquareWidth] = useState(null);
 
-  // --- Helpers ---
 
-  // 汎用的なFEN更新関数: 指定したインデックスのパーツだけ書き換える
   const updateFenPart = (index, newValue) => {
     const fenParts = chessGame.fen().split(" ");
     fenParts[index] = newValue;
     const newFen = fenParts.join(" ");
 
-    // chess.jsとReact Stateの両方を更新
+  
     try {
       chessGame.load(newFen);
       setChessPosition(newFen);
@@ -61,17 +58,15 @@ export function MakeUserPuzzleBoard() {
     }
   };
 
-  // --- Handlers ---
+
 
   const handleColorChange = (e) => {
     const newColor = e.target.value;
     setColorToMove(newColor);
 
-    // 手番が変わるとアンパッサンの有効段が変わるため、EPはリセットするのが安全です
     setIsEpEnabled("false");
     setEpSquare("-");
 
-    // FEN更新 (Index 1: Active Color, Index 3: EP target reset to "-")
     const fenParts = chessGame.fen().split(" ");
     fenParts[1] = newColor;
     fenParts[3] = "-";
@@ -84,7 +79,6 @@ export function MakeUserPuzzleBoard() {
     const newWhite = e.target.value;
     setWhiteCastle(newWhite);
 
-    // 現在の黒の権利と結合
     let newCastling = newWhite + blackCastle;
     if (newCastling === "") newCastling = "-";
 
@@ -95,7 +89,7 @@ export function MakeUserPuzzleBoard() {
     const newBlack = e.target.value;
     setBlackCastle(newBlack);
 
-    // 現在の白の権利と結合
+
     let newCastling = whiteCastle + newBlack;
     if (newCastling === "") newCastling = "-";
 
@@ -110,7 +104,7 @@ export function MakeUserPuzzleBoard() {
       setEpSquare("-");
       updateFenPart(3, "-");
     }
-    // "true"にした直後はまだスクエア未定なのでFENは更新しないか、"-"のまま待機
+  
   };
 
   const handleEpTargetChange = (e) => {
@@ -168,7 +162,7 @@ export function MakeUserPuzzleBoard() {
     }
   };
 
-  // --- Drag & Drop Logic ---
+
 
   useEffect(() => {
     const square = document
@@ -206,7 +200,7 @@ export function MakeUserPuzzleBoard() {
     return true;
   }
 
-  // --- Render Helpers ---
+
 
   const blackPieceTypes = Object.keys(defaultPieces).filter(
     (p) => p[0] === "b"
@@ -396,23 +390,14 @@ export function MakeUserPuzzleBoard() {
           <br />
           <button type="submit">Submit Puzzle</button>
         </form>
-        {/* Debug: 現在のFENを表示 (開発中のみ便利) */}
-        <div
-          style={{
-            marginTop: "15px",
-            padding: "10px",
-            background: "#f0f0f0",
-            fontSize: "0.8em",
-            wordBreak: "break-all",
-          }}
-        >
+       
           <strong>FEN:</strong> {chessPosition}
         </div>
       </div>
-    </div>
+    
   );
 }
 
 MakeUserPuzzleBoard.propTypes = {
-  // 必要に応じて追加
+ 
 };
