@@ -21,4 +21,4 @@ services:
     expose:
       - "5000"
 
-    restart: always
+    restart: --timeout 60
