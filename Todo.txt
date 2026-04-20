@@ -46,7 +46,7 @@ actual puzzle page
     - Need to calc who move it is to show black or white to move
     - hard
 
-   
+   test
 
 scoreboard functionality
     -scoreboard component shows top 10 users pulled from api
