@@ -3,9 +3,9 @@ import mongoose from "mongoose";
 import { logger } from "../utils/logger.js";
 
 export async function initDB() {
-  const DB_URL = process.env.DB_URL;
+  const MONGO_URI = process.env.MONGO_URI;
   mongoose.connection.on("open", () => {
-    logger.info("Connected to DB: ", DB_URL);
+    logger.info("Connected to DB: ", MONGO_URI);
   });
 
   const connection = await mongoose.connect(process.env.MONGO_URI);
