@@ -17,6 +17,8 @@ services:
   backend:
     image: ${DOCKER_USERNAME}/mernchess_backend:latest
     container_name: mern_backend
+    environment:
+      - MONGO_URI=${MONGO_URI}
 
     expose:
       - "5000"
