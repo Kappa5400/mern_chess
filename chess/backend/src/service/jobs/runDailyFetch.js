@@ -19,7 +19,7 @@ const run = async () => {
   logger.info("Attempting to get daily puzzle from manual script");
   try {
     await getDailyPuzzle();
-    //del_flag = 1; comment out until 10 puzzles in db
+    del_flag = 1;
   } catch (err) {
     logger.info("Error getting daily puzzle: ", err);
     await mongoose.connection.close();
