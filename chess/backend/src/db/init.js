@@ -8,7 +8,7 @@ export async function initDB() {
     logger.info("Connected to DB: ", DB_URL);
   });
 
-  const connection = await mongoose.connect(DB_URL);
+  const connection = await mongoose.connect(DATABASE_URL);
 
   return connection;
 }
