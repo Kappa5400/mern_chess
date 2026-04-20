@@ -38,7 +38,7 @@ jobs:
       - name: Verify Nginx
         run: |
           mkdir -p nginx/certs
-          sudo cp /root/mern_chess/nginx/certs/*.pem ./nginx/certs/
+          sudo sh -c 'cp /root/mern_chess/nginx/certs/*.pem ./nginx/certs/'
 
 
 
