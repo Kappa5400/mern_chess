@@ -41,7 +41,11 @@ jobs:
           mkdir -p nginx/certs
           sudo sh -c 'cp /root/mern_chess/nginx/certs/*.pem ./nginx/certs/'
 
+          sudo chown -R $USER:$USER ./nginx/certs
 
+          cat <<EOF | sudo tee .env > /dev/null
+          MONGO_URI=${{ secrets.MONGO_URI }}
+          PORT=5000
 
           CONTAINER="mern_nginx"
           echo "Waiting for containers to stabilize..."
