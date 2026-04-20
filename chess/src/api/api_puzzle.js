@@ -7,12 +7,12 @@ const getHeaders = () => {
 };
 
 export const getAllPuzzle = async () => {
-  console.log("Fetching all puzzles");
+  logger.log("Fetching all puzzles");
   const res = await fetch(`${BASE_URL}/v1/puzzle/GetAllPuzzles`, {
     headers: getHeaders(),
   });
-  console.log("Status: ", res.status);
-  console.log("Res: ", res);
+  logger.log("Status: ", res.status);
+  logger.log("Res: ", res);
   if (!res.ok) throw new Error("Failed to get all puzzles");
   return await res.json();
 };

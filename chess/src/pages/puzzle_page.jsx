@@ -7,6 +7,7 @@ import { Chess } from "chess.js";
 import { useParams } from "react-router-dom";
 import { ChessboardPuzzle } from "../components/chessboard_puzzle.jsx";
 import { useState } from "react";
+import { logger } from "../../backend/src/utils/logger.js";
 
 export function PuzzlePage() {
   const { id } = useParams();
@@ -28,8 +29,8 @@ export function PuzzlePage() {
     fen = "start";
   }
 
-  console.log("Pgn: ", puzzle.pgn);
-  console.log("Fen: ", fen);
+  logger.log("Pgn: ", puzzle.pgn);
+  logger.log("Fen: ", fen);
 
   let whiteToMove = false;
   const pgn = puzzle.pgn;

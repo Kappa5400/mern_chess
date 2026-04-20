@@ -11,6 +11,7 @@ import { createUserPuzzle } from "../api/api_user_puzzle";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import { jwtDecode } from "jwt-decode";
+import { logger } from "../../backend/src/utils/logger";
 
 export function MakeUserPuzzleBoard() {
 
@@ -54,7 +55,7 @@ export function MakeUserPuzzleBoard() {
       setChessPosition(newFen);
       // eslint-disable-next-line
     } catch (error) {
-      console.error("Invalid FEN:", newFen);
+      logger.error("Invalid FEN:", newFen);
     }
   };
 
@@ -150,14 +151,14 @@ export function MakeUserPuzzleBoard() {
       rating: Number(puzzleRating),
     };
 
-    console.log("Submitting: ", payload);
+    logger.log("Submitting: ", payload);
 
     try {
       await createUserPuzzle(payload, token);
       alert("Puzzle saved to data base.");
       navigate("/");
     } catch (error) {
-      console.log("Error submitting to database: ", error);
+      logger.log("Error submitting to database: ", error);
       alert("Error: couldn't save puzzle.");
     }
   };

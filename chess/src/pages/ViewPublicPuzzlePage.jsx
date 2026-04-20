@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { ChessboardPuzzle } from "../components/chessboard_puzzle.jsx";
 import { useState } from "react";
 import { useFetchPublicPuzzleHook } from "../hooks/useFetchPublicPuzzleHook.js";
+import { logger } from "../../backend/src/utils/logger.js";
 
 export function ViewPublicPuzzle() {
   const { id } = useParams();
@@ -20,7 +21,7 @@ export function ViewPublicPuzzle() {
 
   let whiteToMove = true;
 
-  console.log("public puz :", puzzle);
+  logger.log("public puz :", puzzle);
 
   // who to move logic fen
   let puzzle_fen_color = puzzle.fen.split(" ")[1];

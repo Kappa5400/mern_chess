@@ -2,7 +2,7 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 const getHeaders = () => {
   const token = localStorage.getItem("token");
-  console.log("Token from api send: ", token);
+  logger.log("Token from api send: ", token);
   return {
     "Content-Type": "application/json",
     Authorization: `Bearer ${token}`,
@@ -10,7 +10,7 @@ const getHeaders = () => {
 };
 
 export const getUserPuzzles = async () => {
-  console.log("local store", localStorage);
+  logger.log("local store", localStorage);
   const res = await fetch(`${BASE_URL}/v1/userpuzzle/byuser/self`, {
     method: "GET",
     headers: {
@@ -31,7 +31,7 @@ export const getPuzzleByPuzzleID = async (puzzleID) => {
 };
 
 export const getPublicPuzzleByID = async (puzzleID) => {
-  console.log("Api param puzzleid: ", puzzleID);
+  logger.log("Api param puzzleid: ", puzzleID);
   const res = await fetch(
     `${BASE_URL}/v1/userpuzzle/public/bypuzzleid/${puzzleID}`,
     {
@@ -40,19 +40,19 @@ export const getPublicPuzzleByID = async (puzzleID) => {
   );
   if (!res.ok) throw new Error("Failed to get public puzzle by puzzle id");
   const data = await res.json();
-  console.log("Data from api call: ", data);
+  logger.log("Data from api call: ", data);
   const p = data.puzzle;
-  console.log("P ", p);
+  logger.log("P ", p);
   return await p;
 };
 
 export const getAllUserPuzzles = async () => {
-  console.log("Fetching all user puzzles");
+  logger.log("Fetching all user puzzles");
   const res = await fetch(`${BASE_URL}/v1/userpuzzle/all`, {
     headers: getHeaders(),
   });
-  console.log("Status: ", res.status);
-  console.log("Res: ", res);
+  logger.log("Status: ", res.status);
+  logger.log("Res: ", res);
   if (!res.ok) throw new Error("Failed to get all user puzzles");
   return await res.json();
 };
@@ -68,7 +68,7 @@ export const createUserPuzzle = async ({ fen, answer, rating }, token) => {
   });
   if (!res.ok) {
     const error = await res.json();
-    console.error("Error: ", error);
+    logger.error("Error: ", error);
     throw new Error(error.message || "Failed to make user puzzle");
   }
   return await res.json();

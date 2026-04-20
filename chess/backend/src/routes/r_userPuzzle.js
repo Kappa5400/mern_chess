@@ -121,7 +121,7 @@ import { logger } from "../utils/logger.js";
 export function userPuzzleRoutes(app) {
   app.get("/v1/userpuzzle/byuser/self", requireAuth, async (req, res) => {
     const userId = req.auth.sub;
-    console.log("UserID search test ", userId);
+    logger.log("UserID search test ", userId);
     const allUserP = await getUserPuzzles(userId);
     if (!allUserP)
       return res.status(404).json({ Error: "Failed to fetch puzzles" });
@@ -151,7 +151,7 @@ export function userPuzzleRoutes(app) {
         return res.status(404).json({ Error: "Public puzzle not found" });
       return res.json({ puzzle: fetchedpublic });
     } catch (err) {
-      console.error(err);
+      logger.error(err);
       return res.status(500).json({ Error: "Server error" });
     }
   });

@@ -150,7 +150,7 @@ export function userRoutes(app) {
         const score = await raiseUserScore(req.params.id);
         return res.json(score);
       } catch (err) {
-        console.log(`Error updating score: ${err}`);
+        logger.log(`Error updating score: ${err}`);
         return res.status(500).json({ error: "Error updating score" });
       }
     }

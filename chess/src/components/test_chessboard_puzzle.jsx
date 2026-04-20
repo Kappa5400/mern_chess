@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import styles from "./chessboard_puzzle.module.css";
 import { useRef, useState, useEffect } from "react";
 import { Chess } from "chess.js";
+import { logger } from "../../backend/src/utils/logger";
 
 // eslint-disable-next-line
 export function TestChessboardPuzzle({ id, fen, whiteToMove, answer }) {
@@ -20,9 +21,9 @@ export function TestChessboardPuzzle({ id, fen, whiteToMove, answer }) {
     const movesArray = typeof answer === "string" ? answer.split(" ") : answer;
 
     const puzzleLen = movesArray.length;
-    console.log("White to move: ", whiteToMove);
-    console.log("Ans: ", movesArray);
-    console.log("Ans  len: ", puzzleLen);
+    logger.log("White to move: ", whiteToMove);
+    logger.log("Ans: ", movesArray);
+    logger.log("Ans  len: ", puzzleLen);
 
     movesRef.current = movesArray.map((moveStr) => {
       const from = moveStr.slice(0, 2);
@@ -40,7 +41,7 @@ export function TestChessboardPuzzle({ id, fen, whiteToMove, answer }) {
     const game = gameRef.current;
     const required = movesRef.current[currentMoveIndex];
     if (!game || !required) {
-      console.log("Win");
+      logger.log("Win");
       return false;
     }
 
@@ -58,10 +59,10 @@ export function TestChessboardPuzzle({ id, fen, whiteToMove, answer }) {
       setPosition(game.fen());
       setCurrentMoveIndex((i) => i + 1);
     }, 200);
-    console.log(currentMoveIndex);
-    console.log("Puzzle len: ", puzzleLen);
+    logger.log(currentMoveIndex);
+    logger.log("Puzzle len: ", puzzleLen);
     if (currentMoveIndex == puzzleLen - 1) {
-      console.log("win");
+      logger.log("win");
     }
 
     return true;
