@@ -38,9 +38,9 @@ jobs:
       - name: Verify Nginx
         run: |
           mkdir -p nginx/certs
-          sudo cp ~/mern_chess/nginx/certs/*.pem ./nginx/certs/
+          sudo cp /root/mern_chess/nginx/certs/*.pem ./nginx/certs/
 
-          
+
 
           CONTAINER="mern_nginx"
           echo "Waiting for containers to stabilize..."
