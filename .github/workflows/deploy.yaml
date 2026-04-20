@@ -38,11 +38,17 @@ jobs:
       - name: Verify Nginx
         run: |
           CONTAINER="mern_nginx"
-          sleep 60
-          if [ "$(sudo docker inspect -f '{{.State.Running}}' $CONTAINER 2>/dev/null)" = "true" ]; then
-            sudo docker exec $CONTAINER nginx -t && sudo docker exec $CONTAINER nginx -s reload
-          else
-            echo "Deployment failed. $CONTAINER is not running."
-            sudo docker logs $CONTAINER
-            exit 1
-          fi
+          echo "Waiting for containers to stabilize..."
+          for i in $(seq 1 12); do
+            sleep 10
+            STATUS=$(sudo docker inspect -f '{{.State.Status}}' $CONTAINER 2>/dev/null)
+            if [ "$STATUS" = "running" ]; then
+              echo "Container is running after ${i}0s"
+              sudo docker exec $CONTAINER nginx -t && sudo docker exec $CONTAINER nginx -s reload
+              exit 0
+            fi
+            echo "Status after ${i}0s: $STATUS"
+          done
+          echo "Deployment failed. $CONTAINER is not running."
+          sudo docker logs $CONTAINER
+          exit 1
