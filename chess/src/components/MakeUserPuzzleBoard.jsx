@@ -22,6 +22,7 @@ export function MakeUserPuzzleBoard() {
   const [epSquare, setEpSquare] = useState("-");
   const [answerInput, setPuzzleAnswer] = useState("");
   const [puzzleRating, setPuzzleRating] = useState("");
+  const [err, setErr] = useState("");
   // eslint-disable-next-line
   const [token, setToken] = useAuth();
 
@@ -136,11 +137,14 @@ export function MakeUserPuzzleBoard() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!answerInput) return alert("Enter an answer");
-    if (!puzzleRating) return alert("Rating is required");
+    setErr("");
+    //if (!answerInput) return alert("Enter an answer");
+    if (!answerInput) {setErr ("Enter an answer"); return;}
+    //if (!puzzleRating) return alert("Rating is required");
+    if (!puzzleRating) {setErr ("Rating is required"); return;}
 
     if (!token) {
-      alert("You must be logged in to save puzzle.");
+      setErr("You must be logged in to save puzzle.");
       return;
     }
 
@@ -154,11 +158,11 @@ export function MakeUserPuzzleBoard() {
 
     try {
       await createUserPuzzle(payload, token);
-      alert("Puzzle saved to data base.");
+      setErr("Puzzle saved to data base.");
       navigate("/");
     } catch (error) {
       console.log("Error submitting to database: ", error);
-      alert("Error: couldn't save puzzle.");
+      setErr("Error: couldn't save puzzle."); return;
     }
   };
 
@@ -172,6 +176,7 @@ export function MakeUserPuzzleBoard() {
   }, []);
 
   function onPieceDrop({ sourceSquare, targetSquare, piece }) {
+    setErr("");
     const color = piece.pieceType[0];
     const type = piece.pieceType[1].toLowerCase();
 
@@ -188,7 +193,7 @@ export function MakeUserPuzzleBoard() {
     const success = chessGame.put({ color, type }, targetSquare);
 
     if (!success) {
-      alert(
+      setErr(
         `The board already contains a ${
           color === "w" ? "white" : "black"
         } King piece`
@@ -269,7 +274,11 @@ export function MakeUserPuzzleBoard() {
           </div>
         )}
       </ChessboardProvider>
-
+        {err && (
+          <div style={{ color: 'red', marginBottom: '10px' }}>
+          Error: {err}
+          </div>
+        )}
       {/* --- Controls Form --- */}
       <div style={{ marginTop: "20px", fontFamily: "sans-serif" }}>
         {/* 1. Color to Move */}
