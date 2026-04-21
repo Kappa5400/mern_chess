@@ -6,7 +6,7 @@ https://chesspuzzlekappa54.me/
 
 Besides the normal parts of this website that are easy to see, this application has a fully working CI/CD pipeline that on each Github push will test and lints code, create a docker image for the front end and back ends, have a self hosted Github runner on the website server pull the docker images, build the images, then deploy the images. Testing includes unit testing of both expected failures and expected success of each part of the service layer and also includes integration testing for each used API point. The app does a couple of things currently: It supports account creation and login. It calls the Lichess daily puzzle endpoint and saves the puzzle to the database. It shows the last ten daily lichess puzzles. It supports a basic score system, solving a puzzle while logged into an account gives you a point. It shows the top 5 scoring users across the website. For logged in users it supports puzzle creation, viewing, and deleation. You can browse and play through all saved user puzzles. The purpose of this app is to showcase my software engineering abilities. As such, I will go through a more detailed overview below.
 
-DB architecture
+DB Architecture
 <img width="1086" height="332" alt="DB architecture" src="https://github.com/user-attachments/assets/50bd6683-95c9-47d1-ad68-8f00e7ca2ec4" />
 <br/>
 System Architecture
@@ -14,7 +14,7 @@ System Architecture
 <br/>
 
 
-Project Walkthrough System Architecture
+Project Walkthrough System Architecture <br/>
 The webapp is built with a client-server architecture, where as the backend is seperate from the frontend. The backend contains the database, mongodb in this case, the service layer, and the routing layer. It also contains some middleware for data validation and authentication, unit and integration testing, logging utlities, and a simple job script. The apis are accessed via the frontend's api handler layer which is either accessed through react hooks or directly in components or pages. The frontend also contains authentication contexts to handle tokens.
 
 Packages Used
