@@ -44,8 +44,7 @@ export function About() {
             engineering abilities. As such, I will go through a more detailed
             overview below.
           </p>
-          <img src="/DB_Arc.png" alt="Database Architecture Diagram" />
-          <img src="/MERN_aRC.png" alt ="System Architecture Diagram" />
+        
 
           <h2>Project Walkthrough System Architecture </h2>
           <p>
