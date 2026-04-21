@@ -1,6 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
 import { getPuzzleByPuzzleID } from "../api/api_user_puzzle";
-import { logger } from "../../backend/src/utils/logger";
 
 export function useUserPuzzleFetchHook(id) {
   const puzzlesQuery = useQuery({
@@ -11,7 +10,7 @@ export function useUserPuzzleFetchHook(id) {
 
   const puzzle = puzzlesQuery.data ?? null;
 
-  logger.log("Puzzle data from hook:", puzzle);
+  console.log("Puzzle data from hook:", puzzle);
 
   return {
     puzzle,

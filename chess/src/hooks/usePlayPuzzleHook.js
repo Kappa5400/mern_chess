@@ -43,3 +43,4 @@ export function usePlayPuzzle(position_fen, whiteToMove) {
         return false;
       }
     }
+  }

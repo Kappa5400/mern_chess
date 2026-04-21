@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserPuzzles } from "../api/api_user_puzzle";
 import { useAuth } from "../contexts/AuthContext";
-import { logger } from "../../backend/src/utils/logger";
+
 
 export function useFetchAllOwnuserPuzzles() {
   const [token] = useAuth();
@@ -22,7 +22,7 @@ export function useFetchAllOwnuserPuzzles() {
       : data
     : [];
 
-  logger.log("Puzzle data from hook:", puzzles);
+  console.log("Puzzle data from hook:", puzzles);
 
   return {
     puzzles,

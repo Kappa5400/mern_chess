@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { get_puzzle_by_id } from "../api/api_puzzle";
 import { Chess } from "chess.js";
-import { logger } from "../../backend/src/utils/logger";
 
 export function useLoadPGNtoBoard(p_id) {
   const puzzleQuery = useQuery({
@@ -12,7 +11,7 @@ export function useLoadPGNtoBoard(p_id) {
   const res = puzzleQuery.data ?? null;
 
   //logging
-  logger.log(`Fetched puzzle from hook loadpgntoboard:`, JSON.stringify(res));
+  console.log(`Fetched puzzle from hook loadpgntoboard:`, JSON.stringify(res));
 
   let game = null;
   if (res?.pgn) {

@@ -5,10 +5,10 @@ import PuzzleCard from "../components/Puzzlecard.jsx";
 import styles from "./PuzzleListPage.module.css";
 import { useFetchAllPuzzles } from "../hooks/useFetchAllHook.js";
 import { Chess } from "chess.js";
-import { logger } from "../../backend/src/utils/logger.js";
+
 
 export function PuzzleListPage() {
-  logger.log("Non User Puzzle page start");
+  console.log("Non User Puzzle page start");
   const { puzzles, isLoading, isError } = useFetchAllPuzzles();
 
   if (isLoading) return <p>Loading</p>;
@@ -27,7 +27,7 @@ export function PuzzleListPage() {
     return { ...p, fen };
   });
 
-  logger.log("non user puz parameters to component: ", fen_list);
+  console.log("non user puz parameters to component: ", fen_list);
 
   return (
     <div className={styles.container}>
