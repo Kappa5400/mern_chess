@@ -43,8 +43,8 @@ export function About() {
             engineering abilities. As such, I will go through a more detailed
             overview below.
           </p>
-          <img>chess/src/Documentation/DB_Arc.png</img>
-          <img>chess/src/Documentation/Mern_arc.png</img>
+          <img src="chess/src/Documentation/DB_Arc.png" alt="Database Architecture Diagram" />
+          <img src="chess/src/Documentation/Mern_arc.png" alt ="System Architecture Diagram" />
 
           <h2>Project Walkthrough System Architecture </h2>
           <p>
