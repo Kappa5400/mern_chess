@@ -3,6 +3,8 @@ import { SideBar } from "../components/sidebar.jsx";
 import { UserProfile } from "../components/userprofile_test.jsx";
 import styles from "./Index.module.css";
 import { ChessboardComponent } from "../components/chessboard_starting_pos.jsx";
+import dbArc from "../Documentation/DB_Arc.png"
+import Arc from "../Documentation/Mern_Arc.png"
 
 export function About() {
   return (
@@ -43,8 +45,8 @@ export function About() {
             engineering abilities. As such, I will go through a more detailed
             overview below.
           </p>
-          <img src="chess/src/Documentation/DB_Arc.png" alt="Database Architecture Diagram" />
-          <img src="chess/src/Documentation/Mern_arc.png" alt ="System Architecture Diagram" />
+          <img src={dbArc} alt="Database Architecture Diagram" />
+          <img src={Arc} alt ="System Architecture Diagram" />
 
           <h2>Project Walkthrough System Architecture </h2>
           <p>

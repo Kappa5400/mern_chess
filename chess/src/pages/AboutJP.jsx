@@ -35,8 +35,8 @@ export function AboutJP() {
             このアプリは、私のソフトウェアエンジニアとしてのスキルを証明するために開発しました。詳細は以下の通りです。
           </p>
 
-          <img src="chess/src/Documentation/DB_Arc.png" alt="Database Architecture Diagram" />
-          <img src="chess/src/Documentation/Mern_arc.png" alt ="System Architecture Diagram" />
+          <img src={dbArc} alt="Database Architecture Diagram" />
+          <img src={Arc} alt ="System Architecture Diagram" />
 
           <h2>プロジェクト詳細：システムアーキテクチャ</h2>
           <p>
