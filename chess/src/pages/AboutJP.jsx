@@ -3,8 +3,7 @@ import { SideBar } from "../components/sidebar.jsx";
 import { UserProfile } from "../components/userprofile_test.jsx";
 import styles from "./Index.module.css";
 import { ChessboardComponent } from "../components/chessboard_starting_pos.jsx";
-import dbArc from "../Documentation/DB_Arc.png"
-import Arc from "../Documentation/Mern_Arc.png"
+
 
 export function AboutJP() {
   return (
@@ -37,8 +36,8 @@ export function AboutJP() {
             このアプリは、私のソフトウェアエンジニアとしてのスキルを証明するために開発しました。詳細は以下の通りです。
           </p>
 
-          <img src={dbArc} alt="Database Architecture Diagram" />
-          <img src={Arc} alt ="System Architecture Diagram" />
+          <img src="/DB_Arc.png" alt="Database Architecture Diagram" />
+          <img src="/MERN_aRC.png" alt ="System Architecture Diagram" />
 
           <h2>プロジェクト詳細：システムアーキテクチャ</h2>
           <p>
