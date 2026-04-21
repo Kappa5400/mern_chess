@@ -6,9 +6,12 @@ https://chesspuzzlekappa54.me/
 
 Besides the normal parts of this website that are easy to see, this application has a fully working CI/CD pipeline that on each Github push will test and lints code, create a docker image for the front end and back ends, have a self hosted Github runner on the website server pull the docker images, build the images, then deploy the images. Testing includes unit testing of both expected failures and expected success of each part of the service layer and also includes integration testing for each used API point. The app does a couple of things currently: It supports account creation and login. It calls the Lichess daily puzzle endpoint and saves the puzzle to the database. It shows the last ten daily lichess puzzles. It supports a basic score system, solving a puzzle while logged into an account gives you a point. It shows the top 5 scoring users across the website. For logged in users it supports puzzle creation, viewing, and deleation. You can browse and play through all saved user puzzles. The purpose of this app is to showcase my software engineering abilities. As such, I will go through a more detailed overview below.
 
+DB architecture
 <img width="1086" height="332" alt="DB architecture" src="https://github.com/user-attachments/assets/50bd6683-95c9-47d1-ad68-8f00e7ca2ec4" />
+<br/>
+System Architecture
 <img width="1454" height="611" alt="System architecture" src="https://github.com/user-attachments/assets/8fb968cd-99e8-4451-9551-36716b5673e9" />
-
+<br/>
 
 
 Project Walkthrough System Architecture
