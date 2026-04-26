@@ -1,6 +1,6 @@
 import React from "react";
 import { SideBar } from "../components/sidebar.jsx";
-import { UserProfile } from "../components/userprofile_test.jsx";
+import { UserProfile } from "../components/userprofile_loggedout.jsx";
 import styles from "./Index.module.css";
 import { Chess } from "chess.js";
 import { useParams } from "react-router-dom";

@@ -1,9 +1,8 @@
 import React from "react";
 import { SideBar } from "../components/sidebar.jsx";
-import { UserProfile } from "../components/userprofile_test.jsx";
+import { UserProfile } from "../components/userprofile_loggedout.jsx";
 import styles from "./Index.module.css";
 import { ChessboardComponent } from "../components/chessboard_starting_pos.jsx";
-
 
 export function About() {
   return (
@@ -44,7 +43,6 @@ export function About() {
             engineering abilities. As such, I will go through a more detailed
             overview below.
           </p>
-        
 
           <h2>Project Walkthrough System Architecture </h2>
           <p>

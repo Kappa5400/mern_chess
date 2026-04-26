@@ -1,6 +1,6 @@
 import React from "react";
 import { SideBar } from "../components/sidebar.jsx";
-import { UserProfile } from "../components/userprofile_test.jsx";
+import { UserProfile } from "../components/userprofile_loggedout.jsx";
 import UserPuzzleCard from "../components/userPuzzleCard.jsx";
 import styles from "./PuzzleListPage.module.css";
 import { useFetchAllOwnuserPuzzles } from "../hooks/useFetchAllOwnUserPuzzles.js";
