@@ -7,7 +7,6 @@ import { Chess } from "chess.js";
 import { useParams } from "react-router-dom";
 import { TestChessboardPuzzle } from "../components/test_chessboard_puzzle.jsx";
 
-
 export function TestPuzzlePage() {
   const { id } = useParams();
 
@@ -25,9 +24,6 @@ export function TestPuzzlePage() {
   } catch {
     fen = "start";
   }
-
-  console.log("Pgn: ", puzzle.pgn);
-  console.log("Fen: ", fen);
 
   let whiteToMove = false;
   const pgn = puzzle.pgn;

@@ -8,11 +8,12 @@ import styles from "./Index.module.css";
 export function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [err, setErr] = useState("");
   const navigate = useNavigate();
   const signupMutation = useMutation({
     mutationFn: () => signup({ username, password }),
     onSuccess: () => navigate("/login"),
-    onError: () => alert("failed to sign up!"),
+    onError: () => setErr("failed to sign up!"),
   });
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,6 +27,11 @@ export function Signup() {
         <h1>Sign up</h1>
         <div className={styles.input}>
           <label htmlFor="create-username">Username: </label>
+          {err && (
+            <div style={{ color: "red", marginBottom: "10px" }}>
+              Error: {err}
+            </div>
+          )}
           <input
             type="text"
             name="create-username"

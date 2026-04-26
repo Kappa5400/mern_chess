@@ -6,7 +6,7 @@ export function useRaiseScore() {
   const [token] = useAuth();
 
   const raiseScore = () => {
-    if (!token) return console.log("No token");
+    if (!token) return;
     const { sub } = jwtDecode(token);
     raiseUserScore(sub);
   };

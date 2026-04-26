@@ -6,9 +6,7 @@ import styles from "./PuzzleListPage.module.css";
 import { useFetchAllPuzzles } from "../hooks/useFetchAllHook.js";
 import { Chess } from "chess.js";
 
-
 export function PuzzleListPage() {
-  console.log("Non User Puzzle page start");
   const { puzzles, isLoading, isError } = useFetchAllPuzzles();
 
   if (isLoading) return <p>Loading</p>;
@@ -26,8 +24,6 @@ export function PuzzleListPage() {
     })();
     return { ...p, fen };
   });
-
-  console.log("non user puz parameters to component: ", fen_list);
 
   return (
     <div className={styles.container}>

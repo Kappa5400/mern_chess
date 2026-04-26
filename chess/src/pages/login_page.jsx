@@ -10,7 +10,9 @@ export function Login() {
   const [, setToken] = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [err, setErr] = useState("");
   const navigate = useNavigate();
+
   const loginMutation = useMutation({
     mutationFn: () => login({ username, password }),
     onSuccess: (data) => {
@@ -18,7 +20,10 @@ export function Login() {
       localStorage.setItem("token", data.token);
       navigate("/");
     },
-    onError: () => alert("failed to login!"),
+
+    onError: () => {
+      setErr("Failed to login");
+    },
   });
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,6 +35,9 @@ export function Login() {
       <form onSubmit={handleSubmit}>
         <h1>Login</h1>
         <br />
+        {err && (
+          <div style={{ color: "red", marginBottom: "10px" }}>Error: {err}</div>
+        )}
         <div className={styles.input}>
           <label htmlFor="create-username">Username: </label>
           <input

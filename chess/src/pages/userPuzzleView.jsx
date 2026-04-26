@@ -14,13 +14,13 @@ export function UserPuzzlePage() {
   const { id } = useParams();
   const { puzzle, isLoading, isError } = useUserPuzzleFetchHook(id);
   const [Del, setDelete] = useState(0);
-
+  const [message, setMessage] = useState("");
   //handlers
   //eslint-disable-next-line
   const handleDelete = async (e) => {
     setDelete(1);
     await deleteUserPuzzle(puzzle._id);
-    alert("Puzzle deleted.");
+    setMessage("Puzzle deleted.");
     navigate("/");
   };
 
@@ -47,6 +47,9 @@ export function UserPuzzlePage() {
         </div>
         <h1>Puzzle</h1>
         <h2>{whiteToMove ? "White to move" : "Black to move"}</h2>
+        {message && (
+          <div style={{ color: "blue", marginBottom: "10px" }}>{message}</div>
+        )}
         <h1>
           {solved && wrongMove ? "Complete! Plus one point!" : ""}
           {solved && !wrongMove ? "Complete! Plus one point!" : ""}

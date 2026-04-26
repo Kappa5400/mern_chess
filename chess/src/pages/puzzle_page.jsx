@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 import { ChessboardPuzzle } from "../components/chessboard_puzzle.jsx";
 import { useState } from "react";
 
-
 export function PuzzlePage() {
   const { id } = useParams();
   const { puzzle, isLoading, isError } = usePuzzleFetchHook(id);
@@ -28,9 +27,6 @@ export function PuzzlePage() {
   } catch {
     fen = "start";
   }
-
-  console.log("Pgn: ", puzzle.pgn);
-  console.log("Fen: ", fen);
 
   let whiteToMove = false;
   const pgn = puzzle.pgn;
