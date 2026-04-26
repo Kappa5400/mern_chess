@@ -389,6 +389,7 @@ export function MakeUserPuzzleBoard() {
         </form>
         <strong>FEN:</strong> {chessPosition}
       </div>
+      
     </div>
   );
 }
