@@ -9,8 +9,6 @@ export function useFetchTopUsers() {
 
   const data = userQuery.data ?? [];
 
-  console.log("User data from hook: ", data);
-
   return {
     topUsers: data,
     isLoading: userQuery.isLoading,

@@ -10,13 +10,10 @@ export function useLoadPGNtoBoard(p_id) {
 
   const res = puzzleQuery.data ?? null;
 
-  //logging
-  console.log(`Fetched puzzle from hook loadpgntoboard:`, JSON.stringify(res));
-
   let game = null;
   if (res?.pgn) {
     const g = new Chess();
-    g.loadPgn(res.pgn, {sloppy: true});
+    g.loadPgn(res.pgn, { sloppy: true });
     game = g;
   }
 

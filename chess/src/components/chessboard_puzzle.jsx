@@ -5,7 +5,6 @@ import { useRef, useState, useEffect } from "react";
 import { Chess } from "chess.js";
 import { useRaiseScore } from "../hooks/useRaiseScoreHook";
 
-
 export function ChessboardPuzzle({
   // eslint-disable-next-line
   id,
@@ -29,12 +28,7 @@ export function ChessboardPuzzle({
     const game = new Chess(fen);
 
     const movesArray =
-      typeof answer === "string" ? answer.match(/.{1,5}/g) ?? [] : answer;
-
-    const puzzleLen = movesArray.length;
-    console.log("White to move: ", whiteToMove);
-    console.log("Ans: ", movesArray);
-    console.log("Ans  len: ", puzzleLen);
+      typeof answer === "string" ? (answer.match(/.{1,5}/g) ?? []) : answer;
 
     movesRef.current = movesArray.map((moveStr) => {
       const from = moveStr.slice(0, 2);
@@ -55,7 +49,6 @@ export function ChessboardPuzzle({
     if (!game || !required) return;
 
     if (required.from !== sourceSquare || required.to !== targetSquare) {
-      console.log("Wrong move!");
       onWrongMove?.();
       return false;
     }
@@ -77,14 +70,12 @@ export function ChessboardPuzzle({
       setPosition(game.fen());
       setCurrentMoveIndex((i) => i + 1);
     }, 200);
-    console.log("Current move index: ", currentMoveIndex);
-    console.log("Puzzle len: ", puzzleLen);
+
     if (currentMoveIndex == puzzleLen - 1) {
-      console.log("Win");
       onSolved?.();
-      console.log("Running raise score hook...");
+
       raiseScore();
-      console.log("Score raised!");
+
       return false;
     }
 

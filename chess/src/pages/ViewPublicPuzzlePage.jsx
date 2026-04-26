@@ -8,7 +8,6 @@ import { ChessboardPuzzle } from "../components/chessboard_puzzle.jsx";
 import { useState } from "react";
 import { useFetchPublicPuzzleHook } from "../hooks/useFetchPublicPuzzleHook.js";
 
-
 export function ViewPublicPuzzle() {
   const { id } = useParams();
   const { puzzle, isLoading, isError } = useFetchPublicPuzzleHook(id);
@@ -20,8 +19,6 @@ export function ViewPublicPuzzle() {
   if (isError) return <p>Error</p>;
 
   let whiteToMove = true;
-
-  console.log("public puz :", puzzle);
 
   // who to move logic fen
   let puzzle_fen_color = puzzle.fen.split(" ")[1];

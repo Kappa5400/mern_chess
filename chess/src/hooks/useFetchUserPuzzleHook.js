@@ -10,8 +10,6 @@ export function useUserPuzzleFetchHook(id) {
 
   const puzzle = puzzlesQuery.data ?? null;
 
-  console.log("Puzzle data from hook:", puzzle);
-
   return {
     puzzle,
     isLoading: puzzlesQuery.isLoading,

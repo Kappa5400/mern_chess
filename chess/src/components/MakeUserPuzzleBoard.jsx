@@ -13,7 +13,6 @@ import { useAuth } from "../contexts/AuthContext";
 import { jwtDecode } from "jwt-decode";
 
 export function MakeUserPuzzleBoard() {
-
   const navigate = useNavigate();
   const [colorToMove, setColorToMove] = useState("w");
   const [whiteCastle, setWhiteCastle] = useState("KQ");
@@ -26,30 +25,26 @@ export function MakeUserPuzzleBoard() {
   // eslint-disable-next-line
   const [token, setToken] = useAuth();
 
-
   if (token) {
     // eslint-disable-next-line
     const { sub } = jwtDecode(token);
   }
- 
+
   const chessGameRef = useRef(
     new Chess("8/8/8/8/8/8/8/8 w - - 0 1", {
       skipValidation: true,
-    })
+    }),
   );
   const chessGame = chessGameRef.current;
 
-
   const [chessPosition, setChessPosition] = useState(chessGame.fen());
   const [squareWidth, setSquareWidth] = useState(null);
-
 
   const updateFenPart = (index, newValue) => {
     const fenParts = chessGame.fen().split(" ");
     fenParts[index] = newValue;
     const newFen = fenParts.join(" ");
 
-  
     try {
       chessGame.load(newFen);
       setChessPosition(newFen);
@@ -58,8 +53,6 @@ export function MakeUserPuzzleBoard() {
       console.error("Invalid FEN:", newFen);
     }
   };
-
-
 
   const handleColorChange = (e) => {
     const newColor = e.target.value;
@@ -90,7 +83,6 @@ export function MakeUserPuzzleBoard() {
     const newBlack = e.target.value;
     setBlackCastle(newBlack);
 
-
     let newCastling = whiteCastle + newBlack;
     if (newCastling === "") newCastling = "-";
 
@@ -105,7 +97,6 @@ export function MakeUserPuzzleBoard() {
       setEpSquare("-");
       updateFenPart(3, "-");
     }
-  
   };
 
   const handleEpTargetChange = (e) => {
@@ -139,9 +130,15 @@ export function MakeUserPuzzleBoard() {
     e.preventDefault();
     setErr("");
     //if (!answerInput) return alert("Enter an answer");
-    if (!answerInput) {setErr ("Enter an answer"); return;}
+    if (!answerInput) {
+      setErr("Enter an answer");
+      return;
+    }
     //if (!puzzleRating) return alert("Rating is required");
-    if (!puzzleRating) {setErr ("Rating is required"); return;}
+    if (!puzzleRating) {
+      setErr("Rating is required");
+      return;
+    }
 
     if (!token) {
       setErr("You must be logged in to save puzzle.");
@@ -154,19 +151,16 @@ export function MakeUserPuzzleBoard() {
       rating: Number(puzzleRating),
     };
 
-    console.log("Submitting: ", payload);
-
     try {
       await createUserPuzzle(payload, token);
       setErr("Puzzle saved to data base.");
       navigate("/");
+      // eslint-disable-next-line
     } catch (error) {
-      console.log("Error submitting to database: ", error);
-      setErr("Error: couldn't save puzzle."); return;
+      setErr("Error: couldn't save puzzle.");
+      return;
     }
   };
-
-
 
   useEffect(() => {
     const square = document
@@ -196,7 +190,7 @@ export function MakeUserPuzzleBoard() {
       setErr(
         `The board already contains a ${
           color === "w" ? "white" : "black"
-        } King piece`
+        } King piece`,
       );
       return false;
     }
@@ -205,13 +199,11 @@ export function MakeUserPuzzleBoard() {
     return true;
   }
 
-
-
   const blackPieceTypes = Object.keys(defaultPieces).filter(
-    (p) => p[0] === "b"
+    (p) => p[0] === "b",
   );
   const whitePieceTypes = Object.keys(defaultPieces).filter(
-    (p) => p[0] === "w"
+    (p) => p[0] === "w",
   );
   const files = ["a", "b", "c", "d", "e", "f", "g", "h"];
 
@@ -274,11 +266,9 @@ export function MakeUserPuzzleBoard() {
           </div>
         )}
       </ChessboardProvider>
-        {err && (
-          <div style={{ color: 'red', marginBottom: '10px' }}>
-          Error: {err}
-          </div>
-        )}
+      {err && (
+        <div style={{ color: "red", marginBottom: "10px" }}>Error: {err}</div>
+      )}
       {/* --- Controls Form --- */}
       <div style={{ marginTop: "20px", fontFamily: "sans-serif" }}>
         {/* 1. Color to Move */}
@@ -305,7 +295,6 @@ export function MakeUserPuzzleBoard() {
             Black
           </label>
         </div>
-
         {/* 2. Castling Rights */}
         <div style={{ marginBottom: "10px" }}>
           <label>
@@ -336,7 +325,6 @@ export function MakeUserPuzzleBoard() {
             </select>
           </label>
         </div>
-
         {/* 3. En Passant */}
         <div>
           <label>
@@ -399,14 +387,10 @@ export function MakeUserPuzzleBoard() {
           <br />
           <button type="submit">Submit Puzzle</button>
         </form>
-       
-          <strong>FEN:</strong> {chessPosition}
-        </div>
+        <strong>FEN:</strong> {chessPosition}
       </div>
-    
+    </div>
   );
 }
 
-MakeUserPuzzleBoard.propTypes = {
- 
-};
+MakeUserPuzzleBoard.propTypes = {};

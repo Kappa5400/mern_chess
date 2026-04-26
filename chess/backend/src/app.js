@@ -17,9 +17,12 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://mernchess.me",
+    origin:
+      process.env.NODE_ENV === "development"
+        ? true // allow all origins in dev
+        : "https://mernchess.me", // strict in production
     credentials: true,
-  })
+  }),
 );
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
@@ -47,7 +50,7 @@ app.use(
     onSanitize: ({ req, key }) => {
       if (key === "query") return false;
     },
-  })
+  }),
 );
 
 app.set("trust proxy", 1);
@@ -68,7 +71,6 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.get("/", (req, res) => {
-  
   res.send("Hi sekai");
 });
 
