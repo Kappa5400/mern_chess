@@ -60,19 +60,52 @@ describe("User routes", () => {
     expect(res.body).toHaveProperty("token");
   });
 
+  it("POST /api/v1/user/login - wrong password", async () => {
+    await createUser({ username: "test", password: "pass" });
+
+    const res = await request(app).post("/v1/user/login").send({
+      username: "test",
+      password: "wrong",
+    });
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body.error).toBe(
+      "login failed, did you enter correct username/pass?",
+    );
+  });
+
+  it("POST /api/v1/user/login - wrong username", async () => {
+    await createUser({ username: "test", password: "pass" });
+
+    const res = await request(app).post("/v1/user/login").send({
+      username: "wrong",
+      password: "pass",
+    });
+
+    expect(res.statusCode).toBe(400);
+    expect(res.body.error).toBe(
+      "login failed, did you enter correct username/pass?",
+    );
+  });
+
   describe("User routes", () => {
     it("POST /api/v1/user/signup - same user err", async () => {
-      await request(app).post("/v1/user/signup").send({
-        username: "test1",
-        password: "password1",
+      await createUser({ username: "test", password: "pass" });
+
+      const res = await request(app).post("/v1/user/login").send({
+        username: "test",
+        password: "pass",
       });
 
-      const res = await request(app).post("/v1/user/signup").send({
-        username: "test1",
+      expect(res.statusCode).toBe(200);
+
+      const res2 = await request(app).post("/v1/user/signup").send({
+        username: "test",
         password: "password12",
       });
 
-      expect(res.statusCode).toBe(409);
+      expect(res2.statusCode).toBe(400);
+      expect(res2.body.error).toBe("Username already exists");
     });
   });
 });

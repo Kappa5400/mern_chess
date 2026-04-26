@@ -133,7 +133,7 @@ export function userRoutes(app) {
     async (req, res) => {
       const userInfo = await getUserInfoByID(req.params.id);
       return res.status(200).send(userInfo);
-    }
+    },
   );
 
   app.get("/v1/user/topusers", async (req, res) => {
@@ -153,7 +153,7 @@ export function userRoutes(app) {
         logger.log(`Error updating score: ${err}`);
         return res.status(500).json({ error: "Error updating score" });
       }
-    }
+    },
   );
 
   app.post("/v1/user/signup", validate(createUserSchema), async (req, res) => {
@@ -162,7 +162,9 @@ export function userRoutes(app) {
       return res.status(201).json({ username: user.username });
     } catch (err) {
       return res.status(400).json({
-        error: "failed to create the user, does the username already exist?",
+        error:
+          err.message ||
+          "failed to create the user, does the username already exist?",
       });
     }
   });
