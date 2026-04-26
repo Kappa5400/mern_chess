@@ -10,6 +10,8 @@ export function PuzzleCreatorControls({
   isEpEnabled,
   epSquare,
   answerInput,
+  // eslint-disable-next-line
+  setPuzzleAnswer,
   puzzleRating,
   recordedMoves,
   chessPosition,
