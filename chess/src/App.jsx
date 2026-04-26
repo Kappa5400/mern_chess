@@ -15,6 +15,13 @@ import { ViewOwnPuzzlePage } from "./pages/ViewOwnPuzzle.jsx";
 import { UserPuzzlePage } from "./pages/userPuzzleView.jsx";
 import { ViewAllUserPuzzlePage } from "./pages/viewAllUserPuzzlePage.jsx";
 import { ViewPublicPuzzle } from "./pages/ViewPublicPuzzlePage.jsx";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "./contexts/AuthContext.jsx";
+
+function ProtectedRoute({ element }) {
+  const [token] = useAuth();
+  return token ? element : <Navigate to="/login" replace />;
+}
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -72,15 +79,29 @@ export function App() {
             />
             <Route
               path="/makeuserpuzzle"
-              element={<MakeUserPuzzlePage key={window.location.pathname} />}
+              element={
+                <ProtectedRoute
+                  element={
+                    <MakeUserPuzzlePage key={window.location.pathname} />
+                  }
+                />
+              }
             />
             <Route
               path="/userpuzzlelist"
-              element={<ViewOwnPuzzlePage key={window.location.pathname} />}
+              element={
+                <ProtectedRoute
+                  element={<ViewOwnPuzzlePage key={window.location.pathname} />}
+                />
+              }
             />
             <Route
               path="/viewuserpuzzle/:id"
-              element={<UserPuzzlePage key={window.location.pathname} />}
+              element={
+                <ProtectedRoute
+                  element={<UserPuzzlePage key={window.location.pathname} />}
+                />
+              }
             />
             <Route
               path="/ViewAllUserPuzzlePage"
