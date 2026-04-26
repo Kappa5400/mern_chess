@@ -28,20 +28,7 @@ export function PuzzlePage() {
     fen = "start";
   }
 
-  let whiteToMove = false;
-  const pgn = puzzle.pgn;
-  let moveCount = 0;
-  for (let i = 0; i < pgn.length; i++) {
-    if (pgn[i] == " ") {
-      moveCount++;
-    }
-  }
-
-  if (moveCount % 2 == 0) {
-    whiteToMove = false;
-  } else {
-    whiteToMove = true;
-  }
+  const whiteToMove = fen.split(" ")[1] === "w";
 
   return (
     <div className={styles.container}>
