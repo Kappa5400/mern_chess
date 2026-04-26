@@ -16,74 +16,78 @@ export function ChessboardPuzzle({
 }) {
   const raiseScore = useRaiseScore();
 
-  const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
   const [position, setPosition] = useState(fen);
 
   const gameRef = useRef(null);
   const movesRef = useRef([]);
-  let puzzleLen = Math.floor((answer.length - 4) / 5 + 1);
+  const moveIndexRef = useRef(0);
+  const puzzleLenRef = useRef(0);
 
   useEffect(() => {
-    // eslint-disable-next-line
-    const game = new Chess(fen);
-
     const movesArray =
-      typeof answer === "string" ? (answer.match(/.{1,5}/g) ?? []) : answer;
+      typeof answer === "string"
+        ? answer.trim().split(/\s+/).filter(Boolean)
+        : answer;
 
     movesRef.current = movesArray.map((moveStr) => {
       const from = moveStr.slice(0, 2);
       const to = moveStr.slice(2, 4);
-      const promote = moveStr[4] !== " " ? moveStr[4] : undefined;
+      const promote = moveStr.length > 4 ? moveStr[4] : undefined;
       return { from, to, promote };
     });
 
+    puzzleLenRef.current = movesRef.current.length;
+    moveIndexRef.current = 0;
     gameRef.current = new Chess(fen);
     setPosition(fen);
-    setCurrentMoveIndex(0);
     // eslint-disable-next-line
   }, [fen, answer]);
 
   function onPieceDrop({ sourceSquare, targetSquare }) {
     const game = gameRef.current;
-    const required = movesRef.current[currentMoveIndex];
-    if (!game || !required) return;
+    const required = movesRef.current[moveIndexRef.current];
+    if (!game || !required) return false;
 
     if (required.from !== sourceSquare || required.to !== targetSquare) {
       onWrongMove?.();
       return false;
     }
 
-    // need to handle promotion logic
-
     game.move({
       from: sourceSquare,
       to: targetSquare,
       promotion: required.promote,
     });
+    moveIndexRef.current += 1;
     setPosition(game.fen());
-    setCurrentMoveIndex((i) => i + 1);
 
+    // Puzzle complete — user played the last move
+    if (moveIndexRef.current >= puzzleLenRef.current) {
+      onSolved?.();
+      raiseScore();
+      return true;
+    }
+
+    // Play CPU reply
     setTimeout(() => {
-      const cpu = movesRef.current[currentMoveIndex + 1];
+      const cpu = movesRef.current[moveIndexRef.current];
       if (!cpu) return;
       game.move(cpu);
+      moveIndexRef.current += 1;
       setPosition(game.fen());
-      setCurrentMoveIndex((i) => i + 1);
+
+      // Edge case: CPU reply was the last move (puzzle ends on opponent move)
+      if (moveIndexRef.current >= puzzleLenRef.current) {
+        onSolved?.();
+        raiseScore();
+      }
     }, 200);
-
-    if (currentMoveIndex == puzzleLen - 1) {
-      onSolved?.();
-
-      raiseScore();
-
-      return false;
-    }
 
     return true;
   }
 
   function canDragPiece({ piece }) {
-    if (whiteToMove == true) {
+    if (whiteToMove === true) {
       return piece.pieceType[0] === "w";
     }
     return piece.pieceType[0] === "b";
