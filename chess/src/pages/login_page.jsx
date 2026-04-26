@@ -22,7 +22,7 @@ export function Login() {
     },
 
     onError: () => {
-      setErr("Failed to login");
+      setErr("Failed to login. Is username and password correct?");
     },
   });
   const handleSubmit = (e) => {

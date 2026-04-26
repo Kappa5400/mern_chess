@@ -13,7 +13,7 @@ export function Signup() {
   const signupMutation = useMutation({
     mutationFn: () => signup({ username, password }),
     onSuccess: () => navigate("/login"),
-    onError: () => setErr("failed to sign up!"),
+    onError: () => setErr("Username already exists!"),
   });
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,13 +25,12 @@ export function Signup() {
       <SideBar />
       <form onSubmit={handleSubmit}>
         <h1>Sign up</h1>
+        {err && (
+          <div style={{ color: "red", marginBottom: "10px" }}>Error: {err}</div>
+        )}
         <div className={styles.input}>
           <label htmlFor="create-username">Username: </label>
-          {err && (
-            <div style={{ color: "red", marginBottom: "10px" }}>
-              Error: {err}
-            </div>
-          )}
+
           <input
             type="text"
             name="create-username"
