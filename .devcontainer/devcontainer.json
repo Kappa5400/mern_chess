@@ -1,0 +1,27 @@
+{
+  "name": "MERN Chess Dev",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:22",
+  "forwardPorts": [5000, 5173, 27017],
+  "portsAttributes": {
+    "5000": { "label": "Backend API" },
+    "5173": { "label": "Vite Frontend" },
+    "27017": { "label": "MongoDB" }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+      "moby": false
+    }
+  },
+  "postCreateCommand": "cd /workspaces/mern_chess/chess && npm install && cd /workspaces/mern_chess/chess/backend && npm install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-azuretools.vscode-docker",
+        "mongodb.mongodb-vscode",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode"
+      ]
+    }
+  },
+  "remoteUser": "node"
+}

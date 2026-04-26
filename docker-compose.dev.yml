@@ -1,0 +1,38 @@
+# Dev override — builds from source instead of pulling pre-built images.
+# Used by .devcontainer only. Do NOT use in production.
+
+services:
+  backend:
+    build:
+      context: ./chess/backend
+      dockerfile: Dockerfile
+    container_name: mern_backend_dev
+    volumes:
+      - ./chess/backend:/backend
+      - /backend/node_modules          # keep container's node_modules isolated
+    environment:
+      - NODE_ENV=development
+      - MONGO_URI=mongodb://mongo:27017/mern_chess_dev
+      - PORT=5000
+      - JWT_SECRET=${JWT_SECRET:-dev_secret_change_me}
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongo
+    command: npm run dev               # uses nodemon for hot reload
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7
+    container_name: mern_mongodb_dev
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_dev_data:/data/db
+    restart: unless-stopped
+
+  # Frontend runs via Vite dev server on host (npm run dev inside devcontainer),
+  # NOT as a Docker service. This keeps hot-reload fast without Docker overhead.
+
+volumes:
+  mongodb_dev_data:
