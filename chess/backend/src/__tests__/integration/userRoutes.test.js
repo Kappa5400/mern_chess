@@ -59,4 +59,20 @@ describe("User routes", () => {
     expect(res.statusCode).toBe(200);
     expect(res.body).toHaveProperty("token");
   });
+
+  describe("User routes", () => {
+    it("POST /api/v1/user/signup - same user err", async () => {
+      await request(app).post("/v1/user/signup").send({
+        username: "test1",
+        password: "password1",
+      });
+
+      const res = await request(app).post("/v1/user/signup").send({
+        username: "test1",
+        password: "password12",
+      });
+
+      expect(res.statusCode).toBe(409);
+    });
+  });
 });
