@@ -13,8 +13,8 @@ export default defineConfig([
       sourceType: "module",
       globals: {
         ...globals.browser,
-        ...globals.node, // これで 'process' エラーが消えます
-        ...globals.jest, // これで 'describe', 'it' エラーが消えます
+        ...globals.node,
+        ...globals.jest,
       },
     },
     plugins: {
@@ -23,7 +23,7 @@ export default defineConfig([
     },
     rules: {
       ...js.configs.recommended.rules,
-      // 'error' ではなく 'warn' に設定することでビルドを通します
+
       "no-unused-vars": "warn",
       "no-undef": "warn",
       "react-refresh/only-export-components": "warn",

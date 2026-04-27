@@ -31,8 +31,7 @@ app.use(express.json());
 app.use(helmet());
 app.use(compression());
 
-// in order to sanatize
-// allows newer express to edit query req after recieving
+// edit query req for sanatizing
 app.use((req, res, next) => {
   Object.defineProperty(req, "query", {
     ...Object.getOwnPropertyDescriptor(req, "query"),

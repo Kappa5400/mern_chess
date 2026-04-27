@@ -1,7 +1,6 @@
 name: Mernchess Frontend CI
 on:
   workflow_call:
-    # 親ワークフローからシークレットを引き継ぐために必要
 
 jobs:
   build-and-push:
