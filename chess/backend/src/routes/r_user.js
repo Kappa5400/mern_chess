@@ -12,6 +12,7 @@ import {
   validate,
 } from "../middleware/joi.js";
 import { requireAuth } from "../middleware/jwt.js";
+import { logger } from "../utils/logger.js";
 
 /**
  * @swagger

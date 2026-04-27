@@ -1,7 +1,6 @@
 import { UserPuzzle } from "../db/model/userPuzzle.js";
 import { logger } from "../utils/logger.js";
 
-
 export async function getUserPuzzles(userID) {
   try {
     logger.info("Test from service :", userID);
@@ -34,7 +33,7 @@ export async function getPublicPuzzleByID(puzzleId) {
 
 export async function get_all_user_puzzles(
   query = {},
-  { sortBy = "createdAt", sortOrder = "descending" } = {}
+  { sortBy = "createdAt", sortOrder = "descending" } = {},
 ) {
   return await UserPuzzle.find(query).sort({ [sortBy]: sortOrder });
 }
@@ -51,7 +50,7 @@ export async function updateUserPuzzle(userid, userPuzzleID, newPuzzle) {
       },
       {
         new: true,
-      }
+      },
     );
     return update;
   } catch (err) {

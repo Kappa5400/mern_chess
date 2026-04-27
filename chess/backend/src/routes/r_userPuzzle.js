@@ -138,10 +138,9 @@ export function userPuzzleRoutes(app) {
       const fetchedP = await getPuzzleByPuzzleID(userid, id);
       if (!fetchedP) return res.status(404).json({ Error: "Puzzle not found" });
       return res.json(fetchedP);
-    }
+    },
   );
 
-  //to add : validation
   app.get("/v1/userpuzzle/public/bypuzzleid/:id", async (req, res) => {
     try {
       const { id } = req.params;
@@ -178,7 +177,7 @@ export function userPuzzleRoutes(app) {
       if (!result)
         return res.status(404).json({ Error: "Failed to create puzzle." });
       return res.status(200).json({ message: "Created user puzzle" });
-    }
+    },
   );
 
   app.patch(
@@ -194,7 +193,7 @@ export function userPuzzleRoutes(app) {
       if (!result)
         return res.status(404).json({ Error: "Failed to update puzzle." });
       return res.status(200).json(result);
-    }
+    },
   );
 
   app.delete(
@@ -208,6 +207,6 @@ export function userPuzzleRoutes(app) {
       if (!result)
         return res.status(404).json({ Error: "Failed to delete puzzle." });
       return res.status(200).json({ message: "OK" });
-    }
+    },
   );
 }

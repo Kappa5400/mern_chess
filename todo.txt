@@ -1,6 +1,6 @@
 
 puzzle input on promotion
-password min err handling, make test, err message front end
+figure out swagger
 
 docker compose -f docker-compose.dev.yml up
 front
