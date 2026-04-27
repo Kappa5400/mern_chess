@@ -5,7 +5,7 @@ import { useRef, useState, useEffect } from "react";
 import { Chess } from "chess.js";
 
 // eslint-disable-next-line
-export function TestChessboardPuzzle({ id, fen, whiteToMove, answer }) {
+export function DefaultChessboardPuzzle({ id, fen, whiteToMove, answer }) {
   const [currentMoveIndex, setCurrentMoveIndex] = useState(0);
   const [position, setPosition] = useState(fen);
 
@@ -77,7 +77,7 @@ export function TestChessboardPuzzle({ id, fen, whiteToMove, answer }) {
   );
 }
 
-TestChessboardPuzzle.propTypes = {
+DefaultChessboardPuzzle.propTypes = {
   id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   fen: PropTypes.string.isRequired,
   answer: PropTypes.oneOfType([PropTypes.string, PropTypes.array]).isRequired,

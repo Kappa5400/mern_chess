@@ -12,7 +12,6 @@ export function PuzzleContainer() {
   if (isLoading) return <p>Loading...</p>;
   if (isError) return <p>Error loading puzzles</p>;
 
-  // Flatten in case data is nested arrays
   const puzzles = data?.flat() ?? [];
 
   return <ShowPuzzle puzzles={puzzles} />;

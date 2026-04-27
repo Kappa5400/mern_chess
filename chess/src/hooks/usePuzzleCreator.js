@@ -169,6 +169,7 @@ export function usePuzzleCreator() {
     const move = game.move({
       from: sourceSquare,
       to: targetSquare,
+      // add promotion handler here
       promotion: "q",
     });
     if (!move) {

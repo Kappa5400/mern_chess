@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 export function ShowPuzzleText({ puzzles, isLoading }) {
-  if (isLoading) return <p className="p-4 text-gray-500">読み込み中…</p>;
+  if (isLoading) return <p className="p-4 text-gray-500">Loading…</p>;
 
   const puzzleList = puzzles || [];
 
@@ -25,7 +25,7 @@ export function ShowPuzzleText({ puzzles, isLoading }) {
       ))}
 
       {puzzleList.length === 0 && (
-        <p className="text-gray-500 p-4">パズルデータがありません。</p>
+        <p className="text-gray-500 p-4">No puzzle data.</p>
       )}
     </div>
   );
@@ -38,6 +38,6 @@ ShowPuzzleText.propTypes = {
       answer: PropTypes.string.isRequired,
       date: PropTypes.string.isRequired,
       rating: PropTypes.number.isRequired,
-    })
+    }),
   ).isRequired,
 };

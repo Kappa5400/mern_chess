@@ -61,14 +61,12 @@ export function ChessboardPuzzle({
     moveIndexRef.current += 1;
     setPosition(game.fen());
 
-    // Puzzle complete — user played the last move
     if (moveIndexRef.current >= puzzleLenRef.current) {
       onSolved?.();
       raiseScore();
       return true;
     }
 
-    // Play CPU reply
     setTimeout(() => {
       const cpu = movesRef.current[moveIndexRef.current];
       if (!cpu) return;
@@ -76,7 +74,6 @@ export function ChessboardPuzzle({
       moveIndexRef.current += 1;
       setPosition(game.fen());
 
-      // Edge case: CPU reply was the last move (puzzle ends on opponent move)
       if (moveIndexRef.current >= puzzleLenRef.current) {
         onSolved?.();
         raiseScore();
