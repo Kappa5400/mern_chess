@@ -70,7 +70,7 @@ describe("User routes", () => {
 
     expect(res.statusCode).toBe(400);
     expect(res.body.error).toBe(
-      "login failed, did you enter correct username/pass?",
+      "Login failed, did you enter correct username/pass?",
     );
   });
 
@@ -84,7 +84,7 @@ describe("User routes", () => {
 
     expect(res.statusCode).toBe(400);
     expect(res.body.error).toBe(
-      "login failed, did you enter correct username/pass?",
+      "Login failed, did you enter correct username/pass?",
     );
   });
 
@@ -106,6 +106,20 @@ describe("User routes", () => {
 
       expect(res2.statusCode).toBe(400);
       expect(res2.body.error).toBe("Username already exists");
+    });
+
+    describe("User routes", () => {
+      it("POST /api/v1/user/signup - password too short err", async () => {
+        await createUser({ username: "test", password: "pass" });
+
+        const res = await request(app).post("/v1/user/signup").send({
+          username: "test",
+          password: "p",
+        });
+
+        expect(res.statusCode).toBe(400);
+        expect(res.error);
+      });
     });
   });
 });

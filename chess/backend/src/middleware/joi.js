@@ -27,10 +27,12 @@ export const objectIdSchema = Joi.object({
 });
 
 export const createUserSchema = Joi.object({
-  //change username min later
   username: Joi.string().alphanum().min(1).max(30).required(),
-  //add password min char later
-  password: Joi.string().min(1).required(),
+  //Password min 5 char
+  password: Joi.string()
+    .min(4)
+    .required()
+    .messages({ "sring.min": "Password less than 4 characters" }),
 });
 
 export const loginSchema = Joi.object({

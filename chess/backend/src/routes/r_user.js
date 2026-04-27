@@ -164,7 +164,7 @@ export function userRoutes(app) {
       return res.status(400).json({
         error:
           err.message ||
-          "failed to create the user, does the username already exist?",
+          "Failed to create the user, does the username already exist? Is password less than 5 characters?",
       });
     }
   });
@@ -175,7 +175,7 @@ export function userRoutes(app) {
       return res.status(200).send({ token });
     } catch (err) {
       return res.status(400).send({
-        error: "login failed, did you enter correct username/pass?",
+        error: "Login failed, did you enter correct username/pass?",
       });
     }
   });

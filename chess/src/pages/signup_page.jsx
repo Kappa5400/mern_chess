@@ -13,7 +13,8 @@ export function Signup() {
   const signupMutation = useMutation({
     mutationFn: () => signup({ username, password }),
     onSuccess: () => navigate("/login"),
-    onError: () => setErr("Username already exists!"),
+    onError: () =>
+      setErr("Username already exists, or password is less than 5 characters!"),
   });
   const handleSubmit = (e) => {
     e.preventDefault();
