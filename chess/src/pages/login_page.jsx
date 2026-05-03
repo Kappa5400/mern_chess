@@ -67,6 +67,11 @@ export function Login() {
           disabled={!username || !password || loginMutation.isPending}
         />
       </form>
+      <p>
+        Dummy login for testing.
+        <br />
+        Username: test <br /> Password: test
+      </p>
     </div>
   );
 }
